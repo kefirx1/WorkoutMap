@@ -1,4 +1,4 @@
-package pl.dev.workoutmap.database
+package pl.dev.workoutmapcompose.datbase
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
