@@ -15,6 +15,11 @@ class WMViewModel(application: Application) : AndroidViewModel(application) {
 
     fun userExist() = wmRepository.userExist()
 
+    fun getUserFirstPageInfo() = wmRepository.getUserFirstPageInfo()
+
+    fun getUserInfo() = wmRepository.getUserInfo()
+
+
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
         wmRepository.addNewTrainingPlan(trainingPlan)
     }

@@ -191,8 +191,8 @@ fun MainRegistration(
         }
         Button(
             onClick = {
-                val nameString = nameTextState.toString()
-                val surnameString = surnameTextState.toString()
+                val nameString = nameTextState.text
+                val surnameString = surnameTextState.text
                 val ageString = agePickerState.toString()
                 val genderString = genderPickerState
                 val heightString = heightPickerState.toString()

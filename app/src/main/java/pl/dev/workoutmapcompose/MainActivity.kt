@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -13,16 +14,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import pl.dev.workoutmapcompose.MainActivity.Companion.viewModel
 import pl.dev.workoutmapcompose.datbase.WMViewModel
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.BlueGray900
-import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.theme.*
 
 class MainActivity : ComponentActivity(){
     companion object{
@@ -45,23 +48,17 @@ class MainActivity : ComponentActivity(){
             .create(WMViewModel::class.java)
 
         setContent {
-
             if(!viewModel.userExist()){
 
                 Log.e("TAG", "User not exist")
                 //REGISTER USER
                 val intent = Intent(this, RegisterActivity::class.java)
                 startActivity(intent)
-
             }else{
                 MainDashboard(this)
             }
-
         }
-
     }
-
-
 }
 
 @ExperimentalPagerApi
@@ -106,12 +103,9 @@ fun MainDashboard(
                     fontSize = 40.sp
                 )
             }
-
         }
     }
 }
-
-
 
 @ExperimentalPagerApi
 @Composable
@@ -122,13 +116,66 @@ fun DashboardHorizontalPager(
         count = 2,
         modifier = Modifier
             .fillMaxSize()
-    ){ page ->
-        Column() {
-            Text(text = "page - $page")
+    ) { page ->
+        when (page) {
+            0 -> FirstPage(instance = instance)
+            1 -> SecondPage(instance = instance)
         }
     }
+}
+
+@Composable
+fun FirstPage(
+    instance: MainActivity
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        val firstInfo = viewModel.getUserFirstPageInfo()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(45.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .padding(start = 5.dp),
+                color = BlueGray50,
+                fontFamily = mainFamily,
+                fontSize = 30.sp,
+                text = firstInfo.userName
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .padding(end = 5.dp),
+                color = BlueGray100,
+                fontFamily = mainFamily,
+                fontSize = 25.sp,
+                text = "${firstInfo.userWeight}kg"
+            )
+        }
+        Spacer(
+            modifier = Modifier
+                .background(color = Color.Black)
+                .height(2.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun SecondPage(
+    instance: MainActivity
+) {
 
 }
+
 
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)

@@ -15,11 +15,13 @@ import java.lang.Exception
 class WMRepository (application: Application){
 
     private var userInfoDao: UserInfoDao
+    private var weightHistoryDao: WeightHistoryDao
 
     init{
         val database = WMDatabase
             .getInstance(application.applicationContext)
         userInfoDao = database!!.userInfoDao()
+        weightHistoryDao = database.weightHistory()
     }
 
     fun insertUser(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
@@ -28,6 +30,33 @@ class WMRepository (application: Application){
 
     fun userExist(): Boolean{
         return userInfoDao.userExist()>0
+    }
+
+    fun getUserInfo(): UserInfo {
+        return userInfoDao.getUserInfo()
+    }
+
+    fun getUserWeightHistory(): List<WeightHistory>{
+        return weightHistoryDao.getWeightHistory()
+    }
+
+    fun getUserFirstPageInfo(): MainViewInfo {
+        val userInfo = getUserInfo()
+        val workoutGraphicState = 0 //TODO
+        val userName = userInfo.name
+        var userWeight = "-"
+        println(getUserWeightHistory())
+
+        if(getUserWeightHistory().isNotEmpty()){
+            userWeight = getUserWeightHistory()[getUserWeightHistory().lastIndex].weight
+        }
+
+
+        return MainViewInfo(
+            workoutGraphicState = workoutGraphicState,
+            userName = userName,
+            userWeight = userWeight
+        )
     }
 
     fun addNewTrainingPlan(trainingPlan: TrainingPlan) {
