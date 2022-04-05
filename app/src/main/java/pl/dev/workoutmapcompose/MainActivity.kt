@@ -144,7 +144,7 @@ fun FirstPage(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
-                    .padding(start = 5.dp),
+                    .padding(start = 10.dp),
                 color = BlueGray50,
                 fontFamily = mainFamily,
                 fontSize = 30.sp,
@@ -152,8 +152,7 @@ fun FirstPage(
             )
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(end = 5.dp),
+                    .fillMaxWidth(0.5f),
                 color = BlueGray100,
                 fontFamily = mainFamily,
                 fontSize = 25.sp,
@@ -173,6 +172,72 @@ fun FirstPage(
 fun SecondPage(
     instance: MainActivity
 ) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+        ) {
+
+        }
+        Spacer(
+            modifier = Modifier
+                .background(color = Color.Black)
+                .height(2.dp)
+                .fillMaxWidth()
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+        ) {
+            Button(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f)
+                    .padding(end = 4.dp),
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = BlueGray500
+                ),
+            ) {
+                Text(
+                    text = "PLANY TRENINGOWE",
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 20.sp
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .padding(start = 4.dp),
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = BlueGray500
+                ),
+            ) {
+                Text(
+                    text = "USTAWIENIA",
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 20.sp
+                )
+            }
+
+        }
+    }
 
 }
 
