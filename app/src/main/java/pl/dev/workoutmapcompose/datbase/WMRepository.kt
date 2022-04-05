@@ -1,47 +1,38 @@
 package pl.dev.workoutmapcompose.datbase
 
+import android.app.Application
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.data.*
 import java.lang.Exception
 
-class WMRepository {
+class WMRepository (application: Application){
 
-    fun setNewUser(userBasic: UserBasic) {
+    private var userInfoDao: UserInfoDao
 
-        val emptyExercises = arrayListOf(Exercise("", ""))
-        val emptyTrainingPlan = TrainingPlan("", emptyExercises)
-        val emptyHashMap: HashMap<String, ArrayList<Float>> = HashMap()
-        val emptyWorkoutInfo = WorkoutInfo(emptyTrainingPlan, 0, emptyExercises, emptyHashMap)
+    init{
+        val database = WMDatabase
+            .getInstance(application.applicationContext)
+        userInfoDao = database!!.userInfoDao()
+    }
 
-        val newUser = User(
-            userBasic.name,
-            userBasic.surName,
-            userBasic.height,
-            userBasic.gender,
-            userBasic.age,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            arrayListOf(emptyTrainingPlan),
-            arrayListOf(userBasic.weight),
-            arrayListOf(emptyWorkoutInfo)
-        )
+    fun insertUser(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
+        userInfoDao.insert(userInfo)
+    }
 
-        WMFirebase.getReference("User").setValue(newUser)
-
+    fun userExist(): Boolean{
+        return userInfoDao.userExist()>0
     }
 
     fun addNewTrainingPlan(trainingPlan: TrainingPlan) {
-        MainActivity.currentUser.trainingPlans.add(trainingPlan)
-        WMFirebase.getReference("User").setValue(MainActivity.currentUser)
+////        MainActivity.currentUser.trainingPlans.add(trainingPlan)
+//        WMFirebase.getReference("User").setValue(MainActivity.currentUser)
     }
 
     fun  setDataListener() {
@@ -89,24 +80,8 @@ class WMRepository {
             return false
         }
 
-        MainActivity.currentUser = User(
-            name,
-            surName,
-            height,
-            gender,
-            age,
-            monday,
-            tuesday,
-            wednesday,
-            thursday,
-            friday,
-            saturday,
-            sunday,
-            trainingPlan,
-            weightHistory,
-            workoutHistory
-        )
         return true
     }
+
 
 }

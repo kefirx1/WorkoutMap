@@ -3,23 +3,26 @@ package pl.dev.workoutmapcompose.datbase
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.data.UserBasic
-import pl.dev.workoutmapcompose.datbase.WMRepository
+import pl.dev.workoutmapcompose.data.UserInfo
 
 class WMViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val wmRepository = WMRepository()
+    private val wmRepository = WMRepository(application)
 
-    fun setNewUser(userBasic: UserBasic){
-        wmRepository.setNewUser(userBasic)
+    fun insertUser(userInfo: UserInfo){
+        wmRepository.insertUser(userInfo)
     }
+
+    fun userExist() = wmRepository.userExist()
 
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
         wmRepository.addNewTrainingPlan(trainingPlan)
     }
 
-    fun setDataListener(){
+
+    fun setDataListener(): Boolean{
         wmRepository.setDataListener()
+        return true
     }
 
 }

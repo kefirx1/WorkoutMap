@@ -1,6 +1,10 @@
 package pl.dev.workoutmapcompose.data
 
-data class User (
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "userInfo")
+data class UserInfo (
     var name: String,
     var surName: String,
     var height: String,
@@ -13,6 +17,8 @@ data class User (
     var friday: String,
     var saturday: String,
     var sunday: String,
-    var trainingPlans: ArrayList<TrainingPlan>,
-    var weightHistory: ArrayList<Float>,
-    var workoutHistory: ArrayList<WorkoutInfo>)
+    var lastTrainingDate: String) {
+
+    @PrimaryKey(autoGenerate = true)
+    var user_id: Int = 0
+}

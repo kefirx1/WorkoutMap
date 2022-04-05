@@ -1,8 +1,8 @@
 package pl.dev.workoutmapcompose
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -16,68 +16,58 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import pl.dev.workoutmapcompose.data.Exercise
-import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.data.User
-import pl.dev.workoutmapcompose.data.WorkoutInfo
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import pl.dev.workoutmapcompose.datbase.WMViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 
-class MainActivity : ComponentActivity() {
-
-    companion object {
-        private val emptyExercises = arrayListOf(Exercise("", ""))
-        private val emptyTrainingPlan = TrainingPlan("", emptyExercises)
-        private val emptyHashMap: HashMap<String, ArrayList<Float>> = HashMap()
-        private val emptyWorkoutInfo = WorkoutInfo(emptyTrainingPlan, 0, emptyExercises, emptyHashMap)
-
-        var currentUser = User(
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            arrayListOf(emptyTrainingPlan),
-            arrayListOf(0.0F),
-            arrayListOf(emptyWorkoutInfo)
-        )
+class MainActivity : ComponentActivity(){
+    companion object{
+        lateinit var viewModel: WMViewModel
     }
-
-    private lateinit var viewModel: WMViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+    }
+
+    @OptIn(ExperimentalPagerApi::class)
+    override fun onResume() {
+        super.onResume()
+        Log.e("TAG", "RESUME")
+
         viewModel = ViewModelProvider
             .AndroidViewModelFactory
             .getInstance(application)
             .create(WMViewModel::class.java)
-        viewModel.setDataListener()
-        setContent {
-            MainDashboard(this)
-        }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("TAG", "RESUME")
+        setContent {
+
+            if(!viewModel.userExist()){
+
+                Log.e("TAG", "User not exist")
+                //REGISTER USER
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+
+            }else{
+                MainDashboard(this)
+            }
+
+        }
+
     }
 
 
 }
 
+@ExperimentalPagerApi
 @Composable
 fun MainDashboard(
-    instance: MainActivity
+    instance: MainActivity,
 ) {
     Column(
         modifier = Modifier
@@ -89,7 +79,9 @@ fun MainDashboard(
                 .fillMaxHeight(0.85f)
                 .fillMaxWidth()
         ) {
-            Text(text = "Test")
+            DashboardHorizontalPager(
+                instance = instance
+            )
         }
         Box(
             modifier = Modifier
@@ -101,7 +93,7 @@ fun MainDashboard(
                 modifier = Modifier
                     .fillMaxSize(),
                 onClick = {
-                          
+
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = BlueGray800
@@ -112,13 +104,33 @@ fun MainDashboard(
                     color = BlueGray50,
                     fontFamily = mainFamily,
                     fontSize = 40.sp
-                    )
+                )
             }
 
         }
     }
 }
 
+
+
+@ExperimentalPagerApi
+@Composable
+fun DashboardHorizontalPager(
+    instance: MainActivity,
+) {
+    HorizontalPager(
+        count = 2,
+        modifier = Modifier
+            .fillMaxSize()
+    ){ page ->
+        Column() {
+            Text(text = "page - $page")
+        }
+    }
+
+}
+
+@OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
