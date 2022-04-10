@@ -35,6 +35,10 @@ class RegisterActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         viewModel = ViewModelProvider
             .AndroidViewModelFactory
@@ -44,9 +48,43 @@ class RegisterActivity : ComponentActivity() {
         setContent{
             MainRegistration(this)
         }
+    }
 
+}
+
+fun exitRegister(
+    instance: RegisterActivity,
+    nameString: String,
+    surnameString: String,
+    ageString: String,
+    genderString: String,
+    heightString: String
+){
+    if(nameString.isBlank() || surnameString.isBlank()){
+        Toast.makeText(instance, "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
+    }else{
+        viewModel.insertUser(
+            UserInfo(
+                name = nameString,
+                surName = surnameString,
+                age = ageString,
+                height = heightString,
+                gender = genderString,
+                monday = "",
+                tuesday = "",
+                wednesday = "",
+                thursday = "",
+                friday = "",
+                saturday = "",
+                sunday = "",
+                lastTrainingDate = ""
+            )
+        )
+        Log.e("TAG", "User added")
+        instance.finish()
     }
 }
+
 
 @Composable
 fun MainRegistration(
@@ -197,29 +235,15 @@ fun MainRegistration(
                 val genderString = genderPickerState
                 val heightString = heightPickerState.toString()
 
-                if(nameString.isBlank() || surnameString.isBlank()){
-                    Toast.makeText(instance, "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
-                }else{
-                    viewModel.insertUser(
-                        UserInfo(
-                            name = nameString,
-                            surName = surnameString,
-                            age = ageString,
-                            height = heightString,
-                            gender = genderString,
-                            monday = "",
-                            tuesday = "",
-                            wednesday = "",
-                            thursday = "",
-                            friday = "",
-                            saturday = "",
-                            sunday = "",
-                            lastTrainingDate = ""
-                        )
-                    )
-                    Log.e("TAG", "User added")
-                    instance.finish()
-                }
+                exitRegister(
+                    instance,
+                    nameString,
+                    surnameString,
+                    ageString,
+                    genderString,
+                    heightString
+                )
+
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGray800
