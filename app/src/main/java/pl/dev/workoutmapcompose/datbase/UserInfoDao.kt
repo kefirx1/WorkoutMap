@@ -21,4 +21,7 @@ interface UserInfoDao {
     @Query("SELECT * FROM userInfo WHERE user_id=1")
     fun getUserInfo(): UserInfo
 
+    @Query("DELETE FROM userInfo WHERE user_id=1")
+    fun deleteUser()
+
 }

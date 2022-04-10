@@ -19,6 +19,6 @@ data class UserInfo (
     var sunday: String,
     var lastTrainingDate: String) {
 
-    @PrimaryKey(autoGenerate = true)
-    var user_id: Int = 0
+    @PrimaryKey(autoGenerate = false)
+    var user_id: Int = 1
 }

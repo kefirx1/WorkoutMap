@@ -91,7 +91,7 @@ fun MainDashboard(
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = BlueGray800
-                ),
+                )
             ) {
                 Text(
                     text = "TRENUJ",

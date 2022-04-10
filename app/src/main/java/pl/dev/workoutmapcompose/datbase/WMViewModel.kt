@@ -13,6 +13,8 @@ class WMViewModel(application: Application) : AndroidViewModel(application) {
         wmRepository.insertUser(userInfo)
     }
 
+    fun wipeData() =  wmRepository.wipeData()
+
     fun userExist() = wmRepository.userExist()
 
     fun getUserFirstPageInfo() = wmRepository.getUserFirstPageInfo()

@@ -59,6 +59,13 @@ class WMRepository (application: Application){
         )
     }
 
+    fun wipeData(): Boolean{
+        userInfoDao.deleteUser()
+        //TODO
+        return true
+    }
+
+
     fun addNewTrainingPlan(trainingPlan: TrainingPlan) {
 ////        MainActivity.currentUser.trainingPlans.add(trainingPlan)
 //        WMFirebase.getReference("User").setValue(MainActivity.currentUser)
