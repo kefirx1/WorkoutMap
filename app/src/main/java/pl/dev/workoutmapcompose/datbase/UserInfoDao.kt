@@ -24,4 +24,5 @@ interface UserInfoDao {
     @Query("DELETE FROM userInfo WHERE user_id=1")
     fun deleteUser()
 
+
 }

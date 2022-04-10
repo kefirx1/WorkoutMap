@@ -8,10 +8,11 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.data.*
 import java.lang.Exception
+import javax.inject.Singleton
 
+@Singleton
 class WMRepository (application: Application){
 
     private var userInfoDao: UserInfoDao
@@ -24,33 +25,43 @@ class WMRepository (application: Application){
         weightHistoryDao = database.weightHistory()
     }
 
-    fun insertUser(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
-        userInfoDao.insert(userInfo)
-    }
-
+    //WMViewModel
     fun userExist(): Boolean{
         return userInfoDao.userExist()>0
     }
 
-    fun getUserInfo(): UserInfo {
-        return userInfoDao.getUserInfo()
+    //RegistrationViewModel
+    fun insertUser(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
+        userInfoDao.insert(userInfo)
     }
 
-    fun getUserWeightHistory(): List<WeightHistory>{
-        return weightHistoryDao.getWeightHistory()
+    //SettingsViewModel
+    fun updateUserName(newName: String) = CoroutineScope(Dispatchers.IO).launch {
+        val userInfo = getUserInfo()
+        userInfo.name = newName
+        userInfoDao.update(userInfo)
+    }
+    fun updateUserSurname(newSurname: String) = CoroutineScope(Dispatchers.IO).launch {
+        val userInfo = getUserInfo()
+        userInfo.surName = newSurname
+        userInfoDao.update(userInfo)
+    }
+    fun wipeData(): Boolean{
+        userInfoDao.deleteUser()
+        //TODO
+        return true
     }
 
+    //DashboardViewModel
     fun getUserFirstPageInfo(): MainViewInfo {
         val userInfo = getUserInfo()
         val workoutGraphicState = 0 //TODO
         val userName = userInfo.name
         var userWeight = "-"
-        println(getUserWeightHistory())
 
         if(getUserWeightHistory().isNotEmpty()){
             userWeight = getUserWeightHistory()[getUserWeightHistory().lastIndex].weight
         }
-
 
         return MainViewInfo(
             workoutGraphicState = workoutGraphicState,
@@ -59,11 +70,19 @@ class WMRepository (application: Application){
         )
     }
 
-    fun wipeData(): Boolean{
-        userInfoDao.deleteUser()
-        //TODO
-        return true
+
+
+    private fun getUserInfo(): UserInfo {
+        return userInfoDao.getUserInfo()
     }
+
+    private fun getUserWeightHistory(): List<WeightHistory>{
+        return weightHistoryDao.getWeightHistory()
+    }
+
+
+
+
 
 
     fun addNewTrainingPlan(trainingPlan: TrainingPlan) {
