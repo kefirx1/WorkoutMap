@@ -9,7 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -49,7 +52,8 @@ fun MainDashboard(
         ) {
             Button(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 20.dp,),
                 onClick = {
 
                 },
@@ -166,9 +170,37 @@ fun SecondPage(
         ) {
             Button(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .height(45.dp)
                     .fillMaxWidth(0.5f)
-                    .padding(end = 4.dp),
+                    .padding(end = 4.dp)
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = BlueGray500
+                ),
+            ) {
+                Text(
+                    text = "HISTORIA WAGI",
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+        ) {
+            Button(
+                modifier = Modifier
+                    .height(45.dp)
+                    .fillMaxWidth(0.5f)
+                    .padding(end = 4.dp)
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
 
                 },
@@ -180,14 +212,16 @@ fun SecondPage(
                     text = "PLANY TRENINGOWE",
                     color = BlueGray50,
                     fontFamily = mainFamily,
-                    fontSize = 20.sp
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
                 )
             }
             Button(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .height(45.dp)
                     .fillMaxWidth()
-                    .padding(start = 4.dp),
+                    .padding(start = 4.dp)
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
                     val intent = Intent(instance, SettingsActivity::class.java)
                     instance.startActivity(intent)
@@ -200,7 +234,8 @@ fun SecondPage(
                     text = "USTAWIENIA",
                     color = BlueGray50,
                     fontFamily = mainFamily,
-                    fontSize = 20.sp
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
                 )
             }
 

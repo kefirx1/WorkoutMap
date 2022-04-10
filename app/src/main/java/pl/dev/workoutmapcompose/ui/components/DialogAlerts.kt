@@ -24,7 +24,6 @@ import pl.dev.workoutmapcompose.ui.theme.mainFamily
 
 object DialogAlerts {
 
-
     @Composable
     fun wipeDataDialogAlert(
         instance: SettingsActivity,
