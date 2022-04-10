@@ -14,13 +14,16 @@
         android:theme="@style/Theme.WorkoutMapCompose"
         tools:targetApi="31">
         <activity
+            android:name=".WeightHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
-            android:noHistory="true"/>
+            android:noHistory="true" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
-            android:noHistory="true"/>
+            android:noHistory="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
