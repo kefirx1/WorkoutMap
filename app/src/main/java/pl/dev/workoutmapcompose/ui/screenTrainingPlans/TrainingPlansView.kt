@@ -70,6 +70,11 @@ fun MainTrainingPlansView(
                 .height(2.dp)
                 .fillMaxWidth()
         )
+
+
+
+
+
     }
 
 }
