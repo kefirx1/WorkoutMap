@@ -19,7 +19,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.Convert
 import pl.dev.workoutmapcompose.RegisterActivity
@@ -359,7 +358,7 @@ object DialogAlerts {
                 text = {
                     val mDatePickerDialog = DatePickerDialog(
                         mContext,
-                        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int, ->
+                        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
                             mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
                             cYear = mYear
                             cMonth = mMonth
@@ -370,8 +369,14 @@ object DialogAlerts {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+
+                        Text(
+                            modifier = Modifier
+                                .height(15.dp),
+                            text = ""
+                        )
 
                         Button(
                             modifier = Modifier
@@ -403,7 +408,7 @@ object DialogAlerts {
 
                             TextField(
                                 modifier = Modifier
-                                    .fillMaxWidth(0.3f),
+                                    .fillMaxWidth(0.4f),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Number
                                 ),
@@ -422,7 +427,6 @@ object DialogAlerts {
 
                         }
                     }
-
                 },
                 confirmButton = {
                     TextButton(
@@ -444,7 +448,7 @@ object DialogAlerts {
                                     openDialog = false
                                     val newWeightHistory = WeightHistory(
                                         weight = weightTextState.text,
-                                        weighingDate = Convert.convertIntValuesToTimeInMillis(cYear, cMonth, cDay)
+                                        weighingDate = Convert.convertIntValuesToTimeInSec(cYear, cMonth, cDay)
                                     )
 
                                     try{
@@ -463,6 +467,99 @@ object DialogAlerts {
                                     }
                                 }
                             }
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                backgroundColor = BlueGray800,
+                contentColor = BlueGray50
+            )
+        }
+
+        return openDialog
+
+    }
+
+
+    @Composable
+    fun onWeightHistoryRowClickDialogAlert(
+        instance: WeightHistoryActivity,
+        viewModel: WeightHistoryViewModel,
+        weightHistory: WeightHistory
+    ): Boolean {
+
+        val dialogTitle = Convert.convertTimeInSecToDateString(weightHistory.weighingDate)
+        val dialogText = "Zatwierdzenie spowoduje usunięcie danego zapisu wagi, nie można tego cofnąć!"
+        val confirmButtonText = "USUŃ"
+        val dismissButtonText = "ANULUJ"
+        val toastCorrectText = "Waga została usunięta"
+        val toastFailureText = "Błąd - waga nie została usunięta"
+
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+
+                    Text(
+                        text = dialogText,
+                        fontSize = 15.sp,
+                    )
+
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+
+                            try {
+                                viewModel.deleteWeightHistory(weightHistory = weightHistory)
+                                Toast.makeText(
+                                    instance,
+                                    toastCorrectText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    instance,
+                                    toastFailureText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                         }
                     ) {
                         Text(

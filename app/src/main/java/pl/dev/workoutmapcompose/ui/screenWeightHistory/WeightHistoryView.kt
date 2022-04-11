@@ -1,8 +1,10 @@
 package pl.dev.workoutmapcompose.ui.screenWeightHistory
 
-import android.content.Intent
+
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
+import pl.dev.workoutmapcompose.Convert
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
@@ -41,11 +44,26 @@ fun MainWeightHistoryView(
     var openInsertWeightDialog by remember {
         mutableStateOf(false)
     }
+    var openRowWeightDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var clickedRowWeightHistory by remember {
+        mutableStateOf(WeightHistory("", 0))
+    }
 
     if(openInsertWeightDialog) {
         openInsertWeightDialog = DialogAlerts.insertNewWeightDialogAlert(
             instance = instance,
             viewModel = viewModel
+        )
+    }
+
+    if(openRowWeightDialog) {
+        openRowWeightDialog = DialogAlerts.onWeightHistoryRowClickDialogAlert(
+            instance = instance,
+            viewModel = viewModel,
+            weightHistory = clickedRowWeightHistory
         )
     }
 
@@ -97,8 +115,6 @@ fun MainWeightHistoryView(
 
             viewModel.weightHistoryResult.value?.let {
                 if(it.isNotEmpty()){
-
-
                     WeightHistoryLineGraph(arrayListOf(transformToListOfDataPoint(it)))
                 }else{
                     WeightHistoryLineGraph(arrayListOf(arrayListOf(DataPoint(0f, 0f))))
@@ -133,6 +149,62 @@ fun MainWeightHistoryView(
                 )
             }
 
+            Spacer(
+                modifier = Modifier
+                    .padding(top = 12.dp, bottom = 6.dp)
+                    .background(color = Color.Black)
+                    .height(2.dp)
+                    .fillMaxWidth()
+            )
+
+
+
+            if(!viewModel.weightHistoryResult.value.isNullOrEmpty()) {
+
+                val sortedWeightHistoryList = viewModel.weightHistoryResult.value!!.sortedByDescending {
+                    it.weighingDate
+                }
+
+                LazyColumn{
+                    items(count = sortedWeightHistoryList.size) {
+                        Row (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    openRowWeightDialog = true
+                                    clickedRowWeightHistory = sortedWeightHistoryList[it]
+                                },
+                            horizontalArrangement = Arrangement.SpaceAround
+                        ) {
+                            Text(
+                                text = Convert.convertTimeInSecToDateString(sortedWeightHistoryList[it].weighingDate),
+                                color = BlueGray50,
+                                fontFamily = mainFamily,
+                                fontSize = 20.sp
+                            )
+
+                            Text(
+                                text = "${sortedWeightHistoryList[it].weight}kg",
+                                color = BlueGray50,
+                                fontFamily = mainFamily,
+                                fontSize = 20.sp
+                            )
+
+                        }
+                        Spacer(
+                            modifier = Modifier
+                                .padding(top = 6.dp, bottom = 6.dp)
+                                .background(color = Color.Black)
+                                .height(1.dp)
+                                .fillMaxWidth()
+                        )
+                    }
+                }
+            }
+
+
+
+
         }
     }
 }
@@ -149,13 +221,13 @@ fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>) {
                     highlight = LinePlot.Highlight(color = Purple200),
                 )
             ),
-            grid = LinePlot.Grid(Teal200, steps = 8),
+            grid = LinePlot.Grid(Teal200, steps = 10),
         ),
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp),
         onSelection = { xLine, points ->
-            // Do whatever you want here
+
         }
     )
 }

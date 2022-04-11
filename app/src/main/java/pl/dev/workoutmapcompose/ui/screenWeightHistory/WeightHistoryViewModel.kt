@@ -22,6 +22,7 @@ constructor(
     val weightHistoryResult: MutableState<ArrayList<WeightHistory>?> = mutableStateOf(null)
 
     fun insertNewWeightHistory(weightHistory: WeightHistory) = wmRepository.insertNewWeightHistory(weightHistory)
+    fun deleteWeightHistory(weightHistory: WeightHistory) = wmRepository.deleteWeightHistory(weightHistory)
 
     fun getWeightHistory(){
         viewModelScope.launch {

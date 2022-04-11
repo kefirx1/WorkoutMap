@@ -59,6 +59,9 @@ class WMRepository (application: Application){
     fun getUserWeightHistory(): List<WeightHistory> {
         return weightHistoryDao.getWeightHistory()
     }
+    fun deleteWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
+        weightHistoryDao.delete(weightHistory)
+    }
 
 
     //DashboardViewModel
