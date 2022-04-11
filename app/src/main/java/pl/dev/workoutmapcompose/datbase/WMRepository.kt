@@ -52,6 +52,15 @@ class WMRepository (application: Application){
         return true
     }
 
+    //WeightHistory
+    fun insertNewWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
+        weightHistoryDao.insert(weightHistory)
+    }
+    fun getUserWeightHistory(): List<WeightHistory> {
+        return weightHistoryDao.getWeightHistory()
+    }
+
+
     //DashboardViewModel
     fun getUserFirstPageInfo(): MainViewInfo {
         val userInfo = getUserInfo()
@@ -60,7 +69,12 @@ class WMRepository (application: Application){
         var userWeight = "-"
 
         if(getUserWeightHistory().isNotEmpty()){
-            userWeight = getUserWeightHistory()[getUserWeightHistory().lastIndex].weight
+
+            val sortedWeightHistoryList = getUserWeightHistory().sortedBy {
+                it.weighingDate
+            }
+
+            userWeight = sortedWeightHistoryList[sortedWeightHistoryList.lastIndex].weight
         }
 
         return MainViewInfo(
@@ -70,15 +84,10 @@ class WMRepository (application: Application){
         )
     }
 
-
-
     private fun getUserInfo(): UserInfo {
         return userInfoDao.getUserInfo()
     }
 
-    private fun getUserWeightHistory(): List<WeightHistory>{
-        return weightHistoryDao.getWeightHistory()
-    }
 
 
 

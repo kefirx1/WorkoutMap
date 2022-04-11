@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.data.WeightHistory
 
-@Database(entities = [UserInfo::class, WeightHistory::class], version = 2, exportSchema = false)
+@Database(entities = [UserInfo::class, WeightHistory::class], version = 6, exportSchema = false)
 abstract class WMDatabase: RoomDatabase() {
 
     abstract fun userInfoDao(): UserInfoDao

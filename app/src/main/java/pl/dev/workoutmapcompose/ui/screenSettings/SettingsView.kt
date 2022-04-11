@@ -40,7 +40,6 @@ fun MainSettingsView(
     }
 
     if(openWipeDataDialog) {
-
         openWipeDataDialog = DialogAlerts.wipeDataDialogAlert(
             instance = instance,
             viewModel = viewModel
@@ -48,7 +47,6 @@ fun MainSettingsView(
     }
 
     if(openChangePersonalDataDialog) {
-
         openChangePersonalDataDialog = DialogAlerts.changePersonalDataDialogAlert(
             instance = instance,
             viewModel = viewModel

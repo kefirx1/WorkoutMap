@@ -1,26 +1,38 @@
 package pl.dev.workoutmapcompose.ui.components
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import pl.dev.workoutmapcompose.Convert
 import pl.dev.workoutmapcompose.RegisterActivity
 import pl.dev.workoutmapcompose.SettingsActivity
+import pl.dev.workoutmapcompose.WeightHistoryActivity
+import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
+import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
+import pl.dev.workoutmapcompose.ui.theme.BlueGray500
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import java.util.*
 
 object DialogAlerts {
 
@@ -110,9 +122,7 @@ object DialogAlerts {
         }
 
         return openDialog
-
     }
-
 
 
     @Composable
@@ -263,6 +273,195 @@ object DialogAlerts {
                                     toastFailureText,
                                     Toast.LENGTH_SHORT
                                 ).show()
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                backgroundColor = BlueGray800,
+                contentColor = BlueGray50
+            )
+        }
+
+        return openDialog
+
+    }
+
+
+    @Composable
+    fun insertNewWeightDialogAlert(
+        instance: WeightHistoryActivity,
+        viewModel: WeightHistoryViewModel
+    ): Boolean {
+
+        val dialogTitle = "Dodaj nową wagę"
+        val confirmButtonText = "DODAJ"
+        val dismissButtonText = "ANULUJ"
+        val toastCorrectText = "Waga została dodana"
+        val toastFailureText = "Błąd - waga nie została dodana"
+
+        val mContext = LocalContext.current
+        val mCalendar = Calendar.getInstance()
+
+        val mYear = mCalendar.get(Calendar.YEAR)
+        val mMonth = mCalendar.get(Calendar.MONTH)
+        val mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+        var cYear = mCalendar.get(Calendar.YEAR)
+        var cMonth = mCalendar.get(Calendar.MONTH) + 1
+        var cDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+        mCalendar.time = Date()
+
+        val mDate = remember {
+            mutableStateOf("$mDay/${mMonth+1}/$mYear")
+        }
+
+        var weightTextState by remember {
+            mutableStateOf(TextFieldValue())
+        }
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+                    val mDatePickerDialog = DatePickerDialog(
+                        mContext,
+                        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int, ->
+                            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
+                            cYear = mYear
+                            cMonth = mMonth
+                            cDay = mDayOfMonth
+                        }, mYear, mMonth, mDay
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Button(
+                            modifier = Modifier
+                                .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
+                            onClick = {
+                                mDatePickerDialog.show()
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = BlueGray500
+                            ),
+                        ) {
+                            Text(
+                                text = mDate.value,
+                                color = Color.White
+                            )
+                        }
+
+                        Spacer(
+                            modifier = Modifier
+                                .size(40.dp)
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            TextField(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.3f),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                value = weightTextState,
+                                onValueChange = { weightTextState = it },
+                                textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 25.sp),
+                                maxLines = 1,
+                            )
+                            Text(
+                                text = "kg",
+                                color = BlueGray50,
+                                fontFamily = mainFamily,
+                                fontSize = 40.sp,
+                                textAlign = TextAlign.Left
+                            )
+
+                        }
+                    }
+
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            if(weightTextState.text.isBlank()){
+                                Toast.makeText(
+                                    instance,
+                                    "Musisz podać wagę",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }else{
+                                if(cYear>mYear || cMonth>mMonth || cDay>mDay){
+                                    Toast.makeText(
+                                        instance,
+                                        "Nie możesz ustawiać przyszłej daty",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }else{
+                                    openDialog = false
+                                    val newWeightHistory = WeightHistory(
+                                        weight = weightTextState.text,
+                                        weighingDate = Convert.convertIntValuesToTimeInMillis(cYear, cMonth, cDay)
+                                    )
+
+                                    try{
+                                        viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
+                                        Toast.makeText(
+                                            instance,
+                                            toastCorrectText,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }catch (e: Exception){
+                                        Toast.makeText(
+                                            instance,
+                                            toastFailureText,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
                             }
                         }
                     ) {
