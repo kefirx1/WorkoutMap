@@ -19,6 +19,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.SettingsActivity
+import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.ui.theme.*
 
@@ -204,7 +205,8 @@ fun SecondPage(
                     .padding(end = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-
+                    val intent = Intent(instance, TrainingPlansActivity::class.java)
+                    instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = BlueGray500
