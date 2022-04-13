@@ -35,5 +35,19 @@ object Convert {
         return "$day/$month/$year"
     }
 
+    fun convertTimeInSecToDateStringShortened(
+        dateInSec: Int
+    ): String {
+        val dateOfWeighting = LocalDateTime.ofInstant(Instant.ofEpochSecond(dateInSec.toLong()), ZoneId.systemDefault())
+        val month = dateOfWeighting.monthValue
+        var day = dateOfWeighting.dayOfMonth.toString()
+
+        if(day.length == 1){
+            day = "0$day"
+        }
+
+        return "$day/$month"
+    }
+
 
 }

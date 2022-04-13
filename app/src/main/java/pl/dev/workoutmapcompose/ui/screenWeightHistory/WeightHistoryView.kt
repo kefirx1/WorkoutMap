@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madrapps.plot.line.DataPoint
@@ -114,10 +115,25 @@ fun MainWeightHistoryView(
         ) {
 
             viewModel.weightHistoryResult.value?.let {
-                if(it.isNotEmpty()){
-                    WeightHistoryLineGraph(arrayListOf(transformToListOfDataPoint(it)))
-                }else{
-                    WeightHistoryLineGraph(arrayListOf(arrayListOf(DataPoint(0f, 0f))))
+                if (it.isNotEmpty()) {
+
+                    val listOfDataPoint = transformToListOfDataPoint(it)
+                    val listOfXAxisLabels = getLabelForXAxis(it)
+
+                    WeightHistoryLineGraph(arrayListOf(listOfDataPoint), listOfXAxisLabels)
+
+                } else {
+
+                    Text(
+                        modifier = Modifier
+                            .padding(bottom = 40.dp, top = 40.dp),
+                        text = "Nie dodałeś jeszcze \n swojej wagi",
+                        color = BlueGray50,
+                        fontFamily = mainFamily,
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp
+                    )
+
                 }
             }
 
@@ -159,15 +175,16 @@ fun MainWeightHistoryView(
 
 
 
-            if(!viewModel.weightHistoryResult.value.isNullOrEmpty()) {
+            if (!viewModel.weightHistoryResult.value.isNullOrEmpty()) {
 
-                val sortedWeightHistoryList = viewModel.weightHistoryResult.value!!.sortedByDescending {
-                    it.weighingDate
-                }
+                val sortedWeightHistoryList =
+                    viewModel.weightHistoryResult.value!!.sortedByDescending {
+                        it.weighingDate
+                    }
 
-                LazyColumn{
+                LazyColumn {
                     items(count = sortedWeightHistoryList.size) {
-                        Row (
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
@@ -202,15 +219,12 @@ fun MainWeightHistoryView(
                 }
             }
 
-
-
-
         }
     }
 }
 
 @Composable
-fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>) {
+fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>, xAxisLabel: ArrayList<String>) {
     LineGraph(
         plot = LinePlot(
             listOf(
@@ -221,15 +235,60 @@ fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>) {
                     highlight = LinePlot.Highlight(color = Purple200),
                 )
             ),
-            grid = LinePlot.Grid(Teal200, steps = 10),
+            selection = LinePlot.Selection(
+                highlight = LinePlot.Connection(
+
+                )
+            ),
+            xAxis = LinePlot.XAxis(
+                content  = { min, offset, max ->
+                    for (it in 0 until xAxisLabel.size) {
+                        val value = it * offset + min
+                        Text(
+                            text = xAxisLabel[it],
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.caption,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                        Text(
+                            text = ""
+                        )
+                        if (value > max) {
+                            break
+                        }
+                    }
+                }
+
+            ),
+            grid = LinePlot.Grid(
+                color = Teal200,
+                steps = 5
+            ),
         ),
         modifier = Modifier
+            .background(Color.Black)
             .fillMaxWidth()
             .height(200.dp),
         onSelection = { xLine, points ->
 
         }
     )
+}
+
+private fun getLabelForXAxis(
+    weightHistoryList: ArrayList<WeightHistory>
+): ArrayList<String> {
+
+    val labelDataList: ArrayList<String> = ArrayList()
+
+    val sortedWeightHistoryList = weightHistoryList.sortedBy {
+        it.weighingDate
+    }
+    sortedWeightHistoryList.forEach{
+        labelDataList.add(Convert.convertTimeInSecToDateStringShortened(it.weighingDate))
+    }
+    return labelDataList
 }
 
 private fun transformToListOfDataPoint(
@@ -246,7 +305,7 @@ private fun transformToListOfDataPoint(
 
     sortedWeightHistoryList.forEach {
         dataPointsList.add(DataPoint(iterator, it.weight.toFloat()))
-        iterator++
+        iterator += 2
     }
 
     return dataPointsList

@@ -326,8 +326,10 @@ object DialogAlerts {
         val mMonth = mCalendar.get(Calendar.MONTH)
         val mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
         var cYear = mCalendar.get(Calendar.YEAR)
-        var cMonth = mCalendar.get(Calendar.MONTH) + 1
+        var cMonth = mCalendar.get(Calendar.MONTH)
         var cDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+        println("c - $cYear $cMonth $cDay")
 
         mCalendar.time = Date()
 
@@ -365,6 +367,8 @@ object DialogAlerts {
                             cDay = mDayOfMonth
                         }, mYear, mMonth, mDay
                     )
+
+                    println("m - $mYear $mMonth $mDay")
 
                     Column(
                         modifier = Modifier
