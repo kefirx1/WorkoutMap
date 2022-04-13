@@ -5,14 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.data.WeightHistory
 
-@Database(entities = [UserInfo::class, WeightHistory::class], version = 6, exportSchema = false)
+@Database(entities = [UserInfo::class, WeightHistory::class, TrainingPlan::class], version = 7, exportSchema = false)
 abstract class WMDatabase: RoomDatabase() {
 
     abstract fun userInfoDao(): UserInfoDao
-    abstract fun weightHistory(): WeightHistoryDao
+    abstract fun weightHistoryDao(): WeightHistoryDao
+    abstract fun trainingPlanDao(): TrainingPlanDao
 
     companion object{
 
