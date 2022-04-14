@@ -3,6 +3,7 @@ package pl.dev.workoutmapcompose.factories
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenRegistration.RegistrationViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
@@ -32,4 +33,9 @@ class TrainingPlansViewModelFactory(private val application: Application) :
 class WeightHistoryViewModelFactory(private val application: Application) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T = WeightHistoryViewModel(application = application) as T
+}
+
+class AddNewTrainingPlanViewModelFactory(private val application: Application) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = AddNewTrainingPlanViewModel(application = application) as T
 }

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.WorkoutMapCompose"
         tools:targetApi="31">
         <activity
+            android:name=".AddNewTrainingPlanActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrainingPlansActivity"
             android:exported="false" />
         <activity
