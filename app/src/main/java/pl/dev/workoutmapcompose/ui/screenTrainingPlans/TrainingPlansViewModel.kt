@@ -19,13 +19,8 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
-    val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(null)
 
-
-    fun getExercisesJSON(context: Context){
-        exercisesJSONResult.value = wmRepository.getExercisesJSON(context = context)
-    }
 
     fun getTrainingPlansList(){
         trainingPlansListResult.value = wmRepository.getTrainingPlansList()

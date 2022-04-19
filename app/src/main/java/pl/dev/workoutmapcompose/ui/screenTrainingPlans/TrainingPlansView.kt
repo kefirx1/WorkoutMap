@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
-import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
@@ -42,7 +41,7 @@ fun MainTrainingPlansView(
 ) {
 
     viewModel.getTrainingPlansList()
-    viewModel.getExercisesJSON(instance.applicationContext)
+
 
     Column(
         modifier = Modifier
@@ -147,7 +146,8 @@ fun MainTrainingPlansView(
                     .fillMaxWidth()
                     .fillMaxHeight(0.4f),
                 onClick = {
-                    //TODO
+                    val intent = Intent(instance, AddNewTrainingPlanActivity::class.java)
+                    instance.startActivity(intent)
                 }) {
                 Icon(
                     imageVector = Icons.Filled.Add,

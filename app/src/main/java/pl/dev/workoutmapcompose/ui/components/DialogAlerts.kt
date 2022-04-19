@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -20,11 +21,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pl.dev.workoutmapcompose.Convert
-import pl.dev.workoutmapcompose.RegisterActivity
-import pl.dev.workoutmapcompose.SettingsActivity
-import pl.dev.workoutmapcompose.WeightHistoryActivity
+import pl.dev.workoutmapcompose.*
+import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.WeightHistory
+import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
@@ -32,6 +32,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray500
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
+import kotlin.collections.ArrayList
 
 object DialogAlerts {
 
@@ -564,6 +565,139 @@ object DialogAlerts {
                                 ).show()
                             }
 
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                backgroundColor = BlueGray800,
+                contentColor = BlueGray50
+            )
+        }
+
+        return openDialog
+
+    }
+
+
+    @Composable
+    fun addExerciseForTrainingPlanDialogAlert(
+        instance: AddNewTrainingPlanActivity,
+        viewModel: AddNewTrainingPlanViewModel,
+        selectedExercisesList: SnapshotStateList<Exercise>
+    ): Boolean {
+
+        val dialogTitle = "Dodaj ćwiczenię"
+        val confirmButtonText = "DODAJ"
+        val dismissButtonText = "ANULUJ"
+        val toastCorrectText = "Ćwiczenie zostało dodane"
+        val toastFailureText = "Błąd - ćwiczenie nie została usunięta"
+
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+        var newExercise by remember {
+            mutableStateOf(Exercise("","", 0))
+        }
+        var setsTextState by remember {
+            mutableStateOf(TextFieldValue())
+        }
+        val exerciseTypes = listOf("Klatka piersiowa", "Plecy", "Barki", "Biceps", "Triceps", "Nogi", "Przedramiona", "Brzuch")
+        var exerciseTypesSelectedType by remember { mutableStateOf("") }
+        var expanded by remember { mutableStateOf(false) }
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        
+
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+                            value = setsTextState,
+                            onValueChange = { setsTextState = it },
+                            textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 25.sp),
+                            maxLines = 1,
+                        )
+
+                    }
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+
+                            newExercise.numberOfSets = setsTextState.text.toInt()
+
+                            if (newExercise.name.isBlank() || newExercise.type.isBlank()) {
+                                Toast.makeText(
+                                    instance,
+                                    "Podaj odpowiednie dane",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                if (newExercise.numberOfSets in 1..10) {
+                                    openDialog = false
+                                    try {
+                                        selectedExercisesList.add(newExercise)
+                                        Toast.makeText(
+                                            instance,
+                                            toastCorrectText,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } catch (e: Exception) {
+                                        Toast.makeText(
+                                            instance,
+                                            toastFailureText,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        instance,
+                                        "Liczba serii musi mieścić się w przedziale 1-10",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                            }
                         }
                     ) {
                         Text(
