@@ -4,9 +4,13 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -33,6 +37,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.exp
 
 object DialogAlerts {
 
@@ -620,11 +625,13 @@ object DialogAlerts {
             mutableStateOf(Exercise("","", 0))
         }
         var setsTextState by remember {
-            mutableStateOf(TextFieldValue())
+            mutableStateOf(TextFieldValue(""))
         }
         val exerciseTypes = listOf("Klatka piersiowa", "Plecy", "Barki", "Biceps", "Triceps", "Nogi", "Przedramiona", "Brzuch")
-        var exerciseTypesSelectedType by remember { mutableStateOf("") }
+        var exerciseTypesSelected by remember { mutableStateOf("Wybierz partię") }
+        var exerciseSelected by remember { mutableStateOf("Wybierz ćwiczenie") }
         var expanded by remember { mutableStateOf(false) }
+        var expanded2 by remember { mutableStateOf(false) }
 
         if (openDialog) {
             AlertDialog(
@@ -642,20 +649,137 @@ object DialogAlerts {
 
                     Column(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        
 
-                        TextField(
+                        Row(
                             modifier = Modifier
-                                .fillMaxWidth(0.4f),
+                                .clickable {
+                                    expanded = !expanded
+                                }
+                                .padding(top = 10.dp)
+                        ) {
+
+                            Text(
+                                text = exerciseTypesSelected,
+                                fontSize = 15.sp
+                            )
+
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Dropdown"
+                            )
+
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = {
+                                    expanded = false
+                                }
+                            ) {
+                                exerciseTypes.forEach {
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            exerciseTypesSelected = it
+                                            expanded = false
+                                            viewModel.getExercisesArrayList(exerciseTypesSelected)
+                                            exerciseSelected = "Wybierz ćwiczenie"
+                                        }
+                                    ) {
+                                        Text(
+                                            text = it
+                                        )
+                                    }
+                                }
+                            }
+
+                        }
+
+                        if (exerciseTypesSelected != "Wybierz partię") {
+                            Row(
+                                modifier = Modifier
+                                    .clickable {
+                                        expanded2 = !expanded2
+                                    }
+                                    .padding(top = 10.dp)
+                            ) {
+
+                                Text(
+                                    text = exerciseSelected,
+                                    fontSize = 15.sp
+                                )
+
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    contentDescription = "Dropdown"
+                                )
+
+                                DropdownMenu(
+                                    expanded = expanded2,
+                                    onDismissRequest = {
+                                        expanded2 = false
+                                    }
+                                ) {
+                                    viewModel.exercisesListResult.value.forEach {
+                                        DropdownMenuItem(
+                                            onClick = {
+                                                exerciseSelected = it
+                                                expanded2 = false
+                                            }
+                                        ) {
+                                            Text(
+                                                text = it
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            Spacer(
+                                modifier = Modifier
+                                    .height(40.dp)
+                            )
+                        }
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(15.dp)
+                        )
+
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .background(
+                                    color = BlueGray800
+                                ),
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
+                                keyboardType = KeyboardType.Decimal
                             ),
                             value = setsTextState,
-                            onValueChange = { setsTextState = it },
-                            textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 25.sp),
+                            onValueChange = {
+                                if(it.text.isNotBlank() && it.text.toFloat()<40){
+                                    setsTextState = it
+                                }else{
+                                    setsTextState = TextFieldValue("")
+                                    Toast.makeText(
+                                        instance,
+                                        "Zła liczba serii",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            textStyle = TextStyle(
+                                color = BlueGray50,
+                                fontFamily = mainFamily,
+                                fontSize = 25.sp
+                            ),
                             maxLines = 1,
+                            label = {
+                                Text(
+                                    text = "Liczba serii",
+                                    color = BlueGray50
+                                )
+                            }
                         )
 
                     }
@@ -663,8 +787,17 @@ object DialogAlerts {
                 confirmButton = {
                     TextButton(
                         onClick = {
-
-                            newExercise.numberOfSets = setsTextState.text.toInt()
+                            try{
+                                newExercise.numberOfSets = setsTextState.text.toFloat().toInt()
+                                newExercise.type = exerciseTypesSelected
+                                newExercise.name = exerciseSelected
+                            }catch (e: Exception){
+                                Toast.makeText(
+                                    instance,
+                                    "Podaj odpowiednie dane",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
                             if (newExercise.name.isBlank() || newExercise.type.isBlank()) {
                                 Toast.makeText(

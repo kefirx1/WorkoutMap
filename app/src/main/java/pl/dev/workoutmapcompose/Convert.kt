@@ -1,10 +1,12 @@
 package pl.dev.workoutmapcompose
 
+import androidx.compose.runtime.isTraceInProgress
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Year
 import java.time.ZoneId
 import java.util.*
+import kotlin.collections.HashMap
 
 object Convert {
 

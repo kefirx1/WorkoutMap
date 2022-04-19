@@ -114,7 +114,6 @@ fun MainNewTrainingView(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(30.dp)
                                     .border(
                                         width = 1.dp,
                                         color = Color.Black,
@@ -127,10 +126,19 @@ fun MainNewTrainingView(
                                     .clickable {
                                         selectedExercisesList.removeAt(it)
                                     }
+                                    .padding(5.dp)
                             ){
 
                                 Text(
+                                    text = selectedExercisesList[it].type
+                                )
+
+                                Text(
                                     text = selectedExercisesList[it].name
+                                )
+
+                                Text(
+                                    text = selectedExercisesList[it].numberOfSets.toString()
                                 )
                             }
 
