@@ -33,7 +33,9 @@ class MainActivity : ComponentActivity(){
             startActivity(intent)
         } else {
             setContent {
+
                 viewModel = viewModel(factory = DashboardViewModelFactory(application))
+                viewModel.setFirebaseListener()
                 MainDashboard(this, viewModel)
             }
         }

@@ -24,6 +24,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import java.util.*
 
 
 fun exitRegister(
@@ -38,8 +39,12 @@ fun exitRegister(
     if(nameString.isBlank() || surnameString.isBlank()){
         Toast.makeText(instance, "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
     }else{
+
+        val calendar = Calendar.getInstance()
+
         viewModel.insertUser(
             UserInfo(
+                userFirebaseID = calendar.timeInMillis.toString(),
                 name = nameString,
                 surName = surnameString,
                 age = ageString,

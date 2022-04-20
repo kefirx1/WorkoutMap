@@ -84,8 +84,8 @@ fun MainTrainingPlansView(
         )
 
 
-        if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
-
+//        if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
+        if (true){
             Button(
                 modifier = Modifier
                     .height(45.dp)
@@ -109,7 +109,9 @@ fun MainTrainingPlansView(
                 )
             }
 
-            val trainingPlansList = viewModel.trainingPlansListResult.value!!
+            val trainingPlansList = listOf("4", "f")
+
+//            val trainingPlansList = viewModel.trainingPlansListResult.value!!
 
             LazyColumn{
                 items(count = trainingPlansList.size) {

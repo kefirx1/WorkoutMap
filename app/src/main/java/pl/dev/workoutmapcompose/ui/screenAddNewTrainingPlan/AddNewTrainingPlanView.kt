@@ -1,5 +1,6 @@
 package pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,11 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.data.Exercise
+import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
@@ -43,8 +47,11 @@ fun MainNewTrainingView(
 
     viewModel.getExercisesJSON(instance.applicationContext)
 
+    var planNameTextState by remember {
+        mutableStateOf(TextFieldValue())
+    }
 
-    val selectedExercisesList = remember {
+    var selectedExercisesList = remember {
         mutableStateListOf(Exercise("", "",0))
     }
     var openAddExerciseDialog by remember {
@@ -66,6 +73,23 @@ fun MainNewTrainingView(
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        OutlinedTextField(
+            value = planNameTextState,
+            onValueChange = { planNameTextState = it },
+            textStyle = TextStyle(
+                color = BlueGray50,
+                fontFamily = mainFamily,
+                fontSize = 20.sp
+            ),
+            maxLines = 1,
+            label = {
+                Text(
+                    text = "Nazwa planu",
+                    color = BlueGray50
+                )
+            }
+        )
 
         Row(
             modifier = Modifier
@@ -196,7 +220,25 @@ fun MainNewTrainingView(
                 .padding(end = 4.dp)
                 .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
             onClick = {
-                //TODO
+
+                if(planNameTextState.text.isNotBlank() && selectedExercisesList.size>1){
+
+                   selectedExercisesList.removeAt(0)
+
+                    val newTrainingPlan = TrainingPlan(
+                        planName = planNameTextState.text,
+                        exercise = selectedExercisesList
+                    )
+                    viewModel.addNewTrainingPlan(trainingPlan = newTrainingPlan)
+                    instance.finish()
+                }else{
+                    Toast.makeText(
+                        instance,
+                        "Wprowadź odpowiednie dane",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGray800

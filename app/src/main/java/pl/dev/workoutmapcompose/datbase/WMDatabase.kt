@@ -9,12 +9,11 @@ import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.data.WeightHistory
 
-@Database(entities = [UserInfo::class, WeightHistory::class, TrainingPlan::class], version = 7, exportSchema = false)
+@Database(entities = [UserInfo::class, WeightHistory::class], version = 8, exportSchema = false)
 abstract class WMDatabase: RoomDatabase() {
 
     abstract fun userInfoDao(): UserInfoDao
     abstract fun weightHistoryDao(): WeightHistoryDao
-    abstract fun trainingPlanDao(): TrainingPlanDao
 
     companion object{
 

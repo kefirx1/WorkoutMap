@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "userInfo")
 data class UserInfo (
+    var userFirebaseID: String,
     var name: String,
     var surName: String,
     var height: String,

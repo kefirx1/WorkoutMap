@@ -2,30 +2,38 @@ package pl.dev.workoutmapcompose.datbase
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
+import pl.dev.workoutmapcompose.datbase.FirebaseListener.firebaseInfoResult
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 import javax.inject.Singleton
+
 
 @Singleton
 class WMRepository (application: Application){
 
     private var userInfoDao: UserInfoDao
     private var weightHistoryDao: WeightHistoryDao
-    private var trainingPlanDao: TrainingPlanDao
 
     private val gson = Gson()
+
+    private val firebase = FirebaseDatabase.getInstance()
+
+
 
     init{
         val database = WMDatabase
             .getInstance(application.applicationContext)
         userInfoDao = database!!.userInfoDao()
         weightHistoryDao = database.weightHistoryDao()
-        trainingPlanDao = database.trainingPlanDao()
     }
 
     //WMViewModel
@@ -75,12 +83,61 @@ class WMRepository (application: Application){
             ), JSONExercisesData::class.java
         )
     }
-    fun getTrainingPlansList(): List<TrainingPlan>{
-        return trainingPlanDao.getTrainingPlansList()
+    fun getTrainingPlansList(): ArrayList<TrainingPlan>{
+
+        val trainingPlansList: ArrayList<TrainingPlan> = ArrayList()
+
+        firebaseInfoResult.value!!.child("trainingPlans").children.forEach{ it ->
+
+            val trainingPlanTemp = it.getValue(TrainingPlanTemp::class.java)
+
+            val exercisesList: ArrayList<Exercise> = ArrayList()
+
+            trainingPlanTemp!!.exercise.forEach{item ->
+                val exercise = Exercise(
+                    name = item.name,
+                    type = item.type,
+                    numberOfSets = item.numberOfSets
+                )
+                exercisesList.add(exercise)
+            }
+
+
+
+            val trainingPlan = TrainingPlan(trainingPlanTemp!!.planName, exercisesList as List<Exercise>)
+
+            trainingPlansList.add(trainingPlan)
+        }
+
+        return trainingPlansList
+    }
+    fun addNewTrainingPlan(trainingPlan: TrainingPlan){
+        val trainingPlans = getTrainingPlansList()
+        trainingPlans.add(trainingPlan)
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.child("trainingPlans").setValue(trainingPlans)
     }
 
 
     //DashboardViewModel
+
+    fun setFirebaseListener(){
+
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                firebaseInfoResult.value = snapshot
+                Log.e("TAG", "Firebase")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TAG", "Failed to read value.", error.toException())
+            }
+        })
+
+    }
+
     fun getUserFirstPageInfo(): MainViewInfo {
         val userInfo = getUserInfo()
         val workoutGraphicState = 0 //TODO

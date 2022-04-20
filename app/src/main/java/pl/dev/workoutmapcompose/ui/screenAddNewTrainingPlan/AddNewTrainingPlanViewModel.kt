@@ -6,6 +6,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.datbase.WMRepository
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 
@@ -37,6 +38,10 @@ constructor(
             "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
             "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
         }
+    }
+
+    fun addNewTrainingPlan(trainingPlan: TrainingPlan){
+        wmRepository.addNewTrainingPlan(trainingPlan = trainingPlan)
     }
 
 

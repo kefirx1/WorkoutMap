@@ -35,6 +35,9 @@ constructor(
         }
     }
 
+    fun setFirebaseListener() {
+        wmRepository.setFirebaseListener()
+    }
 
 
 
