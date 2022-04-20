@@ -42,7 +42,6 @@ fun MainTrainingPlansView(
 
     viewModel.getTrainingPlansList()
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,10 +81,57 @@ fun MainTrainingPlansView(
                 .height(2.dp)
                 .fillMaxWidth()
         )
+        Spacer(
+            modifier = Modifier
+                .height(30.dp)
+                .fillMaxWidth()
+        )
+        Spacer(
+            modifier = Modifier
+                .padding(top = 6.dp, bottom = 6.dp)
+                .background(color = Color.Black)
+                .height(1.dp)
+                .fillMaxWidth(0.6f)
+        )
 
+        if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
 
-//        if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
-        if (true){
+            val trainingPlansList = viewModel.trainingPlansListResult.value!!
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .fillMaxHeight(0.8f)
+            ){
+                items(count = trainingPlansList.size) {
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = BlueGray800)
+                            .clickable {
+                                //
+                            },
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = trainingPlansList[it].planName,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 40.sp,
+                            textAlign = TextAlign.Center
+                        )
+
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .padding(top = 6.dp, bottom = 6.dp)
+                            .background(color = Color.Black)
+                            .height(1.dp)
+                            .fillMaxWidth()
+                    )
+                }
+            }
+
             Button(
                 modifier = Modifier
                     .height(45.dp)
@@ -109,37 +155,7 @@ fun MainTrainingPlansView(
                 )
             }
 
-            val trainingPlansList = listOf("4", "f")
 
-//            val trainingPlansList = viewModel.trainingPlansListResult.value!!
-
-            LazyColumn{
-                items(count = trainingPlansList.size) {
-                    Row (
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                //
-                            },
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "test",
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
-                            fontSize = 20.sp
-                        )
-
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .padding(top = 6.dp, bottom = 6.dp)
-                            .background(color = Color.Black)
-                            .height(1.dp)
-                            .fillMaxWidth()
-                    )
-                }
-            }
 
         }else{
 

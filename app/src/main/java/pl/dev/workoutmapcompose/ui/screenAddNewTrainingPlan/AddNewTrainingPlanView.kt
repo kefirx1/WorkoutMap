@@ -74,23 +74,6 @@ fun MainNewTrainingView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        OutlinedTextField(
-            value = planNameTextState,
-            onValueChange = { planNameTextState = it },
-            textStyle = TextStyle(
-                color = BlueGray50,
-                fontFamily = mainFamily,
-                fontSize = 20.sp
-            ),
-            maxLines = 1,
-            label = {
-                Text(
-                    text = "Nazwa planu",
-                    color = BlueGray50
-                )
-            }
-        )
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,8 +110,32 @@ fun MainNewTrainingView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f)
+                .fillMaxHeight(0.9f),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            OutlinedTextField(
+                value = planNameTextState,
+                onValueChange = { planNameTextState = it },
+                textStyle = TextStyle(
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 20.sp
+                ),
+                maxLines = 1,
+                label = {
+                    Text(
+                        text = "Nazwa planu",
+                        color = BlueGray50
+                    )
+                }
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .height(30.dp)
+                    .fillMaxWidth()
+            )
 
             if(selectedExercisesList.size>1){
 
@@ -252,13 +259,6 @@ fun MainNewTrainingView(
                 textAlign = TextAlign.Center
             )
         }
-
-
-
-
-
-
-
 
 
     }

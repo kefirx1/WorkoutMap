@@ -19,11 +19,11 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
-//    val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(null)
+    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
 
     fun getTrainingPlansList(){
-//        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
+        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
     }
 
 }
