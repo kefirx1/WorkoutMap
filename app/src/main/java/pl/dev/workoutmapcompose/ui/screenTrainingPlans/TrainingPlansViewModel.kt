@@ -26,4 +26,8 @@ constructor(
         trainingPlansListResult.value = wmRepository.getTrainingPlansList()
     }
 
+    fun deleteTrainingPlan(trainingPlan: TrainingPlan){
+        wmRepository.deleteTrainingPlan(trainingPlan = trainingPlan)
+    }
+
 }

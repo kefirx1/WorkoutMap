@@ -9,7 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
+import pl.dev.workoutmapcompose.data.TrainingPlan
+import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
@@ -41,6 +43,23 @@ fun MainTrainingPlansView(
 ) {
 
     viewModel.getTrainingPlansList()
+
+    val trainingPlanClicked by remember {
+        mutableStateOf(TrainingPlan("", listOf()))
+    }
+
+    var openTrainingPlansInfoDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if(openTrainingPlansInfoDialog) {
+        openTrainingPlansInfoDialog = DialogAlerts.trainingPlansInfoDialogAlert(
+            instance = instance,
+            viewModel = viewModel,
+            trainingPlan = trainingPlanClicked
+        )
+    }
+
 
     Column(
         modifier = Modifier
@@ -109,7 +128,9 @@ fun MainTrainingPlansView(
                             .fillMaxWidth()
                             .background(color = BlueGray800)
                             .clickable {
-                                //
+                                trainingPlanClicked.planName = trainingPlansList[it].planName
+                                trainingPlanClicked.exercise = trainingPlansList[it].exercise
+                                openTrainingPlansInfoDialog = true
                             },
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
@@ -118,7 +139,9 @@ fun MainTrainingPlansView(
                             color = BlueGray50,
                             fontFamily = mainFamily,
                             fontSize = 40.sp,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .padding(5.dp)
                         )
 
                     }

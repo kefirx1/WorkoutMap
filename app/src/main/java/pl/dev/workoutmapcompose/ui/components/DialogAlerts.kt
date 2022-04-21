@@ -5,12 +5,15 @@ import android.content.Intent
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -27,17 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.*
 import pl.dev.workoutmapcompose.data.Exercise
+import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
+import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray500
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.exp
 
 object DialogAlerts {
 
@@ -831,6 +834,130 @@ object DialogAlerts {
                                 }
 
                             }
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                backgroundColor = BlueGray800,
+                contentColor = BlueGray50
+            )
+        }
+
+        return openDialog
+
+    }
+
+
+    @Composable
+    fun trainingPlansInfoDialogAlert(
+        instance: TrainingPlansActivity,
+        viewModel: TrainingPlansViewModel,
+        trainingPlan: TrainingPlan
+    ): Boolean {
+
+        val dialogTitle = trainingPlan.planName
+        val confirmButtonText = "USUŃ"
+        val dismissButtonText = "COFNIJ"
+        val toastCorrectText = "Plan został usunięty"
+        val toastFailureText = "Błąd - plan nie została usunięty"
+
+
+        println(trainingPlan)
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+
+                    println(trainingPlan.exercise)
+
+                    LazyColumn {
+                        items(count = trainingPlan.exercise.size) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color.Black,
+                                        shape = CircleShape
+                                    )
+                                    .background(
+                                        color = BlueGray800,
+                                        shape = CircleShape
+                                    )
+                            ) {
+
+                                Text(
+                                    text = trainingPlan.exercise[it].type
+                                )
+
+                                Text(
+                                    text = trainingPlan.exercise[it].name
+                                )
+
+                                Text(
+                                    text = trainingPlan.exercise[it].numberOfSets.toString()
+                                )
+                            }
+
+
+                        }
+                    }
+
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+
+                            try {
+                                viewModel.deleteTrainingPlan(trainingPlan = trainingPlan)
+                                Toast.makeText(
+                                    instance,
+                                    toastCorrectText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    instance,
+                                    toastFailureText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                         }
                     ) {
                         Text(

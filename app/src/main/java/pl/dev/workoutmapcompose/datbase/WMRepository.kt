@@ -113,6 +113,15 @@ class WMRepository (application: Application){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlans)
     }
+    fun updateTrainingPlan(trainingPlansList: ArrayList<TrainingPlan>){
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.child("trainingPlans").setValue(trainingPlansList)
+    }
+    fun deleteTrainingPlan(trainingPlan: TrainingPlan){
+        val trainingPlansList = getTrainingPlansList()
+        trainingPlansList.remove(trainingPlan)
+        updateTrainingPlan(trainingPlansList)
+    }
 
 
     //DashboardViewModel
