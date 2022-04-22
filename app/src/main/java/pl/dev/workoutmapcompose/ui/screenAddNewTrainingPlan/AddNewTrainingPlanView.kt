@@ -2,11 +2,9 @@ package pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -35,7 +33,6 @@ import pl.dev.workoutmapcompose.ui.theme.mainFamily
 fun exitSettings(
     instance: AddNewTrainingPlanActivity
 ){
-    //TODO
     instance.finish()
 }
 
@@ -51,7 +48,7 @@ fun MainNewTrainingView(
         mutableStateOf(TextFieldValue())
     }
 
-    var selectedExercisesList = remember {
+    val selectedExercisesList = remember {
         mutableStateListOf(Exercise("", "",0))
     }
     var openAddExerciseDialog by remember {

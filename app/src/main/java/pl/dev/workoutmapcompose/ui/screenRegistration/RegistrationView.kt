@@ -8,6 +8,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -93,21 +94,26 @@ fun MainRegistration(
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
-                Text(
-                    text = "Imię:",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 25.sp,
-                    textAlign = TextAlign.Left
-                )
+
                 Spacer(
                     modifier = Modifier
                         .height(10.dp)
                 )
-                TextField(
+                OutlinedTextField(
                     value = nameTextState,
                     onValueChange = { nameTextState = it },
-                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 20.sp)
+                    textStyle = TextStyle(
+                        color = BlueGray50,
+                        fontFamily = mainFamily,
+                        fontSize = 20.sp
+                    ),
+                    maxLines = 1,
+                    label = {
+                        Text(
+                            text = "Imię",
+                            color = BlueGray50
+                        )
+                    }
                 )
             }
         }
@@ -119,22 +125,24 @@ fun MainRegistration(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = "Nazwisko:",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 25.sp,
-                    textAlign = TextAlign.Left
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(10.dp)
-                )
-                TextField(
+
+                OutlinedTextField(
                     value = surnameTextState,
                     onValueChange = { surnameTextState = it },
-                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 20.sp)
+                    textStyle = TextStyle(
+                        color = BlueGray50,
+                        fontFamily = mainFamily,
+                        fontSize = 20.sp
+                    ),
+                    maxLines = 1,
+                    label = {
+                        Text(
+                            text = "Nazwisko",
+                            color = BlueGray50
+                        )
+                    }
                 )
+
             }
 
         }
@@ -160,7 +168,8 @@ fun MainRegistration(
                     onValueChange = {
                         agePickerState = it
                     },
-                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily),
+
                 )
             }
             Column(

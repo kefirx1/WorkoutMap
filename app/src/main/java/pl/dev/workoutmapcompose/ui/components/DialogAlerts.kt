@@ -29,6 +29,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.chargemap.compose.numberpicker.ListItemPicker
+import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.*
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
@@ -138,6 +140,8 @@ object DialogAlerts {
         viewModel: SettingsViewModel
     ): Boolean {
 
+        viewModel.getUserInfo()
+
         val dialogTitle = "Zmień dane personalne"
         val confirmButtonText = "ZMIEŃ"
         val dismissButtonText = "ANULUJ"
@@ -146,6 +150,10 @@ object DialogAlerts {
 
         var nameTextState by remember { mutableStateOf(TextFieldValue()) }
         var surnameTextState by remember { mutableStateOf(TextFieldValue()) }
+        var agePickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.age.toInt()) }
+        val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna")
+        var genderPickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.gender) }
+        var heightPickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.height.toInt()) }
 
         var openDialog by remember {
             mutableStateOf(true)
@@ -166,7 +174,7 @@ object DialogAlerts {
                 text = {
                     Column(
                         modifier = Modifier
-                            .padding(top = 40.dp),
+                            .padding(top = 10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Row(
@@ -177,26 +185,24 @@ object DialogAlerts {
                                 modifier = Modifier
                                     .fillMaxWidth(),
                             ) {
-                                Text(
-                                    text = "Imię:",
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
-                                    fontSize = 20.sp,
-                                    textAlign = TextAlign.Left
-                                )
-                                Spacer(
-                                    modifier = Modifier
-                                        .height(10.dp)
-                                )
-                                TextField(
+
+                                OutlinedTextField(
                                     value = nameTextState,
                                     onValueChange = { nameTextState = it },
                                     textStyle = TextStyle(
                                         color = BlueGray50,
                                         fontFamily = mainFamily,
                                         fontSize = 20.sp
-                                    )
+                                    ),
+                                    maxLines = 1,
+                                    label = {
+                                        Text(
+                                            text = "Imię",
+                                            color = BlueGray50
+                                        )
+                                    }
                                 )
+
                             }
                         }
 
@@ -213,29 +219,110 @@ object DialogAlerts {
                                 modifier = Modifier
                                     .fillMaxWidth()
                             ) {
-                                Text(
-                                    text = "Nazwisko:",
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
-                                    fontSize = 20.sp,
-                                    textAlign = TextAlign.Left
-                                )
-                                Spacer(
-                                    modifier = Modifier
-                                        .height(10.dp)
-                                )
-                                TextField(
+
+                                OutlinedTextField(
                                     value = surnameTextState,
                                     onValueChange = { surnameTextState = it },
                                     textStyle = TextStyle(
                                         color = BlueGray50,
                                         fontFamily = mainFamily,
                                         fontSize = 20.sp
+                                    ),
+                                    maxLines = 1,
+                                    label = {
+                                        Text(
+                                            text = "Nazwisko",
+                                            color = BlueGray50
+                                        )
+                                    }
+                                )
+
+                            }
+                        }
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(20.dp)
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ){
+                            Column(
+                                modifier = Modifier
+                                    .width(150.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Text(
+                                    text = "Wiek:",
+                                    color = BlueGray50,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                )
+                                NumberPicker(
+                                    value = agePickerState,
+                                    range = 1..99,
+                                    onValueChange = {
+                                        agePickerState = it
+                                    },
+                                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily),
+
                                     )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .width(150.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "Płeć:",
+                                    color = BlueGray50,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                )
+                                ListItemPicker(
+                                    label = { it },
+                                    value = genderPickerState,
+                                    onValueChange = { genderPickerState = it },
+                                    list = possibleGenderValues,
+                                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
                                 )
                             }
-
                         }
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(20.dp)
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ){
+                            Text(
+                                text = "Wzrost: (cm)",
+                                color = BlueGray50,
+                                fontFamily = mainFamily,
+                                fontSize = 18.sp,
+                                modifier = Modifier
+                                    .padding(end = 20.dp)
+                            )
+                            NumberPicker(
+                                value = heightPickerState,
+                                range = 100..250,
+                                onValueChange = {
+                                    heightPickerState = it
+                                },
+                                textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                            )
+                        }
+
+
+
                     }
                 },
                 confirmButton = {
@@ -245,6 +332,9 @@ object DialogAlerts {
                                 if(nameTextState.text.isNotBlank() && surnameTextState.text.isNotBlank()){
                                     viewModel.updateUserName(nameTextState.text)
                                     viewModel.updateUserSurname(surnameTextState.text)
+                                    viewModel.updateUserAge(agePickerState.toString())
+                                    viewModel.updateUserHeight(heightPickerState.toString())
+                                    viewModel.updateUserGender(genderPickerState)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -253,6 +343,9 @@ object DialogAlerts {
                                     openDialog = false
                                 }else if(nameTextState.text.isNotBlank() && surnameTextState.text.isBlank()){
                                     viewModel.updateUserName(nameTextState.text)
+                                    viewModel.updateUserAge(agePickerState.toString())
+                                    viewModel.updateUserHeight(heightPickerState.toString())
+                                    viewModel.updateUserGender(genderPickerState)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -261,6 +354,9 @@ object DialogAlerts {
                                     openDialog = false
                                 }else if(nameTextState.text.isBlank() && surnameTextState.text.isNotBlank()){
                                     viewModel.updateUserSurname(surnameTextState.text)
+                                    viewModel.updateUserAge(agePickerState.toString())
+                                    viewModel.updateUserHeight(heightPickerState.toString())
+                                    viewModel.updateUserGender(genderPickerState)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -626,7 +722,7 @@ object DialogAlerts {
         var openDialog by remember {
             mutableStateOf(true)
         }
-        var newExercise by remember {
+        val newExercise by remember {
             mutableStateOf(Exercise("","", 0))
         }
         var setsTextState by remember {
