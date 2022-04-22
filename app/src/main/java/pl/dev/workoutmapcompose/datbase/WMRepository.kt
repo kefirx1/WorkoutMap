@@ -71,10 +71,15 @@ class WMRepository (application: Application){
         userInfoDao.update(userInfo)
     }
     fun wipeData(): Boolean{
+        wipeFirebase()
         userInfoDao.deleteUser()
-        //TODO
         return true
     }
+    private fun wipeFirebase(){
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.setValue(null)
+    }
+
 
     //WeightHistory
     fun insertNewWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
@@ -158,6 +163,9 @@ class WMRepository (application: Application){
 
     fun getUserFirstPageInfo(): MainViewInfo {
         val userInfo = getUserInfo()
+
+        println(userInfo)
+
         val workoutGraphicState = 0 //TODO
         val userName = userInfo.name
         var userWeight = "-"
