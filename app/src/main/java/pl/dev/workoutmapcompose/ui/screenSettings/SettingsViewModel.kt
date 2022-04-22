@@ -36,4 +36,8 @@ constructor(
     }
 
     fun wipeData() = wmRepository.wipeData()
+
+    fun wipeTrainingPlans() = wmRepository.wipeTrainingPlans()
+
+
 }

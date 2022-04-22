@@ -38,6 +38,9 @@ fun MainSettingsView(
     var openChangePersonalDataDialog by remember {
         mutableStateOf(false)
     }
+    var openWipeTrainingPlansDataDialog by remember {
+        mutableStateOf(false)
+    }
 
     if(openWipeDataDialog) {
         openWipeDataDialog = DialogAlerts.wipeDataDialogAlert(
@@ -48,6 +51,13 @@ fun MainSettingsView(
 
     if(openChangePersonalDataDialog) {
         openChangePersonalDataDialog = DialogAlerts.changePersonalDataDialogAlert(
+            instance = instance,
+            viewModel = viewModel
+        )
+    }
+
+    if(openWipeTrainingPlansDataDialog) {
+        openWipeTrainingPlansDataDialog = DialogAlerts.wipeTrainingPlansDataDialogAlert(
             instance = instance,
             viewModel = viewModel
         )
@@ -117,6 +127,32 @@ fun MainSettingsView(
             }
 
         }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            TextButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    openWipeTrainingPlansDataDialog = true
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = BlueGray800
+                )
+            ) {
+                Text(
+                    text = "Usuń plany treningowe",
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Left
+                )
+            }
+
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()

@@ -75,6 +75,14 @@ class WMRepository (application: Application){
         userInfoDao.deleteUser()
         return true
     }
+    fun wipeTrainingPlans(): Boolean{
+        deleteAllTrainingPlans()
+        return true
+    }
+    private fun deleteAllTrainingPlans(){
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.child("trainingPlans").setValue(null)
+    }
     private fun wipeFirebase(){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.setValue(null)

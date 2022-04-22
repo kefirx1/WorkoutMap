@@ -135,6 +135,92 @@ object DialogAlerts {
 
 
     @Composable
+    fun wipeTrainingPlansDataDialogAlert(
+        instance: SettingsActivity,
+        viewModel: SettingsViewModel
+    ): Boolean {
+
+        val dialogTitle = "Usuń plany"
+        val dialogText = "Zatwierdzenie spowoduje usunięcie wszystkich zapisanych planów treningowych razem z ich postepami. Nie można tego cofnąć!!"
+        val confirmButtonText = "USUŃ"
+        val dismissButtonText = "ANULUJ"
+        val toastCorrectText = "Plany zostały usunięte"
+        val toastFailureText = "Błąd - plany nie zostały usunięte"
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp,
+                    )
+                },
+                text = {
+                    Text(
+                        text = dialogText,
+                        fontSize = 15.sp,
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                            if (viewModel.wipeTrainingPlans()) {
+                                Toast.makeText(
+                                    instance,
+                                    toastCorrectText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    instance,
+                                    toastFailureText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
+            )
+        }
+
+        return openDialog
+    }
+
+
+    @Composable
     fun changePersonalDataDialogAlert(
         instance: SettingsActivity,
         viewModel: SettingsViewModel
