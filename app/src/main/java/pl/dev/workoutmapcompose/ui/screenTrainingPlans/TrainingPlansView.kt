@@ -105,15 +105,18 @@ fun MainTrainingPlansView(
                 .height(30.dp)
                 .fillMaxWidth()
         )
-        Spacer(
-            modifier = Modifier
-                .padding(top = 6.dp, bottom = 6.dp)
-                .background(color = Color.Black)
-                .height(1.dp)
-                .fillMaxWidth(0.6f)
-        )
 
+
+        
         if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
+
+            Spacer(
+                modifier = Modifier
+                    .padding(top = 6.dp, bottom = 6.dp)
+                    .background(color = Color.Black)
+                    .height(1.dp)
+                    .fillMaxWidth(0.6f)
+            )
 
             val trainingPlansList = viewModel.trainingPlansListResult.value!!
 
