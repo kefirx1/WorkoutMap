@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -38,10 +37,7 @@ import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanVi
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray500
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.theme.*
 import java.util.*
 
 object DialogAlerts {
@@ -126,8 +122,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 
@@ -308,8 +305,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 
@@ -506,8 +504,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 
@@ -599,8 +598,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 
@@ -860,8 +860,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 
@@ -883,15 +884,14 @@ object DialogAlerts {
         val toastCorrectText = "Plan został usunięty"
         val toastFailureText = "Błąd - plan nie została usunięty"
 
-
-        println(trainingPlan)
-
         var openDialog by remember {
             mutableStateOf(true)
         }
 
         if (openDialog) {
             AlertDialog(
+                modifier = Modifier
+                    .height(400.dp),
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -904,37 +904,32 @@ object DialogAlerts {
                 },
                 text = {
 
-                    println(trainingPlan.exercise)
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(350.dp)
 
-                    LazyColumn {
+                    ) {
                         items(count = trainingPlan.exercise.size) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(
-                                        width = 1.dp,
-                                        color = Color.Black,
-                                        shape = CircleShape
-                                    )
+                                    .shadow(ambientColor = Color.Black, elevation = 4.dp)
                                     .background(
-                                        color = BlueGray800,
-                                        shape = CircleShape
+                                        color = BlueGray900
                                     )
+                                    .padding(10.dp)
                             ) {
 
                                 Text(
-                                    text = trainingPlan.exercise[it].type
-                                )
-
-                                Text(
-                                    text = trainingPlan.exercise[it].name
-                                )
-
-                                Text(
-                                    text = trainingPlan.exercise[it].numberOfSets.toString()
+                                    text = "${trainingPlan.exercise[it].type} - ${trainingPlan.exercise[it].name} (${trainingPlan.exercise[it].numberOfSets} serii)"
                                 )
                             }
 
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(10.dp)
+                            )
 
                         }
                     }
@@ -984,8 +979,9 @@ object DialogAlerts {
                         )
                     }
                 },
-                backgroundColor = BlueGray800,
-                contentColor = BlueGray50
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
             )
         }
 

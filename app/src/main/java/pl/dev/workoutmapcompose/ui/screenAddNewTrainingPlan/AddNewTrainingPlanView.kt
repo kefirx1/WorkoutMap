@@ -145,39 +145,25 @@ fun MainNewTrainingView(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(
-                                        width = 1.dp,
-                                        color = Color.Black,
-                                        shape = CircleShape
-                                    )
+                                    .shadow(ambientColor = Color.Black, elevation = 4.dp)
                                     .background(
-                                        color = BlueGray800,
-                                        shape = CircleShape
+                                        color = BlueGray800
                                     )
+                                    .padding(10.dp)
                                     .clickable {
                                         selectedExercisesList.removeAt(it)
                                     }
-                                    .padding(5.dp)
-                            ){
+                            ) {
 
                                 Text(
-                                    text = selectedExercisesList[it].type
-                                )
-
-                                Text(
-                                    text = selectedExercisesList[it].name
-                                )
-
-                                Text(
-                                    text = selectedExercisesList[it].numberOfSets.toString()
+                                    text = "${selectedExercisesList[it].type} - ${selectedExercisesList[it].name} (${selectedExercisesList[it].numberOfSets} serii)"
                                 )
                             }
 
                             Spacer(
                                 modifier = Modifier
-                                    .padding(bottom = 8.dp)
-                                    .height(2.dp)
                                     .fillMaxWidth()
+                                    .height(10.dp)
                             )
                         }
                     }
