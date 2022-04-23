@@ -55,7 +55,7 @@ fun MainDashboard(
             Button(
                 modifier = Modifier
                     .fillMaxSize()
-                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 20.dp,),
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 20.dp),
                 onClick = {
 
                 },
@@ -86,14 +86,14 @@ fun DashboardHorizontalPager(
             .fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> FirstPage(instance = instance, viewModel = viewModel)
-            1 -> SecondPage(instance = instance, viewModel = viewModel)
+            0 -> DashboardFirstPage(instance = instance, viewModel = viewModel)
+            1 -> DashboardSecondPage(instance = instance, viewModel = viewModel)
         }
     }
 }
 
 @Composable
-fun FirstPage(
+fun DashboardFirstPage(
     instance: MainActivity,
     viewModel: DashboardViewModel
 ) {
@@ -141,7 +141,7 @@ fun FirstPage(
 }
 
 @Composable
-fun SecondPage(
+fun DashboardSecondPage(
     instance: MainActivity,
     viewModel: DashboardViewModel
 ) {

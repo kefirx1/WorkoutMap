@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
+import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
 import pl.dev.workoutmapcompose.datbase.FirebaseListenerResult.firebaseInfoResult
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
@@ -20,12 +21,8 @@ class WMRepository (application: Application){
 
     private var userInfoDao: UserInfoDao
     private var weightHistoryDao: WeightHistoryDao
-
     private val gson = Gson()
-
     private val firebase = FirebaseDatabase.getInstance()
-
-
 
     init{
         val database = WMDatabase
@@ -73,6 +70,7 @@ class WMRepository (application: Application){
     fun wipeData(): Boolean{
         wipeFirebase()
         userInfoDao.deleteUser()
+        weightHistoryDao.deleteWeightHistory()
         return true
     }
     fun wipeTrainingPlans(): Boolean{
@@ -113,7 +111,7 @@ class WMRepository (application: Application){
 
         val trainingPlansList: ArrayList<TrainingPlan> = ArrayList()
 
-        firebaseInfoResult.value!!.child("trainingPlans").children.forEach{ it ->
+        firebaseInfoResult.value!!.child("trainingPlans").children.forEach{
 
             val trainingPlanTemp = it.getValue(TrainingPlanTemp::class.java)
 

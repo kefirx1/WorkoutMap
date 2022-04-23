@@ -18,4 +18,7 @@ interface WeightHistoryDao {
     @Query("SELECT * FROM weightHistory")
     fun getWeightHistory(): List<WeightHistory>
 
+    @Query("DELETE FROM weightHistory")
+    fun deleteWeightHistory()
+
 }

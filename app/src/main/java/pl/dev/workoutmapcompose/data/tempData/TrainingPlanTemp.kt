@@ -1,4 +1,4 @@
-package pl.dev.workoutmapcompose.data
+package pl.dev.workoutmapcompose.data.tempData
 
 class TrainingPlanTemp() {
 

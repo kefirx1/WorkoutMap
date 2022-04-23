@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,12 +29,6 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 
-
-fun exitSettings(
-    instance: AddNewTrainingPlanActivity
-){
-    instance.finish()
-}
 
 @Composable
 fun MainNewTrainingView(
