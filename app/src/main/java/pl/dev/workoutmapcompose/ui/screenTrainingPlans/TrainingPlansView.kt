@@ -22,6 +22,7 @@ import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
+import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
@@ -31,7 +32,6 @@ import pl.dev.workoutmapcompose.ui.theme.mainFamily
 fun exitSettings(
     instance: TrainingPlansActivity
 ){
-    //TODO
     instance.finish()
 }
 
@@ -69,45 +69,19 @@ fun MainTrainingPlansView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    exitSettings(instance)
-                }) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = "Back button",
-                    tint = Color.White
-                )
-            }
-            Text(
-                text = "PLANY TRENINGOWE",
-                color = Color.White,
-                fontFamily = mainFamily,
-                fontSize = 30.sp
-            )
-        }
 
-        Spacer(
-            modifier = Modifier
-                .background(color = Color.Black)
-                .height(2.dp)
-                .fillMaxWidth()
+        HeaderComponent(
+            screenName = "PLAN TRENINGOWY",
+            instance = instance
         )
+
+
         Spacer(
             modifier = Modifier
                 .height(30.dp)
                 .fillMaxWidth()
         )
 
-
-        
         if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
 
             Spacer(

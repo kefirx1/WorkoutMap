@@ -171,9 +171,6 @@ class WMRepository (application: Application){
 
     fun getUserFirstPageInfo(): MainViewInfo {
         val userInfo = getUserInfo()
-
-        println(userInfo)
-
         val workoutGraphicState = 0 //TODO
         val userName = userInfo.name
         var userWeight = "-"

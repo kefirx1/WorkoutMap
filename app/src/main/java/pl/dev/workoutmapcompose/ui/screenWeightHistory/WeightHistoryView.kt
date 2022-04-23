@@ -25,6 +25,7 @@ import pl.dev.workoutmapcompose.Convert
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
+import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.*
 
 fun exitSettings(
@@ -75,36 +76,9 @@ fun MainWeightHistoryView(
             .padding(10.dp)
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    exitSettings(instance)
-                }) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = "Back button",
-                    tint = Color.White
-                )
-            }
-            Text(
-                text = "HISTORIA WAGI",
-                color = Color.White,
-                fontFamily = mainFamily,
-                fontSize = 30.sp
-            )
-        }
-
-        Spacer(
-            modifier = Modifier
-                .background(color = Color.Black)
-                .height(2.dp)
-                .fillMaxWidth()
+        HeaderComponent(
+            screenName = "HISTORIA WAGI",
+            instance = instance
         )
 
         Column (

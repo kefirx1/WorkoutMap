@@ -24,6 +24,7 @@ import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
+import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
@@ -71,43 +72,16 @@ fun MainNewTrainingView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    exitSettings(instance)
-                }) {
-                Icon(
-                    Icons.Filled.ArrowBack,
-                    contentDescription = "Back button",
-                    tint = Color.White
-                )
-            }
-            Text(
-                text = "NOWY PLAN",
-                color = Color.White,
-                fontFamily = mainFamily,
-                fontSize = 30.sp
-            )
-        }
-
-        Spacer(
-            modifier = Modifier
-                .padding(bottom = 12.dp)
-                .background(color = Color.Black)
-                .height(2.dp)
-                .fillMaxWidth()
+        HeaderComponent(
+            screenName = "NOWY PLAN",
+            instance = instance
         )
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f),
+                .fillMaxHeight(0.9f)
+                .padding(top = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
