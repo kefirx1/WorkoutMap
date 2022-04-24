@@ -9,6 +9,7 @@ import pl.dev.workoutmapcompose.ui.screenRegistration.RegistrationViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 
 class DashboardViewModelFactory(private val application: Application) :
     ViewModelProvider.NewInstanceFactory() {
@@ -38,4 +39,9 @@ class WeightHistoryViewModelFactory(private val application: Application) :
 class AddNewTrainingPlanViewModelFactory(private val application: Application) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T = AddNewTrainingPlanViewModel(application = application) as T
+}
+
+class WorkoutViewModelFactory(private val application: Application) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = WorkoutViewModel(application = application) as T
 }

@@ -520,7 +520,6 @@ object DialogAlerts {
         var cMonth = mCalendar.get(Calendar.MONTH)
         var cDay = mCalendar.get(Calendar.DAY_OF_MONTH)
 
-        println("c - $cYear $cMonth $cDay")
 
         mCalendar.time = Date()
 
@@ -558,8 +557,6 @@ object DialogAlerts {
                             cDay = mDayOfMonth
                         }, mYear, mMonth, mDay
                     )
-
-                    println("m - $mYear $mMonth $mDay")
 
                     Column(
                         modifier = Modifier
