@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.MainViewInfo
+import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.datbase.WMRepository
 
 
@@ -20,12 +21,18 @@ constructor(
     private val wmRepository = WMRepository(application = application)
 
     val userMainViewInfoResult: MutableState<MainViewInfo?> = mutableStateOf(null)
+    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
     init {
         viewModelScope.launch {
             val result = wmRepository.getUserFirstPageInfo()
             userMainViewInfoResult.value = result
         }
+    }
+
+
+    fun getTrainingPlansList(){
+        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
     }
 
     fun getUserMainViewInfo() {

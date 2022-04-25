@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -21,6 +21,7 @@ import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.WeightHistoryActivity
+import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.theme.*
 
 @ExperimentalPagerApi
@@ -30,6 +31,17 @@ fun MainDashboard(
     viewModel: DashboardViewModel
 ) {
     viewModel.getUserMainViewInfo()
+
+    var openWorkoutDashboardDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if(openWorkoutDashboardDialog) {
+        openWorkoutDashboardDialog = DialogAlerts.workoutStartDialogAlert(
+            instance = instance,
+            viewModel = viewModel
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -57,7 +69,7 @@ fun MainDashboard(
                     .fillMaxSize()
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 20.dp),
                 onClick = {
-
+                    openWorkoutDashboardDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = BlueGray800

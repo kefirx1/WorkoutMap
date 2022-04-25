@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
 import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
+import pl.dev.workoutmapcompose.data.tempData.WorkoutInfoTemp
 import pl.dev.workoutmapcompose.datbase.FirebaseListenerResult.firebaseInfoResult
 import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
@@ -149,6 +150,28 @@ class WMRepository (application: Application){
         updateTrainingPlan(trainingPlansList)
     }
 
+
+    //WorkoutHistory
+
+    fun getWorkoutHistoryList(): ArrayList<WorkoutInfo>{
+        val workoutHistoryList: ArrayList<WorkoutInfo> = ArrayList()
+
+        firebaseInfoResult.value!!.child("workoutHistory").children.forEach{
+
+            val workoutHistoryTemp = it.getValue(WorkoutInfoTemp::class.java)
+
+            val workoutHistory = WorkoutInfo(
+                trainingPlan = workoutHistoryTemp!!.trainingPlan,
+                dateOfWorkout = workoutHistoryTemp.dateOfWorkout,
+                exercises = workoutHistoryTemp.exercises,
+                exercisesProgress = workoutHistoryTemp.exercisesProgress
+            )
+
+            workoutHistoryList.add(workoutHistory)
+        }
+
+        return workoutHistoryList
+    }
 
     //DashboardViewModel
 

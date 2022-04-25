@@ -2,7 +2,7 @@ package pl.dev.workoutmapcompose.data
 
 data class WorkoutInfo(
     var trainingPlan: TrainingPlan,
-    var dateOfWorkout: Long,
+    var dateOfWorkout: Int,
     var exercises: ArrayList<Exercise>,
     var exercisesProgress: HashMap<String, ArrayList<Float>>
 )

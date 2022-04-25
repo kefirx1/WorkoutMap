@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
@@ -35,9 +36,11 @@ import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
+import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 import pl.dev.workoutmapcompose.ui.theme.*
 import java.util.*
 
@@ -1169,5 +1172,129 @@ object DialogAlerts {
     }
 
 
+    @Composable
+    fun workoutStartDialogAlert(
+        instance: MainActivity,
+        viewModel: DashboardViewModel
+    ): Boolean {
+
+        viewModel.getTrainingPlansList()
+
+        val dialogTitle = "TRENUJ"
+        val confirmButtonText = "START"
+        val dismissButtonText = "COFNIJ"
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+        var selectedTraining by remember {
+            mutableStateOf(-1) //TODO
+        }
+
+        if (openDialog) {
+            AlertDialog(
+                modifier = Modifier
+                    .height(350.dp),
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(300.dp)
+
+                    ) {
+                        items(count = viewModel.trainingPlansListResult.value!!.size) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
+                                        selected = selectedTraining == it,
+                                        onClick = {
+                                            if(selectedTraining != it){
+                                                selectedTraining = it
+                                            }
+                                        }
+                                    )
+                                    .shadow(ambientColor = Color.Black, elevation = 4.dp)
+                                    .background(
+                                        if(selectedTraining == it)
+                                            BlueGray500
+                                        else
+                                            BlueGray900
+                                    )
+                                    .padding(10.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+
+                                Text(
+                                    text = viewModel.trainingPlansListResult.value!![it].planName,
+                                    fontSize = 30.sp
+                                )
+                            }
+
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(10.dp)
+                            )
+
+                        }
+                    }
+
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+
+                            val intent = Intent(instance, WorkoutActivity::class.java)
+                            intent.putExtra("TRAINING_INDEX", selectedTraining)
+                            instance.startActivity(intent)
+
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            color = BlueGray50,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                textContentColor = BlueGray50,
+                titleContentColor = BlueGray50,
+                containerColor = BlueGray800
+            )
+        }
+
+        return openDialog
+
+    }
+
 
 }
+

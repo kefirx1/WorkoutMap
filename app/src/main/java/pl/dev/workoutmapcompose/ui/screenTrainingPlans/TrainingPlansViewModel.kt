@@ -21,7 +21,6 @@ constructor(
 
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
-
     fun getTrainingPlansList(){
         trainingPlansListResult.value = wmRepository.getTrainingPlansList()
     }

@@ -9,17 +9,21 @@ import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 
 class WorkoutActivity : ComponentActivity() {
 
-
     private lateinit var viewModel: WorkoutViewModel
+
+    private var trainingPlanIndex = 0
 
     override fun onResume() {
         super.onResume()
+
+        trainingPlanIndex = intent.getIntExtra("TRAINING_INDEX", 0)
 
         setContent {
             viewModel = viewModel(factory = WorkoutViewModelFactory(application))
             MainWorkout(
                 instance = this,
-                viewModel = viewModel
+                viewModel = viewModel,
+                trainingPlanIndex = trainingPlanIndex
             )
         }
     }
