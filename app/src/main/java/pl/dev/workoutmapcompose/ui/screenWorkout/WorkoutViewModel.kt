@@ -24,10 +24,10 @@ constructor(
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
     fun getWorkoutHistory(){
-        viewModelScope.launch {
+//        viewModelScope.launch {
             val result = wmRepository.getWorkoutHistoryList()
             workoutHistoryResult.value = result
-        }
+//        }
     }
 
     fun getTrainingPlansList(){

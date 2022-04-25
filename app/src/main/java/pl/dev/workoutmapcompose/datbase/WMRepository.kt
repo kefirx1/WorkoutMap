@@ -136,34 +136,66 @@ class WMRepository (application: Application){
     }
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
         val trainingPlans = getTrainingPlansList()
+        val workoutHistory = getWorkoutHistoryList()
+
         trainingPlans.add(trainingPlan)
+
+        val numberOfExercises = trainingPlan.exercise.size
+
+        val exerciseProgress: ArrayList<ArrayList<ArrayList<String>>> = ArrayList()
+
+
+
+        for(i in 0 until numberOfExercises){
+            val setsDefaultValueList: ArrayList<String> = ArrayList()
+            for(j in 0 until trainingPlan.exercise[i].numberOfSets){
+                setsDefaultValueList.add("-")
+            }
+            exerciseProgress.add(arrayListOf(setsDefaultValueList))
+        }
+
+        val workout = (WorkoutInfo(
+            dateOfWorkout = 0,
+            exercisesProgress = exerciseProgress
+        ))
+
+        workoutHistory.add(workout)
+
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlans)
+        reference.child("workoutHistory").setValue(workoutHistory)
     }
     fun updateTrainingPlan(trainingPlansList: ArrayList<TrainingPlan>){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlansList)
     }
+    fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutInfo>){
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.child("workoutHistory").setValue(workoutHistoryList)
+    }
     fun deleteTrainingPlan(trainingPlan: TrainingPlan){
         val trainingPlansList = getTrainingPlansList()
+        val workoutHistoryList = getWorkoutHistoryList()
+
+        val trainingPlanIndex = trainingPlansList.indexOf(trainingPlan)
         trainingPlansList.remove(trainingPlan)
+        workoutHistoryList.removeAt(trainingPlanIndex)
+
         updateTrainingPlan(trainingPlansList)
+        updateWorkoutHistory(workoutHistoryList)
     }
 
 
-    //WorkoutHistory
 
     fun getWorkoutHistoryList(): ArrayList<WorkoutInfo>{
         val workoutHistoryList: ArrayList<WorkoutInfo> = ArrayList()
 
-        firebaseInfoResult.value!!.child("workoutHistory").children.forEach{
+        firebaseInfoResult.value!!.child("workoutHistory").children.forEach {
 
             val workoutHistoryTemp = it.getValue(WorkoutInfoTemp::class.java)
 
             val workoutHistory = WorkoutInfo(
-                trainingPlan = workoutHistoryTemp!!.trainingPlan,
-                dateOfWorkout = workoutHistoryTemp.dateOfWorkout,
-                exercises = workoutHistoryTemp.exercises,
+                dateOfWorkout = workoutHistoryTemp!!.dateOfWorkout,
                 exercisesProgress = workoutHistoryTemp.exercisesProgress
             )
 

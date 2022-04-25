@@ -24,6 +24,7 @@ fun MainWorkout(
     viewModel.getWorkoutHistory()
 
     val trainingPlan = viewModel.trainingPlansListResult.value!![trainingPlanIndex]
+    val workoutHistory = viewModel.workoutHistoryResult.value!![trainingPlanIndex]
 
     Column(
         modifier = Modifier
