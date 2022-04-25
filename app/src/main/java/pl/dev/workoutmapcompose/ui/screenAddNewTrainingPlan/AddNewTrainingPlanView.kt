@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +28,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
-import java.util.*
+import kotlin.streams.toList
 
 
 @Composable
@@ -39,6 +38,12 @@ fun MainNewTrainingView(
 ) {
 
     viewModel.getExercisesJSON(instance.applicationContext)
+    viewModel.getTrainingPlansList()
+
+    val listOfTrainingPlansNames = viewModel.trainingPlansListResult.value!!.stream().map {
+        it.planName
+    }.toList()
+
 
     var planNameTextState by remember {
         mutableStateOf(TextFieldValue())
@@ -171,7 +176,6 @@ fun MainNewTrainingView(
 
         }
 
-
         Button(
             modifier = Modifier
                 .height(45.dp)
@@ -180,24 +184,32 @@ fun MainNewTrainingView(
                 .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
             onClick = {
 
-                if(planNameTextState.text.isNotBlank() && selectedExercisesList.size>1){
+                if(!listOfTrainingPlansNames.contains(planNameTextState.text)){
 
-                   selectedExercisesList.removeAt(0)
+                    if(planNameTextState.text.isNotBlank() && selectedExercisesList.size>1 ){
 
-                    val newTrainingPlan = TrainingPlan(
-                        planName = planNameTextState.text,
-                        exercise = selectedExercisesList
-                    )
-                    viewModel.addNewTrainingPlan(trainingPlan = newTrainingPlan)
-                    instance.finish()
-                }else{
+                        selectedExercisesList.removeAt(0)
+
+                        val newTrainingPlan = TrainingPlan(
+                            planName = planNameTextState.text,
+                            exercise = selectedExercisesList
+                        )
+                        viewModel.addNewTrainingPlan(trainingPlan = newTrainingPlan)
+                        instance.finish()
+                    }else{
+                        Toast.makeText(
+                            instance,
+                            "Wprowadź odpowiednie dane",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else {
                     Toast.makeText(
                         instance,
-                        "Wprowadź odpowiednie dane",
+                        "Nazwa treningu jest już zajęta",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGray800

@@ -1,6 +1,7 @@
 package pl.dev.workoutmapcompose.ui.screenDashboard
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -30,6 +31,7 @@ fun MainDashboard(
     instance: MainActivity,
     viewModel: DashboardViewModel
 ) {
+
     viewModel.getUserMainViewInfo()
 
     var openWorkoutDashboardDialog by remember {
@@ -69,7 +71,16 @@ fun MainDashboard(
                     .fillMaxSize()
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 20.dp),
                 onClick = {
-                    openWorkoutDashboardDialog = true
+                    viewModel.getTrainingPlansList()
+                    if(viewModel.trainingPlansListResult.value.isNullOrEmpty()){
+                        Toast.makeText(
+                            instance,
+                            "Musisz wpierw dodać trening",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }else{
+                        openWorkoutDashboardDialog = true
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = BlueGray800

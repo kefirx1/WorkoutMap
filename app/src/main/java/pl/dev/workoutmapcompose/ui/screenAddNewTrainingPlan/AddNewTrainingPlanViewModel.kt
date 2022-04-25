@@ -20,9 +20,14 @@ constructor(
 
     val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
+    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
     fun getExercisesJSON(context: Context){
         exercisesJSONResult.value = wmRepository.getExercisesJSON(context = context)
+    }
+
+    fun getTrainingPlansList(){
+        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
     }
 
     fun getExercisesArrayList(
