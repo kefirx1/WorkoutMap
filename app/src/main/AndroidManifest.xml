@@ -7,36 +7,43 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_workout_map"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_workout_map_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkoutMapCompose"
+        android:screenOrientation="portrait"
         tools:targetApi="31">
         <activity
             android:name=".WorkoutActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".AddNewTrainingPlanActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".TrainingPlansActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".WeightHistoryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:noHistory="true" />
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:noHistory="true" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.WorkoutMapCompose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

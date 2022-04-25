@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
 import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
 import pl.dev.workoutmapcompose.datbase.FirebaseListenerResult.firebaseInfoResult
+import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
+import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 import javax.inject.Singleton

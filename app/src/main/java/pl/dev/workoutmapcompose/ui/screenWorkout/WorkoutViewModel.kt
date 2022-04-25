@@ -13,5 +13,5 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
-    
+
 }

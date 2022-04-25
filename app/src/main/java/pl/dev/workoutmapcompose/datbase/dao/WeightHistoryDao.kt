@@ -1,4 +1,4 @@
-package pl.dev.workoutmapcompose.datbase
+package pl.dev.workoutmapcompose.datbase.dao
 
 import androidx.room.*
 import pl.dev.workoutmapcompose.data.WeightHistory
