@@ -1,6 +1,6 @@
 package pl.dev.workoutmapcompose.data
 
 data class WorkoutHistory(
-    var dateOfWorkout: Int,
+    var dateOfWorkout: ArrayList<Int>,
     var planName: String
 )

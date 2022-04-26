@@ -21,7 +21,7 @@ object Convert {
                 continue
             }
             if(planNameList[i].isUpperCase()){
-                convertedStringBuilder.append(" ${planNameList[i]}")
+                convertedStringBuilder.append(" ${planNameList[i].lowercaseChar()}")
                 continue
             }
             convertedStringBuilder.append(planNameList[i])

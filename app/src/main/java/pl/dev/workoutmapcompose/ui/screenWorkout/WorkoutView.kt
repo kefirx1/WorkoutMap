@@ -22,9 +22,12 @@ fun MainWorkout(
 
     viewModel.getTrainingPlansList()
     viewModel.getWorkoutHistory()
+    viewModel.getProgressHistory()
 
     val trainingPlan = viewModel.trainingPlansListResult.value!![trainingPlanIndex]
     val workoutHistory = viewModel.workoutHistoryResult.value!![trainingPlanIndex]
+    val progressHistory = viewModel.progressHistoryResult.value
+
 
     Column(
         modifier = Modifier

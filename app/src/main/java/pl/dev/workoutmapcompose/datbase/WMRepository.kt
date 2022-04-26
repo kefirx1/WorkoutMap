@@ -152,14 +152,20 @@ class WMRepository (application: Application){
 
         return workoutHistoryList
     }
-    fun getProgressHistory(): ProgressHistory {
+    fun getProgressHistory(): ProgressHistory? {
 
         val progressHistoryTemp = firebaseInfoResult.value!!.child("progressHistory")
             .getValue(ProgressHistoryTemp::class.java)
 
-        return ProgressHistory(
-            exercisesProgress = progressHistoryTemp!!.exercisesProgress
-        )
+        return if(progressHistoryTemp == null){
+            null
+        }else{
+            ProgressHistory(
+                exercisesProgress = progressHistoryTemp.exercisesProgress
+            )
+        }
+
+
 
     }
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
@@ -169,7 +175,7 @@ class WMRepository (application: Application){
         trainingPlans.add(trainingPlan)
 
         val workout = (WorkoutHistory(
-            dateOfWorkout = 0,
+            dateOfWorkout = arrayListOf(0),
             planName = trainingPlan.planName
         ))
 

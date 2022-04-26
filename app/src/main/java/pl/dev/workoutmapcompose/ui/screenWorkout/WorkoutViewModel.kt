@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WorkoutHistory
 import pl.dev.workoutmapcompose.datbase.WMRepository
@@ -19,12 +20,16 @@ constructor(
 
     val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
+    val progressHistoryResult: MutableState<ProgressHistory?> = mutableStateOf(null)
 
     fun getWorkoutHistory(){
 //        viewModelScope.launch {
-            val result = wmRepository.getWorkoutHistoryList()
-            workoutHistoryResult.value = result
+            workoutHistoryResult.value = wmRepository.getWorkoutHistoryList()
 //        }
+    }
+
+    fun getProgressHistory(){
+        progressHistoryResult.value = wmRepository.getProgressHistory()
     }
 
     fun getTrainingPlansList(){
