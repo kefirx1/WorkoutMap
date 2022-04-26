@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.components
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.widget.DatePicker
@@ -40,7 +39,6 @@ import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
-import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 import pl.dev.workoutmapcompose.ui.theme.*
 import java.util.*
 
@@ -892,7 +890,7 @@ object DialogAlerts {
                             ) {
 
                                 Text(
-                                    text = exerciseSelected,
+                                    text = Convert.convertExerciseNameToBetterView(exerciseSelected),
                                     fontSize = 15.sp
                                 )
 
@@ -915,7 +913,7 @@ object DialogAlerts {
                                             }
                                         ) {
                                             Text(
-                                                text = it
+                                                text = Convert.convertExerciseNameToBetterView(it)
                                             )
                                         }
                                     }
@@ -1103,7 +1101,7 @@ object DialogAlerts {
                             ) {
 
                                 Text(
-                                    text = "${trainingPlan.exercise[it].type} - ${trainingPlan.exercise[it].name} (${trainingPlan.exercise[it].numberOfSets} serii)"
+                                    text = "${trainingPlan.exercise[it].type} - ${Convert.convertExerciseNameToBetterView(trainingPlan.exercise[it].name)} (${trainingPlan.exercise[it].numberOfSets} serii)"
                                 )
                             }
 

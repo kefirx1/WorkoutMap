@@ -7,6 +7,32 @@ import java.util.*
 
 object Convert {
 
+    fun convertExerciseNameToBetterView(
+        planName: String
+    ): String {
+
+        val planNameList =  planName.toMutableList()
+        val convertedStringBuilder = StringBuilder("")
+
+        for(i in 0 until planNameList.size){
+
+            if(i==0){
+                convertedStringBuilder.append(planNameList[i].uppercaseChar())
+                continue
+            }
+            if(planNameList[i].isUpperCase()){
+                convertedStringBuilder.append(" ${planNameList[i]}")
+                continue
+            }
+            convertedStringBuilder.append(planNameList[i])
+
+        }
+
+        return convertedStringBuilder.toString()
+
+    }
+
+
     fun convertIntValuesToTimeInSec(
         year: Int,
         month: Int,
