@@ -9,8 +9,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
+import pl.dev.workoutmapcompose.data.tempData.ProgressHistoryTemp
 import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
-import pl.dev.workoutmapcompose.data.tempData.WorkoutInfoTemp
+import pl.dev.workoutmapcompose.data.tempData.WorkoutHistoryTemp
 import pl.dev.workoutmapcompose.datbase.FirebaseListenerResult.firebaseInfoResult
 import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
@@ -134,29 +135,42 @@ class WMRepository (application: Application){
 
         return trainingPlansList
     }
+    fun getWorkoutHistoryList(): ArrayList<WorkoutHistory>{
+        val workoutHistoryList: ArrayList<WorkoutHistory> = ArrayList()
+
+        firebaseInfoResult.value!!.child("workoutHistory").children.forEach {
+
+            val workoutHistoryTemp = it.getValue(WorkoutHistoryTemp::class.java)
+
+            val workoutHistory = WorkoutHistory(
+                dateOfWorkout = workoutHistoryTemp!!.dateOfWorkout,
+                planName = workoutHistoryTemp.planName
+            )
+
+            workoutHistoryList.add(workoutHistory)
+        }
+
+        return workoutHistoryList
+    }
+    fun getProgressHistory(): ProgressHistory {
+
+        val progressHistoryTemp = firebaseInfoResult.value!!.child("progressHistory")
+            .getValue(ProgressHistoryTemp::class.java)
+
+        return ProgressHistory(
+            exercisesProgress = progressHistoryTemp!!.exercisesProgress
+        )
+
+    }
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
         val trainingPlans = getTrainingPlansList()
         val workoutHistory = getWorkoutHistoryList()
 
         trainingPlans.add(trainingPlan)
 
-        val numberOfExercises = trainingPlan.exercise.size
-
-        val exerciseProgress: ArrayList<ArrayList<ArrayList<String>>> = ArrayList()
-
-
-
-        for(i in 0 until numberOfExercises){
-            val setsDefaultValueList: ArrayList<String> = ArrayList()
-            for(j in 0 until trainingPlan.exercise[i].numberOfSets){
-                setsDefaultValueList.add("-")
-            }
-            exerciseProgress.add(arrayListOf(setsDefaultValueList))
-        }
-
-        val workout = (WorkoutInfo(
+        val workout = (WorkoutHistory(
             dateOfWorkout = 0,
-            exercisesProgress = exerciseProgress
+            planName = trainingPlan.planName
         ))
 
         workoutHistory.add(workout)
@@ -169,7 +183,7 @@ class WMRepository (application: Application){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlansList)
     }
-    fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutInfo>){
+    fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutHistory>){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("workoutHistory").setValue(workoutHistoryList)
     }
@@ -187,23 +201,6 @@ class WMRepository (application: Application){
 
 
 
-    fun getWorkoutHistoryList(): ArrayList<WorkoutInfo>{
-        val workoutHistoryList: ArrayList<WorkoutInfo> = ArrayList()
-
-        firebaseInfoResult.value!!.child("workoutHistory").children.forEach {
-
-            val workoutHistoryTemp = it.getValue(WorkoutInfoTemp::class.java)
-
-            val workoutHistory = WorkoutInfo(
-                dateOfWorkout = workoutHistoryTemp!!.dateOfWorkout,
-                exercisesProgress = workoutHistoryTemp.exercisesProgress
-            )
-
-            workoutHistoryList.add(workoutHistory)
-        }
-
-        return workoutHistoryList
-    }
 
     //DashboardViewModel
 
