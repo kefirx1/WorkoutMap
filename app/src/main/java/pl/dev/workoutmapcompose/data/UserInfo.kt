@@ -11,13 +11,6 @@ data class UserInfo (
     var height: String,
     var gender: String,
     var age: String,
-    var monday: String,
-    var tuesday: String,
-    var wednesday: String,
-    var thursday: String,
-    var friday: String,
-    var saturday: String,
-    var sunday: String,
     var lastTrainingDate: String) {
 
     @PrimaryKey(autoGenerate = false)

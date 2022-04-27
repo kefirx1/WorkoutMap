@@ -129,7 +129,11 @@ class WMRepository (application: Application){
                 )
                 exercisesList.add(exercise)
             }
-            val trainingPlan = TrainingPlan(trainingPlanTemp.planName, exercisesList as List<Exercise>)
+            val trainingPlan = TrainingPlan(
+                planName = trainingPlanTemp.planName,
+                exercise = exercisesList as List<Exercise>,
+                assignedDay = trainingPlanTemp.assignedDay
+            )
             trainingPlansList.add(trainingPlan)
         }
 

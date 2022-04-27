@@ -49,13 +49,6 @@ fun exitRegister(
                 age = ageString,
                 height = heightString,
                 gender = genderString,
-                monday = "",
-                tuesday = "",
-                wednesday = "",
-                thursday = "",
-                friday = "",
-                saturday = "",
-                sunday = "",
                 lastTrainingDate = ""
             )
         )

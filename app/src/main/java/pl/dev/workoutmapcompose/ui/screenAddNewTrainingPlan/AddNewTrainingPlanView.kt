@@ -8,6 +8,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +61,11 @@ fun MainNewTrainingView(
     var openAddExerciseDialog by remember {
         mutableStateOf(false)
     }
+    var expanded by remember { mutableStateOf(false) }
+    val daysList = listOf("-", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela")
+    var daySelected by remember {
+        mutableStateOf("-")
+    }
 
     if(openAddExerciseDialog) {
         openAddExerciseDialog = DialogAlerts.addExerciseForTrainingPlanDialogAlert(
@@ -102,6 +112,53 @@ fun MainNewTrainingView(
                     )
                 }
             )
+
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth()
+            )
+
+            Row(
+                modifier = Modifier
+                    .clickable {
+                        expanded = !expanded
+                    }
+                    .padding(top = 10.dp)
+            ) {
+
+                Text(
+                    text = daySelected,
+                    fontSize = 20.sp,
+                    color = BlueGray50
+                )
+
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Dropdown",
+                    tint = BlueGray50
+                )
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = {
+                        expanded = false
+                    }
+                ) {
+                    daysList.forEach {
+                        DropdownMenuItem(
+                            onClick = {
+                                daySelected = it
+                                expanded = false
+                            }
+                        ) {
+                            Text(
+                                text = it
+                            )
+                        }
+                    }
+                }
+            }
 
             Spacer(
                 modifier = Modifier
@@ -193,7 +250,8 @@ fun MainNewTrainingView(
 
                         val newTrainingPlan = TrainingPlan(
                             planName = planNameTextState.text,
-                            exercise = selectedExercisesList
+                            exercise = selectedExercisesList,
+                            assignedDay = daysList.indexOf(daySelected)
                         )
                         viewModel.addNewTrainingPlan(trainingPlan = newTrainingPlan)
                         instance.finish()

@@ -32,6 +32,12 @@ object Convert {
 
     }
 
+    fun convertCurrentDayToIntValue(): Int {
+
+        val calendar = Calendar.getInstance()
+        return calendar.get(Calendar.DAY_OF_WEEK)-1
+    }
+
 
     fun convertIntValuesToTimeInSec(
         year: Int,

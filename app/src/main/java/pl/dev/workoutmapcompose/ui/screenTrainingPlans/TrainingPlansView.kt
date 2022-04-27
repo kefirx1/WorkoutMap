@@ -37,7 +37,7 @@ fun MainTrainingPlansView(
     viewModel.getTrainingPlansList()
 
     val trainingPlanClicked by remember {
-        mutableStateOf(TrainingPlan("", listOf()))
+        mutableStateOf(TrainingPlan("", listOf(), 0))
     }
 
     var openTrainingPlansInfoDialog by remember {
@@ -99,6 +99,7 @@ fun MainTrainingPlansView(
                             .clickable {
                                 trainingPlanClicked.planName = trainingPlansList[it].planName
                                 trainingPlanClicked.exercise = trainingPlansList[it].exercise
+                                trainingPlanClicked.assignedDay = trainingPlansList[it].assignedDay
                                 openTrainingPlansInfoDialog = true
                             },
                         horizontalArrangement = Arrangement.SpaceAround

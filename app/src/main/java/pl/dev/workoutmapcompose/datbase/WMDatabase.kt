@@ -9,7 +9,7 @@ import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 
-@Database(entities = [UserInfo::class, WeightHistory::class], version = 8, exportSchema = false)
+@Database(entities = [UserInfo::class, WeightHistory::class], version = 9, exportSchema = false)
 abstract class WMDatabase: RoomDatabase() {
 
     abstract fun userInfoDao(): UserInfoDao

@@ -41,6 +41,7 @@ import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
 import pl.dev.workoutmapcompose.ui.theme.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 object DialogAlerts {
 
@@ -1182,12 +1183,23 @@ object DialogAlerts {
         val confirmButtonText = "START"
         val dismissButtonText = "COFNIJ"
 
+        val currentDayInt = Convert.convertCurrentDayToIntValue()
+        val trainingPlans = viewModel.trainingPlansListResult.value!!
+
+        var defaultSelection = -1
+
+        for(i in 0 until trainingPlans.size){
+            if(trainingPlans[i].assignedDay == currentDayInt){
+                defaultSelection = i
+            }
+        }
+
         var openDialog by remember {
             mutableStateOf(true)
         }
 
         var selectedTraining by remember {
-            mutableStateOf(-1) //TODO
+            mutableStateOf(defaultSelection)
         }
 
         if (openDialog) {
@@ -1211,7 +1223,7 @@ object DialogAlerts {
                             .height(300.dp)
 
                     ) {
-                        items(count = viewModel.trainingPlansListResult.value!!.size) {
+                        items(count = trainingPlans.size) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -1235,7 +1247,7 @@ object DialogAlerts {
                             ) {
 
                                 Text(
-                                    text = viewModel.trainingPlansListResult.value!![it].planName,
+                                    text = trainingPlans[it].planName,
                                     fontSize = 30.sp
                                 )
                             }
