@@ -214,7 +214,7 @@ fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>, xAxisLabel: A
                     for (it in 0 until xAxisLabel.size) {
                         val value = it * offset + min
                         Text(
-                            text = xAxisLabel[it],
+                            text = "     " + xAxisLabel[it],
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.caption,
@@ -238,10 +238,7 @@ fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>, xAxisLabel: A
         modifier = Modifier
             .background(Color.Black)
             .fillMaxWidth()
-            .height(200.dp),
-        onSelection = { xLine, points ->
-
-        }
+            .height(200.dp)
     )
 }
 
