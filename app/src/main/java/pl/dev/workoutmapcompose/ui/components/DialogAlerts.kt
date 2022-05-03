@@ -997,7 +997,7 @@ object DialogAlerts {
                                 ).show()
                             }
 
-                            if (newExercise.name.isBlank() || newExercise.type.isBlank()) {
+                            if (newExercise.name == "Wybierz ćwiczenie" || newExercise.name.isBlank() || newExercise.type.isBlank()) {
                                 Toast.makeText(
                                     instance,
                                     "Podaj odpowiednie dane",

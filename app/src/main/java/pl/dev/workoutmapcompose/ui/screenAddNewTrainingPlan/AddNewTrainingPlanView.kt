@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -181,12 +182,24 @@ fun MainNewTrainingView(
                                     .padding(10.dp)
                                     .clickable {
                                         selectedExercisesList.removeAt(it)
-                                    }
+                                    },
+                                horizontalArrangement = Arrangement.SpaceAround,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
 
                                 Text(
-                                    text = "${selectedExercisesList[it].type} - ${Convert.convertExerciseNameToBetterView(selectedExercisesList[it].name)} (${selectedExercisesList[it].numberOfSets} serii)"
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.7f),
+                                    text = "${selectedExercisesList[it].type} - ${Convert.convertExerciseNameToBetterView(selectedExercisesList[it].name)} (${selectedExercisesList[it].numberOfSets} serii)",
+                                    color = BlueGray50
                                 )
+
+                                Icon(
+                                    Icons.Filled.Delete,
+                                    contentDescription = "delete",
+                                    tint = Color.White
+                                )
+
                             }
 
                             Spacer(
@@ -275,7 +288,7 @@ fun MainNewTrainingView(
             ),
         ) {
             Text(
-                text = "DODAJ",
+                text = "DODAJ NOWY PLAN",
                 color = BlueGray50,
                 fontFamily = mainFamily,
                 fontSize = 15.sp,
