@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
@@ -574,7 +575,7 @@ object DialogAlerts {
 
                         Button(
                             modifier = Modifier
-                                .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
+                                .shadow(ambientColor = Color.Black, shape = CircleShape, elevation = 10.dp),
                             onClick = {
                                 mDatePickerDialog.show()
                             },
@@ -583,7 +584,7 @@ object DialogAlerts {
                             ),
                         ) {
                             Text(
-                                text = mDate.value,
+                                text = "Data: " + mDate.value,
                                 color = Color.White
                             )
                         }
@@ -604,12 +605,15 @@ object DialogAlerts {
                                 modifier = Modifier
                                     .fillMaxWidth(0.4f),
                                 keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number
+                                    keyboardType = KeyboardType.Decimal
                                 ),
                                 value = weightTextState,
                                 onValueChange = { weightTextState = it },
                                 textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 25.sp),
                                 maxLines = 1,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = BlueGray900
+                                )
                             )
                             Text(
                                 text = "kg",
@@ -639,25 +643,33 @@ object DialogAlerts {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }else{
-                                    openDialog = false
-                                    val newWeightHistory = WeightHistory(
-                                        weight = weightTextState.text,
-                                        weighingDate = Convert.convertIntValuesToTimeInSec(cYear, cMonth, cDay)
-                                    )
+                                    if(weightTextState.text.toFloat()>300){
+                                        Toast.makeText(
+                                            instance,
+                                            "Podałeś za dużą wagę",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }else{
+                                        openDialog = false
+                                        val newWeightHistory = WeightHistory(
+                                            weight = weightTextState.text,
+                                            weighingDate = Convert.convertIntValuesToTimeInSec(cYear, cMonth, cDay)
+                                        )
 
-                                    try{
-                                        viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
-                                        Toast.makeText(
-                                            instance,
-                                            toastCorrectText,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }catch (e: Exception){
-                                        Toast.makeText(
-                                            instance,
-                                            toastFailureText,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        try{
+                                            viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
+                                            Toast.makeText(
+                                                instance,
+                                                toastCorrectText,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }catch (e: Exception){
+                                            Toast.makeText(
+                                                instance,
+                                                toastFailureText,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
                                     }
                                 }
                             }
