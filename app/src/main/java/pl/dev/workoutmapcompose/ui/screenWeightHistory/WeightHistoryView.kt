@@ -5,16 +5,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -159,21 +160,32 @@ fun MainWeightHistoryView(
                                 .clickable {
                                     openRowWeightDialog = true
                                     clickedRowWeightHistory = sortedWeightHistoryList[it]
-                                },
-                            horizontalArrangement = Arrangement.SpaceAround
+                                }
                         ) {
-                            Text(
-                                text = Convert.convertTimeInSecToDateString(sortedWeightHistoryList[it].weighingDate),
-                                color = BlueGray50,
-                                fontFamily = mainFamily,
-                                fontSize = 20.sp
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.9f),
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {
+                                Text(
+                                    text = Convert.convertTimeInSecToDateString(sortedWeightHistoryList[it].weighingDate),
+                                    color = BlueGray50,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                )
 
-                            Text(
-                                text = "${sortedWeightHistoryList[it].weight}kg",
-                                color = BlueGray50,
-                                fontFamily = mainFamily,
-                                fontSize = 20.sp
+                                Text(
+                                    text = "${sortedWeightHistoryList[it].weight}kg",
+                                    color = BlueGray50,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                )
+                            }
+
+                            Icon(
+                                Icons.Filled.Delete,
+                                contentDescription = "delete",
+                                tint = Color.White
                             )
 
                         }
