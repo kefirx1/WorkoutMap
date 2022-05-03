@@ -16,8 +16,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.*
 import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
@@ -38,6 +37,8 @@ fun MainDashboard(
         mutableStateOf(false)
     }
 
+    val pagerState = rememberPagerState()
+
     if(openWorkoutDashboardDialog) {
         openWorkoutDashboardDialog = DialogAlerts.workoutStartDialogAlert(
             instance = instance,
@@ -48,7 +49,8 @@ fun MainDashboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(BlueGray900),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -57,9 +59,18 @@ fun MainDashboard(
         ) {
             DashboardHorizontalPager(
                 instance = instance,
-                viewModel = viewModel
+                viewModel = viewModel,
+                pagerState = pagerState
             )
         }
+
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .padding(top = 5.dp, bottom = 5.dp),
+            activeColor = BlueGray50,
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxHeight()
@@ -101,9 +112,11 @@ fun MainDashboard(
 @Composable
 fun DashboardHorizontalPager(
     instance: MainActivity,
-    viewModel: DashboardViewModel
+    viewModel: DashboardViewModel,
+    pagerState: PagerState
 ) {
     HorizontalPager(
+        state = pagerState,
         count = 2,
         modifier = Modifier
             .fillMaxSize()
@@ -112,6 +125,7 @@ fun DashboardHorizontalPager(
             0 -> DashboardFirstPage(instance = instance, viewModel = viewModel)
             1 -> DashboardSecondPage(instance = instance, viewModel = viewModel)
         }
+
     }
 }
 

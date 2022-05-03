@@ -18,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
@@ -128,8 +129,9 @@ fun MainNewTrainingView(
                     .padding(top = 10.dp)
             ) {
 
+
                 Text(
-                    text = daySelected,
+                    text = "Dzień treningu: " + daySelected,
                     fontSize = 20.sp,
                     color = BlueGray50
                 )

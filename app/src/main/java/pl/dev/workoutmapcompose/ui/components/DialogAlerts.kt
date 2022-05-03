@@ -848,7 +848,8 @@ object DialogAlerts {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceBetween
                     ) {
 
                         Row(
@@ -941,7 +942,7 @@ object DialogAlerts {
 
                         Spacer(
                             modifier = Modifier
-                                .height(15.dp)
+                                .height(20.dp)
                         )
 
                         OutlinedTextField(
