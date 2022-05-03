@@ -18,14 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
+import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.BlueGray900
-import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.theme.*
 
 
 @Composable
@@ -127,7 +125,7 @@ fun MainTrainingPlansView(
 
             Button(
                 modifier = Modifier
-                    .height(45.dp)
+                    .height(50.dp)
                     .fillMaxWidth(0.5f)
                     .padding(end = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
@@ -140,7 +138,7 @@ fun MainTrainingPlansView(
                 ),
             ) {
                 Text(
-                    text = "DODAJ",
+                    text = "DODAJ NOWY PLAN TRENINGOWY",
                     color = BlueGray50,
                     fontFamily = mainFamily,
                     fontSize = 15.sp,
@@ -152,22 +150,39 @@ fun MainTrainingPlansView(
 
         }else{
 
-            IconButton(
+
+            Spacer(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.4f),
+                    .fillMaxHeight(0.1f)
+            )
+
+            Button(
+                modifier = Modifier
+                    .height(45.dp)
+                    .fillMaxWidth(0.5f)
+                    .padding(start = 4.dp)
+                    .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
                     val intent = Intent(instance, AddNewTrainingPlanActivity::class.java)
                     instance.startActivity(intent)
-                }) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Add Training",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .fillMaxSize(0.2f)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = BlueGray500
+                ),
+            ) {
+                Text(
+                    text = "DODAJ PIERWSZY PLAN TRENINGOWY",
+                    color = BlueGray50,
+                    fontFamily = mainFamily,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
                 )
             }
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxHeight(0.2f)
+            )
 
             Text(
                 modifier = Modifier
