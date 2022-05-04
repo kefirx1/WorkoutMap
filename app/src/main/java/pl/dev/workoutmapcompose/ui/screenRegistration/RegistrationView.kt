@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.*
@@ -20,8 +21,6 @@ import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.RegisterActivity
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
 
@@ -72,7 +71,7 @@ fun MainRegistration(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(MaterialTheme.colors.background)
             .padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
@@ -149,8 +148,7 @@ fun MainRegistration(
             ) {
                 Text(
                     text = "Wiek:",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 20.sp
                 )
                 NumberPicker(
@@ -159,7 +157,10 @@ fun MainRegistration(
                     onValueChange = {
                         agePickerState = it
                     },
-                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily),
+                    textStyle = TextStyle(
+                        color = BlueGray50,
+                        fontFamily = mainFamily
+                    ),
 
                 )
             }
@@ -170,8 +171,7 @@ fun MainRegistration(
             ) {
                 Text(
                     text = "Płeć:",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 20.sp
                 )
                 ListItemPicker(
@@ -179,7 +179,10 @@ fun MainRegistration(
                     value = genderPickerState,
                     onValueChange = { genderPickerState = it },
                     list = possibleGenderValues,
-                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                    textStyle = TextStyle(
+                        color = BlueGray50,
+                        fontFamily = mainFamily
+                    )
                 )
             }
         }
@@ -192,8 +195,7 @@ fun MainRegistration(
             Text(
 
                 text = "Wzrost: (cm)",
-                color = BlueGray50,
-                fontFamily = mainFamily,
+                style = MaterialTheme.typography.caption,
                 fontSize = 18.sp,
                 modifier = Modifier
                     .padding(end = 20.dp)
@@ -204,7 +206,10 @@ fun MainRegistration(
                 onValueChange = {
                     heightPickerState = it
                 },
-                textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                textStyle = TextStyle(
+                    color = BlueGray50,
+                    fontFamily = mainFamily
+                )
             )
         }
         Button(
@@ -227,13 +232,12 @@ fun MainRegistration(
 
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = BlueGray800
+                backgroundColor = MaterialTheme.colors.surface
             ),
         ) {
             Text(
                 text = "ZATWIERDŹ",
-                color = BlueGray50,
-                fontFamily = mainFamily,
+                style = MaterialTheme.typography.caption,
                 fontSize = 30.sp
             )
         }

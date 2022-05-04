@@ -135,7 +135,7 @@ fun MainNewTrainingView(
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = "Dropdown",
-                    tint = BlueGray50
+                    tint = MaterialTheme.typography.caption.color
                 )
 
                 DropdownMenu(
@@ -195,7 +195,7 @@ fun MainNewTrainingView(
                                 Icon(
                                     Icons.Filled.Delete,
                                     contentDescription = "delete",
-                                    tint = Color.White
+                                    tint = MaterialTheme.typography.caption.color
                                 )
 
                             }
@@ -217,7 +217,7 @@ fun MainNewTrainingView(
                             Icon(
                                 imageVector = Icons.Filled.Add,
                                 contentDescription = "Add Training",
-                                tint = Color.White,
+                                tint = MaterialTheme.typography.caption.color,
                                 modifier = Modifier
                                     .size(30.dp)
                             )
@@ -235,7 +235,7 @@ fun MainNewTrainingView(
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Add Training",
-                        tint = Color.White,
+                        tint = MaterialTheme.typography.caption.color,
                         modifier = Modifier
                             .size(30.dp)
                     )
