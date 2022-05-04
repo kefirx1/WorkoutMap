@@ -8,13 +8,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.*
+import pl.dev.workoutmapcompose.ui.theme.buttonsSettings
 
 @Composable
 fun MainSettingsView(
@@ -77,12 +75,13 @@ fun MainSettingsView(
                     openChangePersonalDataDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 )
             ) {
                 Text(
                     text = "Zmień dane personalne",
-                    style = buttonsSettings
+                    style = buttonsSettings,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
 
@@ -99,12 +98,13 @@ fun MainSettingsView(
                     openWipeTrainingPlansDataDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 )
             ) {
                 Text(
                     text = "Usuń plany treningowe",
-                    style = buttonsSettings
+                    style = buttonsSettings,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
 
@@ -121,12 +121,13 @@ fun MainSettingsView(
                     openWipeDataDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 )
             ) {
                 Text(
                     text = "Resetuj ustawienia",
-                    style = buttonsSettings
+                    style = buttonsSettings,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
         }

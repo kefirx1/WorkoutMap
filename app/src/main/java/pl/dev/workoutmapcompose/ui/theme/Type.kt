@@ -1,5 +1,6 @@
 package pl.dev.workoutmapcompose.ui.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -39,17 +40,16 @@ val TypographyLight = Typography(
         fontFamily = mainFamily,
         color = BlueGray900
     )
+
 )
 
 val buttonsDashboard = TextStyle(
-    color = BlueGray50,
     fontFamily = mainFamily,
     fontSize = 15.sp,
     textAlign = TextAlign.Center
 )
 
 val buttonsSettings = TextStyle(
-    color = BlueGray50,
     fontFamily = mainFamily,
     fontSize = 20.sp
 )

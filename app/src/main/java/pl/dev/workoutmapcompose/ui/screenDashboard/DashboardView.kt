@@ -221,7 +221,8 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "HISTORIA WAGI",
-                    style = buttonsDashboard
+                    style = buttonsDashboard,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
         }
@@ -246,7 +247,8 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "PLANY TRENINGOWE",
-                    style = buttonsDashboard
+                    style = buttonsDashboard,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
             Button(
@@ -265,7 +267,8 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "USTAWIENIA",
-                    style = buttonsDashboard
+                    style = buttonsDashboard,
+                    color = MaterialTheme.typography.caption.color
                 )
             }
 
