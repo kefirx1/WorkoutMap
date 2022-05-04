@@ -68,7 +68,7 @@ fun MainWeightHistoryView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(MaterialTheme.colors.background)
             .padding(10.dp)
     ) {
 
@@ -98,8 +98,7 @@ fun MainWeightHistoryView(
                         modifier = Modifier
                             .padding(bottom = 40.dp, top = 40.dp),
                         text = "Nie dodałeś jeszcze \n swojej wagi",
-                        color = BlueGray50,
-                        fontFamily = mainFamily,
+                        style = MaterialTheme.typography.caption,
                         textAlign = TextAlign.Center,
                         fontSize = 20.sp
                     )
@@ -123,13 +122,12 @@ fun MainWeightHistoryView(
                     openInsertWeightDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 ),
             ) {
                 Text(
                     text = "DODAJ",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
                 )
@@ -169,15 +167,13 @@ fun MainWeightHistoryView(
                             ) {
                                 Text(
                                     text = Convert.convertTimeInSecToDateString(sortedWeightHistoryList[it].weighingDate),
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
+                                    style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )
 
                                 Text(
                                     text = "${sortedWeightHistoryList[it].weight}kg",
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
+                                    style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )
                             }
@@ -185,7 +181,7 @@ fun MainWeightHistoryView(
                             Icon(
                                 Icons.Filled.Delete,
                                 contentDescription = "delete",
-                                tint = Color.White
+                                tint = MaterialTheme.typography.caption.color
                             )
 
                         }
@@ -243,7 +239,7 @@ fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>, xAxisLabel: A
 
             ),
             grid = LinePlot.Grid(
-                color = Teal200,
+                color = MaterialTheme.typography.caption.color,
                 steps = 5
             ),
         ),
