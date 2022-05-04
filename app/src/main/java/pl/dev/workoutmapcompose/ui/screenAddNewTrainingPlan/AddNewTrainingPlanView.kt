@@ -8,17 +8,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
@@ -33,8 +31,6 @@ import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import kotlin.streams.toList
 
@@ -80,7 +76,7 @@ fun MainNewTrainingView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(MaterialTheme.colors.background)
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -133,7 +129,7 @@ fun MainNewTrainingView(
                 Text(
                     text = "Dzień treningu: " + daySelected,
                     fontSize = 20.sp,
-                    color = BlueGray50
+                    style = MaterialTheme.typography.caption
                 )
 
                 Icon(
@@ -179,7 +175,7 @@ fun MainNewTrainingView(
                                     .fillMaxWidth()
                                     .shadow(ambientColor = Color.Black, elevation = 4.dp)
                                     .background(
-                                        color = BlueGray800
+                                        color = MaterialTheme.colors.surface
                                     )
                                     .padding(10.dp)
                                     .clickable {
@@ -193,7 +189,7 @@ fun MainNewTrainingView(
                                     modifier = Modifier
                                         .fillMaxWidth(0.7f),
                                     text = "${selectedExercisesList[it].type} - ${Convert.convertExerciseNameToBetterView(selectedExercisesList[it].name)} (${selectedExercisesList[it].numberOfSets} serii)",
-                                    color = BlueGray50
+                                    style = MaterialTheme.typography.caption
                                 )
 
                                 Icon(
@@ -286,13 +282,12 @@ fun MainNewTrainingView(
                 }
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = BlueGray800
+                backgroundColor = MaterialTheme.colors.surface
             ),
         ) {
             Text(
                 text = "DODAJ NOWY PLAN",
-                color = BlueGray50,
-                fontFamily = mainFamily,
+                style = MaterialTheme.typography.caption,
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center
             )
