@@ -5,9 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,12 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
-import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.*
 
 
 @Composable
@@ -54,7 +53,7 @@ fun MainTrainingPlansView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(MaterialTheme.colors.background)
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -93,7 +92,7 @@ fun MainTrainingPlansView(
                     Row (
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(color = BlueGray800)
+                            .background(color = MaterialTheme.colors.primary)
                             .clickable {
                                 trainingPlanClicked.planName = trainingPlansList[it].planName
                                 trainingPlanClicked.exercise = trainingPlansList[it].exercise
@@ -104,8 +103,7 @@ fun MainTrainingPlansView(
                     ) {
                         Text(
                             text = trainingPlansList[it].planName,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 40.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -134,13 +132,12 @@ fun MainTrainingPlansView(
                     instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 ),
             ) {
                 Text(
                     text = "DODAJ NOWY PLAN TRENINGOWY",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
                 )
@@ -167,13 +164,12 @@ fun MainTrainingPlansView(
                     instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray500
+                    backgroundColor = MaterialTheme.colors.secondary
                 ),
             ) {
                 Text(
                     text = "DODAJ PIERWSZY PLAN TRENINGOWY",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
                 )
@@ -188,8 +184,7 @@ fun MainTrainingPlansView(
                 modifier = Modifier
                     .padding(bottom = 20.dp),
                 text = "Nie dodałeś jeszcze planów treningowych",
-                color = BlueGray50,
-                fontFamily = mainFamily,
+                style = MaterialTheme.typography.caption,
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp
             )
