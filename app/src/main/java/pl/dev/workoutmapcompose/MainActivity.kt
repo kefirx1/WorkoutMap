@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity(){
                     viewModel = viewModel(factory = DashboardViewModelFactory(application))
                     viewModel.setFirebaseListener()
                     MainDashboard(this, viewModel)
+                    println(viewModel.userMainViewInfoResult.value)
                 }
             }
         }

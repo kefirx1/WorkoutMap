@@ -257,6 +257,7 @@ class WMRepository (application: Application){
     }
 
     fun getUserInfo(): UserInfo {
+        println(userInfoDao.getUserInfo())
         return userInfoDao.getUserInfo()
     }
 
