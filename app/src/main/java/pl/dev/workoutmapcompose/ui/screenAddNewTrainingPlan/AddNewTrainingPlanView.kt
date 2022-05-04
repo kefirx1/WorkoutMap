@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,7 +29,7 @@ import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
+import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import kotlin.streams.toList
 
@@ -98,17 +97,24 @@ fun MainNewTrainingView(
                 value = planNameTextState,
                 onValueChange = { planNameTextState = it },
                 textStyle = TextStyle(
-                    color = BlueGray50,
+                    color = MaterialTheme.typography.caption.color,
                     fontFamily = mainFamily,
                     fontSize = 20.sp
                 ),
-                maxLines = 1,
+                singleLine = true,
                 label = {
                     Text(
                         text = "Nazwa planu",
-                        color = BlueGray50
+                        color = MaterialTheme.typography.caption.color,
+                        fontFamily = mainFamily,
+                        fontSize = 15.sp
                     )
-                }
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = MaterialTheme.colors.secondary,
+                    focusedIndicatorColor = Purple500,
+                    cursorColor = Purple500
+                )
             )
 
             Spacer(
@@ -127,7 +133,7 @@ fun MainNewTrainingView(
 
 
                 Text(
-                    text = "Dzień treningu: " + daySelected,
+                    text = "Dzień treningu: $daySelected",
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.caption
                 )

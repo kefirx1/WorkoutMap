@@ -42,8 +42,8 @@ import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
+import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
 
@@ -278,17 +278,24 @@ object DialogAlerts {
                                     value = nameTextState,
                                     onValueChange = { nameTextState = it },
                                     textStyle = TextStyle(
-                                        color = BlueGray50,
+                                        color = MaterialTheme.typography.caption.color,
                                         fontFamily = mainFamily,
                                         fontSize = 20.sp
                                     ),
-                                    maxLines = 1,
+                                    singleLine = true,
                                     label = {
                                         Text(
                                             text = "Imię",
-                                            color = BlueGray50
+                                            color = MaterialTheme.typography.caption.color,
+                                            fontFamily = mainFamily,
+                                            fontSize = 15.sp
                                         )
-                                    }
+                                    },
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        containerColor = MaterialTheme.colors.secondary,
+                                        focusedIndicatorColor = Purple500,
+                                        cursorColor = Purple500
+                                    )
                                 )
 
                             }
@@ -312,17 +319,24 @@ object DialogAlerts {
                                     value = surnameTextState,
                                     onValueChange = { surnameTextState = it },
                                     textStyle = TextStyle(
-                                        color = BlueGray50,
+                                        color = MaterialTheme.typography.caption.color,
                                         fontFamily = mainFamily,
                                         fontSize = 20.sp
                                     ),
-                                    maxLines = 1,
+                                    singleLine = true,
                                     label = {
                                         Text(
                                             text = "Nazwisko",
-                                            color = BlueGray50
+                                            color = MaterialTheme.typography.caption.color,
+                                            fontFamily = mainFamily,
+                                            fontSize = 15.sp
                                         )
-                                    }
+                                    },
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        containerColor = MaterialTheme.colors.secondary,
+                                        focusedIndicatorColor = Purple500,
+                                        cursorColor = Purple500
+                                    )
                                 )
 
                             }
@@ -940,10 +954,7 @@ object DialogAlerts {
 
                         OutlinedTextField(
                             modifier = Modifier
-                                .fillMaxWidth(0.4f)
-                                .background(
-                                    color = BlueGray800
-                                ),
+                                .fillMaxWidth(0.5f),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal
                             ),
@@ -961,17 +972,24 @@ object DialogAlerts {
                                 }
                             },
                             textStyle = TextStyle(
-                                color = BlueGray50,
+                                color = MaterialTheme.typography.caption.color,
                                 fontFamily = mainFamily,
-                                fontSize = 25.sp
+                                fontSize = 20.sp
                             ),
-                            maxLines = 1,
+                            singleLine = true,
                             label = {
                                 Text(
                                     text = "Liczba serii",
-                                    color = BlueGray50
+                                    color = MaterialTheme.typography.caption.color,
+                                    fontFamily = mainFamily,
+                                    fontSize = 15.sp
                                 )
-                            }
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = MaterialTheme.colors.secondary,
+                                focusedIndicatorColor = Purple500,
+                                cursorColor = Purple500
+                            )
                         )
 
                     }

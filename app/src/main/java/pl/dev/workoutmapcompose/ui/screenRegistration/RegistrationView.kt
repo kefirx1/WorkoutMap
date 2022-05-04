@@ -4,11 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +16,7 @@ import com.chargemap.compose.numberpicker.ListItemPicker
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.RegisterActivity
 import pl.dev.workoutmapcompose.data.UserInfo
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
+import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
 
@@ -93,17 +89,24 @@ fun MainRegistration(
                     value = nameTextState,
                     onValueChange = { nameTextState = it },
                     textStyle = TextStyle(
-                        color = BlueGray50,
+                        color = MaterialTheme.typography.caption.color,
                         fontFamily = mainFamily,
                         fontSize = 20.sp
                     ),
-                    maxLines = 1,
+                    singleLine = true,
                     label = {
                         Text(
                             text = "Imię",
-                            color = BlueGray50
+                            color = MaterialTheme.typography.caption.color,
+                            fontFamily = mainFamily,
+                            fontSize = 15.sp
                         )
-                    }
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.secondary,
+                        focusedIndicatorColor = Purple500,
+                        cursorColor = Purple500
+                    )
                 )
             }
         }
@@ -120,17 +123,24 @@ fun MainRegistration(
                     value = surnameTextState,
                     onValueChange = { surnameTextState = it },
                     textStyle = TextStyle(
-                        color = BlueGray50,
+                        color = MaterialTheme.typography.caption.color,
                         fontFamily = mainFamily,
                         fontSize = 20.sp
                     ),
-                    maxLines = 1,
+                    singleLine = true,
                     label = {
                         Text(
                             text = "Nazwisko",
-                            color = BlueGray50
+                            color = MaterialTheme.typography.caption.color,
+                            fontFamily = mainFamily,
+                            fontSize = 15.sp
                         )
-                    }
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.secondary,
+                        focusedIndicatorColor = Purple500,
+                        cursorColor = Purple500
+                    )
                 )
 
             }
@@ -157,11 +167,7 @@ fun MainRegistration(
                     onValueChange = {
                         agePickerState = it
                     },
-                    textStyle = TextStyle(
-                        color = BlueGray50,
-                        fontFamily = mainFamily
-                    ),
-
+                    textStyle = MaterialTheme.typography.caption
                 )
             }
             Column(
@@ -179,10 +185,7 @@ fun MainRegistration(
                     value = genderPickerState,
                     onValueChange = { genderPickerState = it },
                     list = possibleGenderValues,
-                    textStyle = TextStyle(
-                        color = BlueGray50,
-                        fontFamily = mainFamily
-                    )
+                    textStyle = MaterialTheme.typography.caption
                 )
             }
         }
@@ -206,10 +209,7 @@ fun MainRegistration(
                 onValueChange = {
                     heightPickerState = it
                 },
-                textStyle = TextStyle(
-                    color = BlueGray50,
-                    fontFamily = mainFamily
-                )
+                textStyle = MaterialTheme.typography.caption
             )
         }
         Button(
