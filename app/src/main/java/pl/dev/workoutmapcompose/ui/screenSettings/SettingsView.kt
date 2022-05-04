@@ -3,6 +3,7 @@ package pl.dev.workoutmapcompose.ui.screenSettings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
@@ -13,10 +14,7 @@ import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.BlueGray50
-import pl.dev.workoutmapcompose.ui.theme.BlueGray800
-import pl.dev.workoutmapcompose.ui.theme.BlueGray900
-import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.theme.*
 
 @Composable
 fun MainSettingsView(
@@ -58,7 +56,7 @@ fun MainSettingsView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900)
+            .background(MaterialTheme.colors.background)
             .padding(10.dp)
     ) {
 
@@ -84,10 +82,7 @@ fun MainSettingsView(
             ) {
                 Text(
                     text = "Zmień dane personalne",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Left
+                    style = buttonsSettings
                 )
             }
 
@@ -109,10 +104,7 @@ fun MainSettingsView(
             ) {
                 Text(
                     text = "Usuń plany treningowe",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Left
+                    style = buttonsSettings
                 )
             }
 
@@ -134,10 +126,7 @@ fun MainSettingsView(
             ) {
                 Text(
                     text = "Resetuj ustawienia",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Left
+                    style = buttonsSettings
                 )
             }
         }

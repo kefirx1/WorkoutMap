@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import pl.dev.workoutmapcompose.factories.RegistrationViewModelFactory
 import pl.dev.workoutmapcompose.ui.screenRegistration.MainRegistration
 import pl.dev.workoutmapcompose.ui.screenRegistration.RegistrationViewModel
+import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
 class RegisterActivity : ComponentActivity() {
 
@@ -15,11 +16,13 @@ class RegisterActivity : ComponentActivity() {
         super.onResume()
 
         setContent{
-            viewModel = viewModel(factory = RegistrationViewModelFactory(application))
-            MainRegistration(
-                instance = this,
-                viewModel = viewModel
-            )
+            WorkoutMapComposeTheme {
+                viewModel = viewModel(factory = RegistrationViewModelFactory(application))
+                MainRegistration(
+                    instance = this,
+                    viewModel = viewModel
+                )
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import pl.dev.workoutmapcompose.factories.AddNewTrainingPlanViewModelFactory
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.MainNewTrainingView
+import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
 class AddNewTrainingPlanActivity : ComponentActivity() {
 
@@ -15,11 +16,13 @@ class AddNewTrainingPlanActivity : ComponentActivity() {
         super.onResume()
 
         setContent{
-            viewModel = viewModel(factory = AddNewTrainingPlanViewModelFactory(application))
-            MainNewTrainingView(
-                instance = this,
-                viewModel = viewModel
-            )
+            WorkoutMapComposeTheme {
+                viewModel = viewModel(factory = AddNewTrainingPlanViewModelFactory(application))
+                MainNewTrainingView(
+                    instance = this,
+                    viewModel = viewModel
+                )
+            }
         }
     }
 

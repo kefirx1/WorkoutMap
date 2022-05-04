@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -49,7 +50,7 @@ fun MainDashboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BlueGray900),
+            .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
@@ -162,7 +163,7 @@ fun DashboardFirstPage(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(0.5f),
-                color = BlueGray100,
+                color = BlueGray50,
                 fontFamily = mainFamily,
                 fontSize = 25.sp,
                 text = "${viewModel.userMainViewInfoResult.value?.userWeight}kg"
@@ -223,10 +224,7 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "HISTORIA WAGI",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
+                    style = buttonsDashboard
                 )
             }
         }
@@ -251,10 +249,7 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "PLANY TRENINGOWE",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
+                    style = buttonsDashboard
                 )
             }
             Button(
@@ -273,10 +268,7 @@ fun DashboardSecondPage(
             ) {
                 Text(
                     text = "USTAWIENIA",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
+                    style = buttonsDashboard
                 )
             }
 

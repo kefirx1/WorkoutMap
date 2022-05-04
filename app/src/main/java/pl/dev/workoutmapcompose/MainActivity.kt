@@ -11,6 +11,7 @@ import pl.dev.workoutmapcompose.datbase.WMViewModel
 import pl.dev.workoutmapcompose.factories.DashboardViewModelFactory
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.MainDashboard
+import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
 class MainActivity : ComponentActivity(){
 
@@ -33,10 +34,11 @@ class MainActivity : ComponentActivity(){
             startActivity(intent)
         } else {
             setContent {
-
-                viewModel = viewModel(factory = DashboardViewModelFactory(application))
-                viewModel.setFirebaseListener()
-                MainDashboard(this, viewModel)
+                WorkoutMapComposeTheme {
+                    viewModel = viewModel(factory = DashboardViewModelFactory(application))
+                    viewModel.setFirebaseListener()
+                    MainDashboard(this, viewModel)
+                }
             }
         }
 

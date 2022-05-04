@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import pl.dev.workoutmapcompose.factories.WorkoutViewModelFactory
 import pl.dev.workoutmapcompose.ui.screenWorkout.MainWorkout
 import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
+import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
 class WorkoutActivity : ComponentActivity() {
 
@@ -19,12 +20,14 @@ class WorkoutActivity : ComponentActivity() {
         trainingPlanIndex = intent.getIntExtra("TRAINING_INDEX", 0)
 
         setContent {
-            viewModel = viewModel(factory = WorkoutViewModelFactory(application))
-            MainWorkout(
-                instance = this,
-                viewModel = viewModel,
-                trainingPlanIndex = trainingPlanIndex
-            )
+            WorkoutMapComposeTheme {
+                viewModel = viewModel(factory = WorkoutViewModelFactory(application))
+                MainWorkout(
+                    instance = this,
+                    viewModel = viewModel,
+                    trainingPlanIndex = trainingPlanIndex
+                )
+            }
         }
     }
 }
