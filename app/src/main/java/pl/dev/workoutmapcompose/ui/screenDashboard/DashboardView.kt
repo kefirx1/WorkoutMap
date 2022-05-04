@@ -95,13 +95,12 @@ fun MainDashboard(
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray800
+                    backgroundColor = MaterialTheme.colors.primary
                 )
             ) {
                 Text(
                     text = "TRENUJ",
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 40.sp
                 )
             }
@@ -154,8 +153,7 @@ fun DashboardFirstPage(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .padding(start = 10.dp),
-                    color = BlueGray50,
-                    fontFamily = mainFamily,
+                    style = MaterialTheme.typography.caption,
                     fontSize = 30.sp,
                     text = it.userName
                 )
@@ -163,8 +161,7 @@ fun DashboardFirstPage(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(0.5f),
-                color = BlueGray50,
-                fontFamily = mainFamily,
+                style = MaterialTheme.typography.caption,
                 fontSize = 25.sp,
                 text = "${viewModel.userMainViewInfoResult.value?.userWeight}kg"
             )
@@ -219,7 +216,7 @@ fun DashboardSecondPage(
                     instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray500
+                    backgroundColor = MaterialTheme.colors.secondary
                 ),
             ) {
                 Text(
@@ -244,7 +241,7 @@ fun DashboardSecondPage(
                     instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray500
+                    backgroundColor = MaterialTheme.colors.secondary
                 ),
             ) {
                 Text(
@@ -263,7 +260,7 @@ fun DashboardSecondPage(
                     instance.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = BlueGray500
+                    backgroundColor = MaterialTheme.colors.secondary
                 ),
             ) {
                 Text(
