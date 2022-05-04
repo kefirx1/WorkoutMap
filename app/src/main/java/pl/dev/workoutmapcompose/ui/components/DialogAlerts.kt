@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
@@ -21,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,9 +41,11 @@ import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
-import pl.dev.workoutmapcompose.ui.theme.*
+import pl.dev.workoutmapcompose.ui.theme.BlueGray50
+import pl.dev.workoutmapcompose.ui.theme.BlueGray800
+import pl.dev.workoutmapcompose.ui.theme.BlueGray900
+import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
-import kotlin.collections.ArrayList
 
 object DialogAlerts {
 
@@ -106,8 +109,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -120,15 +122,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -193,8 +194,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -207,15 +207,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -346,8 +345,7 @@ object DialogAlerts {
                             ) {
                                 Text(
                                     text = "Wiek:",
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
+                                    style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )
                                 NumberPicker(
@@ -356,9 +354,8 @@ object DialogAlerts {
                                     onValueChange = {
                                         agePickerState = it
                                     },
-                                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily),
-
-                                    )
+                                    textStyle = MaterialTheme.typography.caption,
+                                )
                             }
                             Column(
                                 modifier = Modifier
@@ -367,8 +364,7 @@ object DialogAlerts {
                             ) {
                                 Text(
                                     text = "Płeć:",
-                                    color = BlueGray50,
-                                    fontFamily = mainFamily,
+                                    style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )
                                 ListItemPicker(
@@ -376,7 +372,7 @@ object DialogAlerts {
                                     value = genderPickerState,
                                     onValueChange = { genderPickerState = it },
                                     list = possibleGenderValues,
-                                    textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                                    textStyle = MaterialTheme.typography.caption
                                 )
                             }
                         }
@@ -394,8 +390,7 @@ object DialogAlerts {
                         ){
                             Text(
                                 text = "Wzrost: (cm)",
-                                color = BlueGray50,
-                                fontFamily = mainFamily,
+                                style = MaterialTheme.typography.caption,
                                 fontSize = 18.sp,
                                 modifier = Modifier
                                     .padding(end = 20.dp)
@@ -406,7 +401,7 @@ object DialogAlerts {
                                 onValueChange = {
                                     heightPickerState = it
                                 },
-                                textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily)
+                                textStyle = MaterialTheme.typography.caption
                             )
                         }
 
@@ -470,8 +465,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -484,15 +478,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -580,12 +573,13 @@ object DialogAlerts {
                                 mDatePickerDialog.show()
                             },
                             colors = ButtonDefaults.buttonColors(
-                                contentColor = BlueGray500
+                                containerColor = MaterialTheme.colors.secondary ,
+                                contentColor = MaterialTheme.typography.caption.color,
                             ),
                         ) {
                             Text(
                                 text = "Data: " + mDate.value,
-                                color = Color.White
+                                color = MaterialTheme.typography.caption.color,
                             )
                         }
 
@@ -609,7 +603,11 @@ object DialogAlerts {
                                 ),
                                 value = weightTextState,
                                 onValueChange = { weightTextState = it },
-                                textStyle = TextStyle(color = BlueGray50, fontFamily = mainFamily, fontSize = 25.sp),
+                                textStyle = TextStyle(
+                                    color = BlueGray50,
+                                    fontFamily = mainFamily,
+                                    fontSize = 25.sp
+                                ),
                                 maxLines = 1,
                                 colors = TextFieldDefaults.textFieldColors(
                                     containerColor = BlueGray900
@@ -617,8 +615,7 @@ object DialogAlerts {
                             )
                             Text(
                                 text = "kg",
-                                color = BlueGray50,
-                                fontFamily = mainFamily,
+                                style = MaterialTheme.typography.caption,
                                 fontSize = 40.sp,
                                 textAlign = TextAlign.Left
                             )
@@ -677,8 +674,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -691,15 +687,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -771,8 +766,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -785,15 +779,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -1034,8 +1027,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -1048,15 +1040,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -1109,13 +1100,14 @@ object DialogAlerts {
                                     .fillMaxWidth()
                                     .shadow(ambientColor = Color.Black, elevation = 4.dp)
                                     .background(
-                                        color = BlueGray900
+                                        color = MaterialTheme.colors.secondary
                                     )
                                     .padding(10.dp)
                             ) {
 
                                 Text(
-                                    text = "${trainingPlan.exercise[it].type} - ${Convert.convertExerciseNameToBetterView(trainingPlan.exercise[it].name)} (${trainingPlan.exercise[it].numberOfSets} serii)"
+                                    text = "${trainingPlan.exercise[it].type} - ${Convert.convertExerciseNameToBetterView(trainingPlan.exercise[it].name)} (${trainingPlan.exercise[it].numberOfSets} serii)",
+                                    style = MaterialTheme.typography.caption,
                                 )
                             }
 
@@ -1153,8 +1145,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -1167,15 +1158,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
@@ -1240,6 +1230,10 @@ object DialogAlerts {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.typography.caption.color
+                                    )
                                     .selectable(
                                         selected = selectedTraining == it,
                                         onClick = {
@@ -1251,9 +1245,9 @@ object DialogAlerts {
                                     .shadow(ambientColor = Color.Black, elevation = 4.dp)
                                     .background(
                                         if(selectedTraining == it)
-                                            BlueGray500
+                                            MaterialTheme.colors.secondary
                                         else
-                                            BlueGray900
+                                            MaterialTheme.colors.primary
                                     )
                                     .padding(10.dp),
                                 horizontalArrangement = Arrangement.Center
@@ -1261,6 +1255,7 @@ object DialogAlerts {
 
                                 Text(
                                     text = trainingPlans[it].planName,
+                                    style = MaterialTheme.typography.caption,
                                     fontSize = 30.sp
                                 )
                             }
@@ -1288,8 +1283,7 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = confirmButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
@@ -1302,15 +1296,14 @@ object DialogAlerts {
                     ) {
                         Text(
                             text = dismissButtonText,
-                            color = BlueGray50,
-                            fontFamily = mainFamily,
+                            style = MaterialTheme.typography.caption,
                             fontSize = 20.sp,
                         )
                     }
                 },
-                textContentColor = BlueGray50,
-                titleContentColor = BlueGray50,
-                containerColor = BlueGray800
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
             )
         }
 
