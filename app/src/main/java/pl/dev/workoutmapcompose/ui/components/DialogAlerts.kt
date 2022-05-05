@@ -35,6 +35,7 @@ import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.*
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
+import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
@@ -238,10 +239,10 @@ object DialogAlerts {
 
         var nameTextState by remember { mutableStateOf(TextFieldValue()) }
         var surnameTextState by remember { mutableStateOf(TextFieldValue()) }
-        var agePickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.age.toInt()) }
+        var agePickerState by remember { mutableStateOf(viewModel.userInfoResult.value!!.age.toInt()) }
         val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna")
-        var genderPickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.gender) }
-        var heightPickerState by remember { mutableStateOf(viewModel.userInfoListResult.value!!.height.toInt()) }
+        var genderPickerState by remember { mutableStateOf(viewModel.userInfoResult.value!!.gender) }
+        var heightPickerState by remember { mutableStateOf(viewModel.userInfoResult.value!!.height.toInt()) }
 
         var openDialog by remember {
             mutableStateOf(true)
@@ -428,11 +429,16 @@ object DialogAlerts {
                         onClick = {
                             try {
                                 if(nameTextState.text.isNotBlank() && surnameTextState.text.isNotBlank()){
-                                    viewModel.updateUserName(nameTextState.text)
-                                    viewModel.updateUserSurname(surnameTextState.text)
-                                    viewModel.updateUserAge(agePickerState.toString())
-                                    viewModel.updateUserHeight(heightPickerState.toString())
-                                    viewModel.updateUserGender(genderPickerState)
+                                    val updatedUserInfo = UserInfo(
+                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
+                                        name = nameTextState.text,
+                                        surName = surnameTextState.text,
+                                        age =  agePickerState.toString(),
+                                        height =  heightPickerState.toString(),
+                                        gender = genderPickerState,
+                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
+                                    )
+                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -440,10 +446,16 @@ object DialogAlerts {
                                     ).show()
                                     openDialog = false
                                 }else if(nameTextState.text.isNotBlank() && surnameTextState.text.isBlank()){
-                                    viewModel.updateUserName(nameTextState.text)
-                                    viewModel.updateUserAge(agePickerState.toString())
-                                    viewModel.updateUserHeight(heightPickerState.toString())
-                                    viewModel.updateUserGender(genderPickerState)
+                                    val updatedUserInfo = UserInfo(
+                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
+                                        name = nameTextState.text,
+                                        surName = viewModel.userInfoResult.value!!.surName,
+                                        age =  agePickerState.toString(),
+                                        height =  heightPickerState.toString(),
+                                        gender = genderPickerState,
+                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
+                                    )
+                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -451,10 +463,16 @@ object DialogAlerts {
                                     ).show()
                                     openDialog = false
                                 }else if(nameTextState.text.isBlank() && surnameTextState.text.isNotBlank()){
-                                    viewModel.updateUserSurname(surnameTextState.text)
-                                    viewModel.updateUserAge(agePickerState.toString())
-                                    viewModel.updateUserHeight(heightPickerState.toString())
-                                    viewModel.updateUserGender(genderPickerState)
+                                    val updatedUserInfo = UserInfo(
+                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
+                                        name = viewModel.userInfoResult.value!!.name,
+                                        surName = surnameTextState.text,
+                                        age =  agePickerState.toString(),
+                                        height =  heightPickerState.toString(),
+                                        gender = genderPickerState,
+                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
+                                    )
+                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
                                     Toast.makeText(
                                         instance,
                                         toastCorrectText,
@@ -462,11 +480,22 @@ object DialogAlerts {
                                     ).show()
                                     openDialog = false
                                 }else{
+                                    val updatedUserInfo = UserInfo(
+                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
+                                        name = viewModel.userInfoResult.value!!.name,
+                                        surName = viewModel.userInfoResult.value!!.surName,
+                                        age =  agePickerState.toString(),
+                                        height =  heightPickerState.toString(),
+                                        gender = genderPickerState,
+                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
+                                    )
+                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
                                     Toast.makeText(
                                         instance,
-                                        "Wpisz nowe dane",
+                                        toastCorrectText,
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    openDialog = false
                                 }
                             } catch (e: Exception) {
                                 Toast.makeText(

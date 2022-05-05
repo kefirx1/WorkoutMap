@@ -18,7 +18,9 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
-    val userInfoListResult: MutableState<UserInfo?> = mutableStateOf(null)
+    val userInfoResult: MutableState<UserInfo?> = mutableStateOf(null)
+
+    fun updateUserPersonalInfo(userInfo: UserInfo) = wmRepository.updateUserPersonalInfo(userInfo)
 
     fun updateUserName(userName: String) = wmRepository.updateUserName(userName)
 
@@ -32,7 +34,7 @@ constructor(
 
     fun getUserInfo(){
         viewModelScope.launch {
-            userInfoListResult.value = wmRepository.getUserInfo()
+            userInfoResult.value = wmRepository.getUserInfo()
         }
     }
 

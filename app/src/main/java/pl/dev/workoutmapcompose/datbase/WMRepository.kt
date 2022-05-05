@@ -46,6 +46,11 @@ class WMRepository (application: Application){
     }
 
     //SettingsViewModel
+
+    fun updateUserPersonalInfo(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
+        userInfoDao.update(userInfo)
+    }
+
     fun updateUserName(newName: String) = CoroutineScope(Dispatchers.IO).launch {
         val userInfo = getUserInfo()
         userInfo.name = newName
