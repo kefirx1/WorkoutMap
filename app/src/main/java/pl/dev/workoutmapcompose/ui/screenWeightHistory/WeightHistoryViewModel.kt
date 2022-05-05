@@ -7,7 +7,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.dev.workoutmapcompose.data.MainViewInfo
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.datbase.WMRepository
 
@@ -26,8 +25,7 @@ constructor(
 
     fun getWeightHistory(){
         viewModelScope.launch {
-            val result = wmRepository.getUserWeightHistory()
-            weightHistoryResult.value = result as ArrayList<WeightHistory>
+            weightHistoryResult.value = wmRepository.getUserWeightHistory()
         }
     }
 

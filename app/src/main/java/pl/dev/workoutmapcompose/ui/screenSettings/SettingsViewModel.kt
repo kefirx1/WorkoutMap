@@ -7,7 +7,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.datbase.WMRepository
 
@@ -32,7 +31,9 @@ constructor(
     fun updateUserHeight(userHeight: String) = wmRepository.updateUserHeight(userHeight)
 
     fun getUserInfo(){
-        userInfoListResult.value = wmRepository.getUserInfo()
+        viewModelScope.launch {
+            userInfoListResult.value = wmRepository.getUserInfo()
+        }
     }
 
     fun wipeData() = wmRepository.wipeData()

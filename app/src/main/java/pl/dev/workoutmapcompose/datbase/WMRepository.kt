@@ -100,8 +100,8 @@ class WMRepository (application: Application){
     fun insertNewWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
         weightHistoryDao.insert(weightHistory)
     }
-    fun getUserWeightHistory(): List<WeightHistory> {
-        return weightHistoryDao.getWeightHistory()
+    fun getUserWeightHistory(): ArrayList<WeightHistory> {
+        return weightHistoryDao.getWeightHistory() as ArrayList<WeightHistory>
     }
     fun deleteWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
         weightHistoryDao.delete(weightHistory)

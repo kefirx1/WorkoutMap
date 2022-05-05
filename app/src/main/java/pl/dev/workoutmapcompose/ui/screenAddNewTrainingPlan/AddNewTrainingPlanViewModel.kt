@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.datbase.WMRepository
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
@@ -18,16 +20,20 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
-    val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
+    private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
     fun getExercisesJSON(context: Context){
-        exercisesJSONResult.value = wmRepository.getExercisesJSON(context = context)
+        viewModelScope.launch {
+            exercisesJSONResult.value = wmRepository.getExercisesJSON(context = context)
+        }
     }
 
     fun getTrainingPlansList(){
-        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
+        viewModelScope.launch {
+            trainingPlansListResult.value = wmRepository.getTrainingPlansList()
+        }
     }
 
     fun getExercisesArrayList(

@@ -25,20 +25,19 @@ constructor(
 
     init {
         viewModelScope.launch {
-            val result = wmRepository.getUserFirstPageInfo()
-            userMainViewInfoResult.value = result
+            userMainViewInfoResult.value = wmRepository.getUserFirstPageInfo()
         }
     }
 
-
     fun getTrainingPlansList(){
-        trainingPlansListResult.value = wmRepository.getTrainingPlansList()
+        viewModelScope.launch {
+            trainingPlansListResult.value = wmRepository.getTrainingPlansList()
+        }
     }
 
     fun getUserMainViewInfo() {
         viewModelScope.launch {
-            val result = wmRepository.getUserFirstPageInfo()
-            userMainViewInfoResult.value = result
+            userMainViewInfoResult.value = wmRepository.getUserFirstPageInfo()
         }
     }
 

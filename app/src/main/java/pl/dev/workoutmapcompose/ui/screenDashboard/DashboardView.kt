@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
@@ -23,7 +22,8 @@ import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
-import pl.dev.workoutmapcompose.ui.theme.*
+import pl.dev.workoutmapcompose.ui.theme.BlueGray50
+import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
 
 @ExperimentalPagerApi
 @Composable
