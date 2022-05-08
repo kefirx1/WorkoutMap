@@ -22,10 +22,10 @@ fun MainWorkout(
 
     viewModel.getTrainingPlansList()
     viewModel.getWorkoutHistory()
-    viewModel.getProgressHistory()
 
     val trainingPlan = viewModel.trainingPlansListResult.value!![trainingPlanIndex]
     val workoutHistory = viewModel.workoutHistoryResult.value!![trainingPlanIndex]
+    viewModel.getExercisesProgressHistory(trainingPlan = trainingPlan)
     val progressHistory = viewModel.progressHistoryResult.value
 
 
