@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -166,7 +164,7 @@ fun MainWeightHistoryView(
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
                                 Text(
-                                    text = Convert.convertTimeInSecToDateString(sortedWeightHistoryList[it].weighingDate),
+                                    text = Convert.convertDateInSecToDateString(sortedWeightHistoryList[it].weighingDate),
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )

@@ -693,7 +693,7 @@ object DialogAlerts {
                                         openDialog = false
                                         val newWeightHistory = WeightHistory(
                                             weight = weightTextState.text,
-                                            weighingDate = Convert.convertIntValuesToTimeInSec(cYear, cMonth, cDay)
+                                            weighingDate = Convert.convertIntValuesToDateInSec(cYear, cMonth, cDay)
                                         )
 
                                         try{
@@ -753,7 +753,7 @@ object DialogAlerts {
         weightHistory: WeightHistory
     ): Boolean {
 
-        val dialogTitle = Convert.convertTimeInSecToDateString(weightHistory.weighingDate)
+        val dialogTitle = Convert.convertDateInSecToDateString(weightHistory.weighingDate)
         val dialogText = "Zatwierdzenie spowoduje usunięcie danego zapisu wagi, nie można tego cofnąć!"
         val confirmButtonText = "USUŃ"
         val dismissButtonText = "ANULUJ"

@@ -1,5 +1,6 @@
 package pl.dev.workoutmapcompose
 
+import android.icu.text.StringPrepParseException
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -39,7 +40,7 @@ object Convert {
     }
 
 
-    fun convertIntValuesToTimeInSec(
+    fun convertIntValuesToDateInSec(
         year: Int,
         month: Int,
         day: Int
@@ -51,7 +52,19 @@ object Convert {
         return weighingDateInSec.toInt()
     }
 
-    fun convertTimeInSecToDateString(
+    fun convertTimeInSecToTimeString(
+        timeInSec: Int
+    ): String {
+
+        val hours = timeInSec / 3600
+        val minutes = (timeInSec % 3600 ) / 60
+        val seconds = timeInSec % 60
+
+        return "$hours:$minutes:$seconds"
+
+    }
+
+    fun convertDateInSecToDateString(
         dateInSec: Int
     ): String {
         val dateOfWeighting = LocalDateTime.ofInstant(Instant.ofEpochSecond(dateInSec.toLong()), ZoneId.systemDefault())
