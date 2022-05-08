@@ -1320,12 +1320,18 @@ object DialogAlerts {
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            openDialog = false
-
-                            val intent = Intent(instance, WorkoutActivity::class.java)
-                            intent.putExtra("TRAINING_INDEX", selectedTraining)
-                            instance.startActivity(intent)
-
+                            if(selectedTraining!=-1){
+                                openDialog = false
+                                val intent = Intent(instance, WorkoutActivity::class.java)
+                                intent.putExtra("TRAINING_INDEX", selectedTraining)
+                                instance.startActivity(intent)
+                            }else{
+                                Toast.makeText(
+                                    instance,
+                                    "Wybierz plan treningowy",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     ) {
                         Text(
