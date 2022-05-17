@@ -1,13 +1,15 @@
 package pl.dev.workoutmapcompose.ui.screenRegistration
 
 import android.app.Application
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.datbase.WMRepository
+import javax.inject.Inject
 
+@HiltViewModel
 class RegistrationViewModel
-@ViewModelInject
+@Inject
 constructor(
     application: Application
 ): ViewModel(){

@@ -1,9 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenWorkout
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -17,12 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import pl.dev.workoutmapcompose.Convert
 import pl.dev.workoutmapcompose.WorkoutActivity
-import pl.dev.workoutmapcompose.data.Exercise
-import pl.dev.workoutmapcompose.services.TimerService
 import pl.dev.workoutmapcompose.ui.components.HeaderComponent
-import pl.dev.workoutmapcompose.ui.theme.buttonsSettings
 
 
 @Composable
@@ -40,31 +34,19 @@ fun MainWorkout(
     viewModel.getExercisesProgressHistory(trainingPlan = trainingPlan)
     val progressHistory = viewModel.progressHistoryResult.value
 
-//    lateinit var serviceIntent: Intent
-
-    var timeOfWorkout by remember {
-        mutableStateOf(0.0)
-    }
     var currentExerciseIndex by remember {
         mutableStateOf(0)
     }
     var currentExerciseSet by remember {
         mutableStateOf(1)
     }
-
-//    val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            timeOfWorkout = intent!!.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-//        }
-//    }
-//
-//    serviceIntent = Intent(instance, TimerService::class.java)
-//    instance.registerReceiver(updateTime, IntentFilter(TimerService.TIMER_UPDATED))
-//
-//    serviceIntent.putExtra(TimerService.TIME_EXTRA, timeOfWorkout)
-//    instance.startService(serviceIntent)
-
-
+    var timerTicks by remember { mutableStateOf(0) }
+    LaunchedEffect(Unit) {
+        while(true) {
+            delay(1000)
+            timerTicks++
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -82,7 +64,7 @@ fun MainWorkout(
         Text(
             modifier = Modifier
                 .padding(top = 10.dp),
-            text = "Czas treningu: ${Convert.convertTimeInSecToTimeString(timeInSec = timeOfWorkout.toInt())}",
+            text = "Czas treningu: ${Convert.convertTimeInSecToTimeString(timeInSec = timerTicks)}",
             style = MaterialTheme.typography.caption,
             fontSize = 20.sp
         )
@@ -161,4 +143,6 @@ fun MainWorkout(
 
     }
 
+
 }
+

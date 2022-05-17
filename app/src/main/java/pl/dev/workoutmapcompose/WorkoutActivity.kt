@@ -22,6 +22,7 @@ class WorkoutActivity : ComponentActivity() {
         setContent {
             WorkoutMapComposeTheme {
                 viewModel = viewModel(factory = WorkoutViewModelFactory(application))
+
                 MainWorkout(
                     instance = this,
                     viewModel = viewModel,
@@ -30,4 +31,6 @@ class WorkoutActivity : ComponentActivity() {
             }
         }
     }
+
+
 }

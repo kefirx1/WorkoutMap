@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity(){
 
         if (!viewModelMain.userExist()) {
             Log.e("TAG", "User not exist")
-            //REGISTER USER
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         } else {
