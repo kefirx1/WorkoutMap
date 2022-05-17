@@ -17,6 +17,7 @@ import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
+import java.sql.Timestamp
 import javax.inject.Singleton
 
 
@@ -207,6 +208,10 @@ class WMRepository (application: Application){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("workoutHistory").setValue(workoutHistoryList)
     }
+    fun updateProgressHistory(progressHistory: ProgressHistory){
+        val reference = firebase.getReference(getUserInfo().userFirebaseID)
+        reference.child("progressHistory").setValue(progressHistory)
+    }
     fun deleteTrainingPlan(trainingPlan: TrainingPlan){
         val trainingPlansList = getTrainingPlansList()
         val workoutHistoryList = getWorkoutHistoryList()
@@ -217,6 +222,49 @@ class WMRepository (application: Application){
 
         updateTrainingPlan(trainingPlansList)
         updateWorkoutHistory(workoutHistoryList)
+    }
+
+
+    //WorkoutView
+    private fun insertWorkoutHistory(workoutHistory: WorkoutHistory, workoutIndex: Int) {
+        val workoutHistoryList = getWorkoutHistoryList()
+        workoutHistoryList.removeAt(workoutIndex)
+        workoutHistoryList.add(
+            index = workoutIndex,
+            workoutHistory
+        )
+        updateWorkoutHistory(workoutHistoryList = workoutHistoryList)
+    }
+    private fun insertProgressHistory(newProgressHistory: ProgressHistory, timestampInt: Int) {
+        val progressHistory = getProgressHistory()
+
+        if(progressHistory != null){
+            val newProgressHistoryKeys = newProgressHistory.exercisesProgress.keys
+            newProgressHistoryKeys.forEach{
+
+                val oldProgressHistory = progressHistory.exercisesProgress[it]
+
+                oldProgressHistory!![timestampInt.toString()] = newProgressHistory.exercisesProgress[it]!![timestampInt.toString()]!!
+
+                progressHistory.exercisesProgress[it] = oldProgressHistory
+            }
+            updateProgressHistory(progressHistory)
+        }else{
+            updateProgressHistory(newProgressHistory)
+        }
+
+    }
+    fun insertNewTrainingInfo(workoutHistory: WorkoutHistory, workoutIndex: Int, newProgressHistory: ProgressHistory, timestampInt: Int){
+
+        insertWorkoutHistory(
+            workoutHistory = workoutHistory,
+            workoutIndex = workoutIndex
+        )
+        insertProgressHistory(
+            newProgressHistory = newProgressHistory,
+            timestampInt = timestampInt
+        )
+
     }
 
 
@@ -262,7 +310,6 @@ class WMRepository (application: Application){
     }
 
     fun getUserInfo(): UserInfo {
-        println(userInfoDao.getUserInfo())
         return userInfoDao.getUserInfo()
     }
 

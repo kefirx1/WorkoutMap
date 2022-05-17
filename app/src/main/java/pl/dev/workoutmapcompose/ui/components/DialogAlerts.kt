@@ -42,6 +42,7 @@ import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.Purple500
@@ -1363,6 +1364,79 @@ object DialogAlerts {
         return openDialog
 
     }
+
+
+    @Composable
+    fun workoutEndDialogAlert(
+        instance: WorkoutActivity,
+        viewModel: WorkoutViewModel
+    ): Boolean {
+
+        val dialogTitle = "KONIEC TRENINGU"
+        val dialogText = "Jeśli zakończysz aktualny trening progres reszty ćwiczeń zostanie wyzerowany!"
+        val confirmButtonText = "ZAKOŃCZ"
+        val dismissButtonText = "COFNIJ"
+
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
+
+
+
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 30.sp
+                    )
+                },
+                text = {
+                    Text(
+                        text = dialogText,
+                        fontSize = 15.sp,
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
+            )
+        }
+
+        return openDialog
+
+    }
+
 
 }
 

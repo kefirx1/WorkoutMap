@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WorkoutHistory
 import pl.dev.workoutmapcompose.datbase.WMRepository
+import java.sql.Timestamp
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,14 +24,16 @@ constructor(
     private val wmRepository = WMRepository(application = application)
 
     val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
+    val lastExerciseProgressResult: MutableState<String> = mutableStateOf("")
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
-    val progressHistoryResult: MutableState<HashMap<String, Map<String, ArrayList<String>>>> = mutableStateOf(HashMap())
+    val progressHistoryResult: MutableState<MutableMap<String, HashMap<String, ArrayList<String>>>> = mutableStateOf(HashMap())
 
     fun getWorkoutHistory(){
         viewModelScope.launch {
             workoutHistoryResult.value = wmRepository.getWorkoutHistoryList()
         }
     }
+
 
     fun getExercisesProgressHistory(trainingPlan: TrainingPlan){
         viewModelScope.launch {
@@ -38,7 +42,7 @@ constructor(
 
             if(progressHistory!=null){
                 val exercisesSet = HashSet<String>()
-                val progressHistoryForPlanList: HashMap<String, Map<String, ArrayList<String>>> = HashMap()
+                val progressHistoryForPlanList: MutableMap<String, HashMap<String, ArrayList<String>>> = HashMap()
 
                 trainingPlan.exercise.forEach{
                     if(progressHistory.exercisesProgress.keys.contains(it.name)){
@@ -59,10 +63,23 @@ constructor(
         }
     }
 
+    fun insertNewTrainingInfo(workoutHistory: WorkoutHistory, workoutIndex: Int, newProgressHistory: ProgressHistory, timestampInt: Int){
+        viewModelScope.launch {
+            wmRepository.insertNewTrainingInfo(
+                workoutHistory = workoutHistory,
+                workoutIndex = workoutIndex,
+                newProgressHistory = newProgressHistory,
+                timestampInt = timestampInt
+            )
+        }
+    }
+
+
     fun getTrainingPlansList(){
         viewModelScope.launch {
             trainingPlansListResult.value = wmRepository.getTrainingPlansList()
         }
     }
+
 
 }
