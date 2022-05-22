@@ -1,5 +1,6 @@
 package pl.dev.workoutmapcompose.ui.components
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.widget.DatePicker
@@ -33,7 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.*
-import pl.dev.workoutmapcompose.data.*
+import pl.dev.workoutmapcompose.data.Exercise
+import pl.dev.workoutmapcompose.data.TrainingPlan
+import pl.dev.workoutmapcompose.data.UserInfo
+import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
@@ -87,21 +91,16 @@ object DialogAlerts {
                         onClick = {
                             openDialog = false
                             if (viewModel.wipeData()) {
-                                Toast.makeText(
-                                    instance,
-                                    toastCorrectText,
-                                    Toast.LENGTH_SHORT
+                                showShortToastError(
+                                    textError = toastCorrectText,
+                                    instance = instance
                                 )
-                                    .show()
-                                val intent = Intent(instance, RegisterActivity::class.java)
-                                instance.startActivity(intent)
+                                instance.startActivity(Intent(instance, RegisterActivity::class.java))
                             } else {
-                                Toast.makeText(
-                                    instance,
-                                    toastFailureText,
-                                    Toast.LENGTH_SHORT
+                                showShortToastError(
+                                    textError = toastFailureText,
+                                    instance = instance
                                 )
-                                    .show()
                             }
                         }
                     ) {
@@ -176,17 +175,15 @@ object DialogAlerts {
                         onClick = {
                             openDialog = false
                             if (viewModel.wipeTrainingPlans()) {
-                                Toast.makeText(
-                                    instance,
-                                    toastCorrectText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastCorrectText,
+                                    instance = instance
+                                )
                             } else {
-                                Toast.makeText(
-                                    instance,
-                                    toastFailureText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastFailureText,
+                                    instance = instance
+                                )
                             }
                         }
                     ) {
@@ -423,7 +420,6 @@ object DialogAlerts {
                     TextButton(
                         onClick = {
                             try {
-
                                 val updatedUserInfo = UserInfo(
                                     userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
                                     name = viewModel.userInfoResult.value!!.name,
@@ -440,40 +436,33 @@ object DialogAlerts {
                                     updatedUserInfo.age = agePickerState.toString()
                                     updatedUserInfo.height = heightPickerState.toString()
                                     updatedUserInfo.gender = genderPickerState
-
                                 }else if(nameTextState.text.isNotBlank() && surnameTextState.text.isBlank()){
                                     updatedUserInfo.name = nameTextState.text
                                     updatedUserInfo.age = agePickerState.toString()
                                     updatedUserInfo.height = heightPickerState.toString()
                                     updatedUserInfo.gender = genderPickerState
-
                                 }else if(nameTextState.text.isBlank() && surnameTextState.text.isNotBlank()){
                                     updatedUserInfo.surName = surnameTextState.text
                                     updatedUserInfo.age = agePickerState.toString()
                                     updatedUserInfo.height = heightPickerState.toString()
                                     updatedUserInfo.gender = genderPickerState
-
                                 }else{
                                     updatedUserInfo.age = agePickerState.toString()
                                     updatedUserInfo.height = heightPickerState.toString()
                                     updatedUserInfo.gender = genderPickerState
-
                                 }
                                 viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                Toast.makeText(
-                                    instance,
-                                    toastCorrectText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastCorrectText,
+                                    instance = instance
+                                )
                                 openDialog = false
 
-
                             } catch (e: Exception) {
-                                Toast.makeText(
-                                    instance,
-                                    toastFailureText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastFailureText,
+                                    instance = instance
+                                )
                             }
                         }
                     ) {
@@ -519,8 +508,10 @@ object DialogAlerts {
         val dismissButtonText = "ANULUJ"
         val toastCorrectText = "Waga została dodana"
         val toastFailureText = "Błąd - waga nie została dodana"
+        val nonWeightError = "Musisz podać wagę"
+        val futureDateError =  "Nie możesz ustawiać przyszłej daty"
+        val tooMuchWeightError = "Podałeś za dużą wagę"
 
-        val mContext = LocalContext.current
         val mCalendar = Calendar.getInstance()
 
         val mYear = mCalendar.get(Calendar.YEAR)
@@ -530,17 +521,14 @@ object DialogAlerts {
         var cMonth = mCalendar.get(Calendar.MONTH)
         var cDay = mCalendar.get(Calendar.DAY_OF_MONTH)
 
-
         mCalendar.time = Date()
 
         val mDate = remember {
             mutableStateOf("$mDay/${mMonth+1}/$mYear")
         }
-
         var weightTextState by remember {
             mutableStateOf(TextFieldValue())
         }
-
         var openDialog by remember {
             mutableStateOf(true)
         }
@@ -559,13 +547,13 @@ object DialogAlerts {
                 },
                 text = {
                     val mDatePickerDialog = DatePickerDialog(
-                        mContext,
+                        LocalContext.current,
                         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
                             mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
                             cYear = mYear
                             cMonth = mMonth
                             cDay = mDayOfMonth
-                        }, mYear, mMonth, mDay
+                        }, mYear, mMonth, mDay,
                     )
 
                     Column(
@@ -641,25 +629,22 @@ object DialogAlerts {
                     TextButton(
                         onClick = {
                             if(weightTextState.text.isBlank()){
-                                Toast.makeText(
-                                    instance,
-                                    "Musisz podać wagę",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = nonWeightError,
+                                    instance = instance
+                                )
                             }else{
                                 if(cYear>mYear || cMonth>mMonth || cDay>mDay){
-                                    Toast.makeText(
-                                        instance,
-                                        "Nie możesz ustawiać przyszłej daty",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    showShortToastError(
+                                        textError = futureDateError,
+                                        instance = instance
+                                    )
                                 }else{
                                     if(weightTextState.text.toFloat()>300){
-                                        Toast.makeText(
-                                            instance,
-                                            "Podałeś za dużą wagę",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        showShortToastError(
+                                            textError = tooMuchWeightError,
+                                            instance = instance
+                                        )
                                     }else{
                                         openDialog = false
                                         val newWeightHistory = WeightHistory(
@@ -669,17 +654,15 @@ object DialogAlerts {
 
                                         try{
                                             viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
-                                            Toast.makeText(
-                                                instance,
-                                                toastCorrectText,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            showShortToastError(
+                                                textError = toastCorrectText,
+                                                instance = instance
+                                            )
                                         }catch (e: Exception){
-                                            Toast.makeText(
-                                                instance,
-                                                toastFailureText,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            showShortToastError(
+                                                textError = toastFailureText,
+                                                instance = instance
+                                            )
                                         }
                                     }
                                 }
@@ -763,17 +746,15 @@ object DialogAlerts {
 
                             try {
                                 viewModel.deleteWeightHistory(weightHistory = weightHistory)
-                                Toast.makeText(
-                                    instance,
-                                    toastCorrectText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastCorrectText,
+                                    instance = instance
+                                )
                             } catch (e: Exception) {
-                                Toast.makeText(
-                                    instance,
-                                    toastFailureText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastFailureText,
+                                    instance = instance
+                                )
                             }
 
                         }
@@ -821,6 +802,8 @@ object DialogAlerts {
         val dismissButtonText = "ANULUJ"
         val toastCorrectText = "Ćwiczenie zostało dodane"
         val toastFailureText = "Błąd - ćwiczenie nie została usunięta"
+        val incorrectSetsNumberError = "Liczba serii musi mieścić się w przedziale 1-20"
+        val incorrectDataError = "Podaj odpowiednie dane"
 
 
         var openDialog by remember {
@@ -960,15 +943,14 @@ object DialogAlerts {
                             ),
                             value = setsTextState,
                             onValueChange = {
-                                if(it.text.isNotBlank() && it.text.toFloat()<40){
+                                if(it.text.isNotBlank() && it.text.toFloat()<=20){
                                     setsTextState = it
                                 }else{
                                     setsTextState = TextFieldValue("")
-                                    Toast.makeText(
-                                        instance,
-                                        "Zła liczba serii",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    showShortToastError(
+                                        textError = incorrectSetsNumberError,
+                                        instance = instance
+                                    )
                                 }
                             },
                             textStyle = TextStyle(
@@ -997,47 +979,41 @@ object DialogAlerts {
                 confirmButton = {
                     TextButton(
                         onClick = {
+                            newExercise.type = exerciseTypesSelected
+                            newExercise.name = exerciseSelected
                             try{
                                 newExercise.numberOfSets = setsTextState.text.toFloat().toInt()
-                                newExercise.type = exerciseTypesSelected
-                                newExercise.name = exerciseSelected
                             }catch (e: Exception){
-                                Toast.makeText(
-                                    instance,
-                                    "Podaj odpowiednie dane",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = incorrectDataError,
+                                    instance = instance
+                                )
                             }
-
                             if (newExercise.name == "Wybierz ćwiczenie" || newExercise.name.isBlank() || newExercise.type.isBlank()) {
-                                Toast.makeText(
-                                    instance,
-                                    "Podaj odpowiednie dane",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = incorrectDataError,
+                                    instance = instance
+                                )
                             } else {
-                                if (newExercise.numberOfSets in 1..10) {
+                                if (newExercise.numberOfSets in 1..20) {
                                     openDialog = false
                                     try {
                                         selectedExercisesList.add(newExercise)
-                                        Toast.makeText(
-                                            instance,
-                                            toastCorrectText,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        showShortToastError(
+                                            textError = toastCorrectText,
+                                            instance = instance
+                                        )
                                     } catch (e: Exception) {
-                                        Toast.makeText(
-                                            instance,
-                                            toastFailureText,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        showShortToastError(
+                                            textError = toastFailureText,
+                                            instance = instance
+                                        )
                                     }
                                 } else {
-                                    Toast.makeText(
-                                        instance,
-                                        "Liczba serii musi mieścić się w przedziale 1-10",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    showShortToastError(
+                                        textError = incorrectSetsNumberError,
+                                        instance = instance
+                                    )
                                 }
 
                             }
@@ -1143,22 +1119,18 @@ object DialogAlerts {
                     TextButton(
                         onClick = {
                             openDialog = false
-
                             try {
                                 viewModel.deleteTrainingPlan(trainingPlan = trainingPlan)
-                                Toast.makeText(
-                                    instance,
-                                    toastCorrectText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastCorrectText,
+                                    instance = instance
+                                )
                             } catch (e: Exception) {
-                                Toast.makeText(
-                                    instance,
-                                    toastFailureText,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = toastFailureText,
+                                    instance = instance
+                                )
                             }
-
                         }
                     ) {
                         Text(
@@ -1203,6 +1175,7 @@ object DialogAlerts {
         val dialogTitle = "TRENUJ"
         val confirmButtonText = "START"
         val dismissButtonText = "COFNIJ"
+        val chooseTrainingPlanError = "Wybierz plan treningowy"
 
         val currentDayInt = DateTimeFunctionalities.getCurrentDayToIntValue()
         val trainingPlans = viewModel.trainingPlansListResult.value!!
@@ -1293,15 +1266,15 @@ object DialogAlerts {
                         onClick = {
                             if(selectedTraining!=-1){
                                 openDialog = false
-                                val intent = Intent(instance, WorkoutActivity::class.java)
-                                intent.putExtra("TRAINING_INDEX", selectedTraining)
+                                val intent = Intent(instance, WorkoutActivity::class.java).apply {
+                                    putExtra("TRAINING_INDEX", selectedTraining)
+                                }
                                 instance.startActivity(intent)
                             }else{
-                                Toast.makeText(
-                                    instance,
-                                    "Wybierz plan treningowy",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToastError(
+                                    textError = chooseTrainingPlanError,
+                                    instance = instance
+                                )
                             }
                         }
                     ) {
@@ -1349,7 +1322,6 @@ object DialogAlerts {
         var openDialog by remember {
             mutableStateOf(true)
         }
-
 
         if (openDialog) {
             AlertDialog(
@@ -1403,6 +1375,15 @@ object DialogAlerts {
 
         return openDialog
 
+    }
+
+
+    private fun showShortToastError(textError: String, instance: Activity){
+        Toast.makeText(
+            instance,
+            textError,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 

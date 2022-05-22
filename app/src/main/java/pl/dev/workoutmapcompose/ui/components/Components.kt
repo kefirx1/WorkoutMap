@@ -16,14 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.WorkoutActivity
-import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
-
-
-fun exitSettings(
-    instance: Activity
-){
-    instance.finish()
-}
 
 
 @Composable
@@ -88,7 +80,7 @@ fun HeaderComponent(
     ) {
         IconButton(
             onClick = {
-                exitSettings(instance)
+                instance.finish()
             }) {
             Icon(
                 Icons.Filled.ArrowBack,
