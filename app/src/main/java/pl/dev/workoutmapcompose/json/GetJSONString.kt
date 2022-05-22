@@ -6,15 +6,14 @@ import java.io.IOException
 class GetJSONString {
 
     fun getJsonStringFromAssets(context: Context, jsonFileName: String): String?{
-        val jsonString: String
 
-        try{
-            jsonString = context.assets.open(jsonFileName).bufferedReader().use { it.readText() }
+        return try{
+            context.assets.open(jsonFileName).bufferedReader().use { it.readText() }
         }catch (ioException: IOException){
             ioException.printStackTrace()
-            return null
+            null
         }
-        return jsonString
+
     }
 
 }

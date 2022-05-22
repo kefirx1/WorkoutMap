@@ -24,16 +24,6 @@ constructor(
 
     fun updateUserPersonalInfo(userInfo: UserInfo) = wmRepository.updateUserPersonalInfo(userInfo)
 
-    fun updateUserName(userName: String) = wmRepository.updateUserName(userName)
-
-    fun updateUserSurname(userSurname: String) = wmRepository.updateUserSurname(userSurname)
-
-    fun updateUserAge(userAge: String) = wmRepository.updateUserAge(userAge)
-
-    fun updateUserGender(userGender: String) = wmRepository.updateUserGender(userGender)
-
-    fun updateUserHeight(userHeight: String) = wmRepository.updateUserHeight(userHeight)
-
     fun getUserInfo(){
         viewModelScope.launch {
             userInfoResult.value = wmRepository.getUserInfo()

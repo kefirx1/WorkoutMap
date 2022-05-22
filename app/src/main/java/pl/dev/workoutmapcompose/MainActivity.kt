@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity(){
     private lateinit var viewModelMain: WMViewModel
     private lateinit var viewModel: DashboardViewModel
 
+
     @OptIn(ExperimentalPagerApi::class)
     override fun onResume() {
         super.onResume()
@@ -29,15 +30,16 @@ class MainActivity : ComponentActivity(){
 
         if (!viewModelMain.userExist()) {
             Log.e("TAG", "User not exist")
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
         } else {
             setContent {
                 WorkoutMapComposeTheme {
                     viewModel = viewModel(factory = DashboardViewModelFactory(application))
                     viewModel.setFirebaseListener()
-                    MainDashboard(this, viewModel)
-                    println(viewModel.userMainViewInfoResult.value)
+                    MainDashboard(
+                        instance = this,
+                        viewModel = viewModel
+                    )
                 }
             }
         }

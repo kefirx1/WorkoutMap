@@ -3,7 +3,10 @@ package pl.dev.workoutmapcompose.datbase
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +20,6 @@ import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
-import java.sql.Timestamp
 import javax.inject.Singleton
 
 
@@ -47,34 +49,7 @@ class WMRepository (application: Application){
     }
 
     //SettingsViewModel
-
     fun updateUserPersonalInfo(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
-        userInfoDao.update(userInfo)
-    }
-
-    fun updateUserName(newName: String) = CoroutineScope(Dispatchers.IO).launch {
-        val userInfo = getUserInfo()
-        userInfo.name = newName
-        userInfoDao.update(userInfo)
-    }
-    fun updateUserSurname(newSurname: String) = CoroutineScope(Dispatchers.IO).launch {
-        val userInfo = getUserInfo()
-        userInfo.surName = newSurname
-        userInfoDao.update(userInfo)
-    }
-    fun updateUserAge(userAge: String) = CoroutineScope(Dispatchers.IO).launch {
-        val userInfo = getUserInfo()
-        userInfo.age = userAge
-        userInfoDao.update(userInfo)
-    }
-    fun updateUserGender(userGender: String) = CoroutineScope(Dispatchers.IO).launch {
-        val userInfo = getUserInfo()
-        userInfo.gender = userGender
-        userInfoDao.update(userInfo)
-    }
-    fun updateUserHeight(userHeight: String) = CoroutineScope(Dispatchers.IO).launch {
-        val userInfo = getUserInfo()
-        userInfo.height = userHeight
         userInfoDao.update(userInfo)
     }
     fun wipeData(): Boolean{
@@ -200,15 +175,15 @@ class WMRepository (application: Application){
         reference.child("trainingPlans").setValue(trainingPlans)
         reference.child("workoutHistory").setValue(workoutHistory)
     }
-    fun updateTrainingPlan(trainingPlansList: ArrayList<TrainingPlan>){
+    private fun updateTrainingPlan(trainingPlansList: ArrayList<TrainingPlan>){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlansList)
     }
-    fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutHistory>){
+    private fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutHistory>){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("workoutHistory").setValue(workoutHistoryList)
     }
-    fun updateProgressHistory(progressHistory: ProgressHistory){
+    private fun updateProgressHistory(progressHistory: ProgressHistory){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("progressHistory").setValue(progressHistory)
     }
@@ -241,12 +216,17 @@ class WMRepository (application: Application){
         if(progressHistory != null){
             val newProgressHistoryKeys = newProgressHistory.exercisesProgress.keys
             newProgressHistoryKeys.forEach{
+                val newProgressHistoryMap: HashMap<String, ArrayList<String>> = HashMap()
+                val oldProgressHistoryMap = progressHistory.exercisesProgress[it]
 
-                val oldProgressHistory = progressHistory.exercisesProgress[it]
+                if(oldProgressHistoryMap!=null){
+                    oldProgressHistoryMap[timestampInt.toString()] = newProgressHistory.exercisesProgress[it]!![timestampInt.toString()]!!
+                    progressHistory.exercisesProgress[it] = oldProgressHistoryMap
+                }else{
+                    newProgressHistoryMap[timestampInt.toString()] = newProgressHistory.exercisesProgress[it]!![timestampInt.toString()]!!
+                    progressHistory.exercisesProgress[it] = newProgressHistoryMap
+                }
 
-                oldProgressHistory!![timestampInt.toString()] = newProgressHistory.exercisesProgress[it]!![timestampInt.toString()]!!
-
-                progressHistory.exercisesProgress[it] = oldProgressHistory
             }
             updateProgressHistory(progressHistory)
         }else{

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import pl.dev.workoutmapcompose.data.ExerciseProgress
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WorkoutHistory
@@ -24,7 +25,7 @@ constructor(
     private val wmRepository = WMRepository(application = application)
 
     val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
-    val lastExerciseProgressResult: MutableState<String> = mutableStateOf("")
+    val exercisesProgressListResult: MutableState<ArrayList<ArrayList<ExerciseProgress>>?> = mutableStateOf(null)
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
     val progressHistoryResult: MutableState<MutableMap<String, HashMap<String, ArrayList<String>>>> = mutableStateOf(HashMap())
 
@@ -32,6 +33,30 @@ constructor(
         viewModelScope.launch {
             workoutHistoryResult.value = wmRepository.getWorkoutHistoryList()
         }
+    }
+
+    fun getSpecificExerciseProgressHistories(exerciseNameList: Set<String>){
+        viewModelScope.launch {
+            val result: ArrayList<ArrayList<ExerciseProgress>> = ArrayList()
+            exerciseNameList.forEach {
+                val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
+                val exerciseProgressMap = progressHistoryResult.value[it]
+                val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
+
+                exerciseProgressTimestampsKeys?.forEach { timestamp ->
+                    val exerciseProgress = ExerciseProgress(
+                        dateOfWorkout = timestamp,
+                        setsList = exerciseProgressMap[timestamp]!!
+                    )
+                    exerciseProgressList.add(exerciseProgress)
+                }
+
+                result.add(exerciseProgressList)
+            }
+
+            exercisesProgressListResult.value = result
+        }
+
     }
 
 

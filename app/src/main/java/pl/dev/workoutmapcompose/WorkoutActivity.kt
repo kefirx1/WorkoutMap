@@ -1,5 +1,8 @@
 package pl.dev.workoutmapcompose
 
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,7 +14,7 @@ import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 class WorkoutActivity : ComponentActivity() {
 
     private lateinit var viewModel: WorkoutViewModel
-
+    private var doubleBackToExitPressedOnce = false
     private var trainingPlanIndex = 0
 
     override fun onResume() {
@@ -30,6 +33,22 @@ class WorkoutActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        doubleBackToExitPressedOnce = true
+        Toast.makeText(
+            this,
+            "Kliknij dwa razy, by wyjść bez zapisywania",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
 
 

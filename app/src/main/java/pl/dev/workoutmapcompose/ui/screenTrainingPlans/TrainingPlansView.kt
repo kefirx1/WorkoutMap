@@ -128,8 +128,7 @@ fun MainTrainingPlansView(
                     .padding(end = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-                    val intent = Intent(instance, AddNewTrainingPlanActivity::class.java)
-                    instance.startActivity(intent)
+                    instance.startActivity(Intent(instance, AddNewTrainingPlanActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary
@@ -142,7 +141,6 @@ fun MainTrainingPlansView(
                     textAlign = TextAlign.Center
                 )
             }
-
 
 
         }else{

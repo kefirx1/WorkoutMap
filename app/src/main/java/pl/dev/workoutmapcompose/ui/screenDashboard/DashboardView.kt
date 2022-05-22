@@ -258,8 +258,7 @@ fun DashboardSecondPage(
                     .padding(start = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-                    val intent = Intent(instance, SettingsActivity::class.java)
-                    instance.startActivity(intent)
+                    instance.startActivity(Intent(instance, SettingsActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.secondary

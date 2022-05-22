@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
-import pl.dev.workoutmapcompose.Convert
+import pl.dev.workoutmapcompose.DateTimeFunctionalities
+import pl.dev.workoutmapcompose.TextModifier
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
@@ -164,7 +165,7 @@ fun MainWeightHistoryView(
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
                                 Text(
-                                    text = Convert.convertDateInSecToDateString(sortedWeightHistoryList[it].weighingDate),
+                                    text = DateTimeFunctionalities.convertDateInSecToDateString(sortedWeightHistoryList[it].weighingDate),
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 20.sp
                                 )
@@ -258,7 +259,7 @@ private fun getLabelForXAxis(
         it.weighingDate
     }
     sortedWeightHistoryList.forEach{
-        labelDataList.add(Convert.convertTimeInSecToDateStringShortened(it.weighingDate))
+        labelDataList.add(DateTimeFunctionalities.convertTimeInSecToDateStringShortened(it.weighingDate))
     }
     return labelDataList
 }

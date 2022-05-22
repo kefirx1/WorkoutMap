@@ -33,16 +33,12 @@ import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.*
-import pl.dev.workoutmapcompose.data.Exercise
-import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.data.UserInfo
-import pl.dev.workoutmapcompose.data.WeightHistory
+import pl.dev.workoutmapcompose.data.*
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
-import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.Purple500
@@ -421,83 +417,57 @@ object DialogAlerts {
                             )
                         }
 
-
-
                     }
                 },
                 confirmButton = {
                     TextButton(
                         onClick = {
                             try {
+
+                                val updatedUserInfo = UserInfo(
+                                    userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
+                                    name = viewModel.userInfoResult.value!!.name,
+                                    surName = viewModel.userInfoResult.value!!.surName,
+                                    age = viewModel.userInfoResult.value!!.age,
+                                    height = viewModel.userInfoResult.value!!.height,
+                                    gender = viewModel.userInfoResult.value!!.gender,
+                                    lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
+                                )
+
                                 if(nameTextState.text.isNotBlank() && surnameTextState.text.isNotBlank()){
-                                    val updatedUserInfo = UserInfo(
-                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
-                                        name = nameTextState.text,
-                                        surName = surnameTextState.text,
-                                        age =  agePickerState.toString(),
-                                        height =  heightPickerState.toString(),
-                                        gender = genderPickerState,
-                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
-                                    )
-                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                    Toast.makeText(
-                                        instance,
-                                        toastCorrectText,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    openDialog = false
+                                    updatedUserInfo.name = nameTextState.text
+                                    updatedUserInfo.surName = surnameTextState.text
+                                    updatedUserInfo.age = agePickerState.toString()
+                                    updatedUserInfo.height = heightPickerState.toString()
+                                    updatedUserInfo.gender = genderPickerState
+
                                 }else if(nameTextState.text.isNotBlank() && surnameTextState.text.isBlank()){
-                                    val updatedUserInfo = UserInfo(
-                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
-                                        name = nameTextState.text,
-                                        surName = viewModel.userInfoResult.value!!.surName,
-                                        age =  agePickerState.toString(),
-                                        height =  heightPickerState.toString(),
-                                        gender = genderPickerState,
-                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
-                                    )
-                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                    Toast.makeText(
-                                        instance,
-                                        toastCorrectText,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    openDialog = false
+                                    updatedUserInfo.name = nameTextState.text
+                                    updatedUserInfo.age = agePickerState.toString()
+                                    updatedUserInfo.height = heightPickerState.toString()
+                                    updatedUserInfo.gender = genderPickerState
+
                                 }else if(nameTextState.text.isBlank() && surnameTextState.text.isNotBlank()){
-                                    val updatedUserInfo = UserInfo(
-                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
-                                        name = viewModel.userInfoResult.value!!.name,
-                                        surName = surnameTextState.text,
-                                        age =  agePickerState.toString(),
-                                        height =  heightPickerState.toString(),
-                                        gender = genderPickerState,
-                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
-                                    )
-                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                    Toast.makeText(
-                                        instance,
-                                        toastCorrectText,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    openDialog = false
+                                    updatedUserInfo.surName = surnameTextState.text
+                                    updatedUserInfo.age = agePickerState.toString()
+                                    updatedUserInfo.height = heightPickerState.toString()
+                                    updatedUserInfo.gender = genderPickerState
+
                                 }else{
-                                    val updatedUserInfo = UserInfo(
-                                        userFirebaseID = viewModel.userInfoResult.value!!.userFirebaseID,
-                                        name = viewModel.userInfoResult.value!!.name,
-                                        surName = viewModel.userInfoResult.value!!.surName,
-                                        age =  agePickerState.toString(),
-                                        height =  heightPickerState.toString(),
-                                        gender = genderPickerState,
-                                        lastTrainingDate = viewModel.userInfoResult.value!!.lastTrainingDate
-                                    )
-                                    viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                    Toast.makeText(
-                                        instance,
-                                        toastCorrectText,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    openDialog = false
+                                    updatedUserInfo.age = agePickerState.toString()
+                                    updatedUserInfo.height = heightPickerState.toString()
+                                    updatedUserInfo.gender = genderPickerState
+
                                 }
+                                viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
+                                Toast.makeText(
+                                    instance,
+                                    toastCorrectText,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                openDialog = false
+
+
                             } catch (e: Exception) {
                                 Toast.makeText(
                                     instance,
@@ -694,7 +664,7 @@ object DialogAlerts {
                                         openDialog = false
                                         val newWeightHistory = WeightHistory(
                                             weight = weightTextState.text,
-                                            weighingDate = Convert.convertIntValuesToDateInSec(cYear, cMonth, cDay)
+                                            weighingDate = DateTimeFunctionalities.convertIntValuesToDateInSec(cYear, cMonth, cDay)
                                         )
 
                                         try{
@@ -754,7 +724,7 @@ object DialogAlerts {
         weightHistory: WeightHistory
     ): Boolean {
 
-        val dialogTitle = Convert.convertDateInSecToDateString(weightHistory.weighingDate)
+        val dialogTitle = DateTimeFunctionalities.convertDateInSecToDateString(weightHistory.weighingDate)
         val dialogText = "Zatwierdzenie spowoduje usunięcie danego zapisu wagi, nie można tego cofnąć!"
         val confirmButtonText = "USUŃ"
         val dismissButtonText = "ANULUJ"
@@ -941,7 +911,7 @@ object DialogAlerts {
                             ) {
 
                                 Text(
-                                    text = Convert.convertExerciseNameToBetterView(exerciseSelected),
+                                    text = TextModifier.convertExerciseNameToBetterText(exerciseSelected),
                                     fontSize = 15.sp
                                 )
 
@@ -964,7 +934,7 @@ object DialogAlerts {
                                             }
                                         ) {
                                             Text(
-                                                text = Convert.convertExerciseNameToBetterView(it)
+                                                text = TextModifier.convertExerciseNameToBetterText(it)
                                             )
                                         }
                                     }
@@ -1154,7 +1124,7 @@ object DialogAlerts {
                             ) {
 
                                 Text(
-                                    text = "${trainingPlan.exercise[it].type} - ${Convert.convertExerciseNameToBetterView(trainingPlan.exercise[it].name)} (${trainingPlan.exercise[it].numberOfSets} serii)",
+                                    text = "${trainingPlan.exercise[it].type} - ${TextModifier.convertExerciseNameToBetterText(trainingPlan.exercise[it].name)} (${trainingPlan.exercise[it].numberOfSets} serii)",
                                     style = MaterialTheme.typography.caption,
                                 )
                             }
@@ -1234,7 +1204,7 @@ object DialogAlerts {
         val confirmButtonText = "START"
         val dismissButtonText = "COFNIJ"
 
-        val currentDayInt = Convert.convertCurrentDayToIntValue()
+        val currentDayInt = DateTimeFunctionalities.getCurrentDayToIntValue()
         val trainingPlans = viewModel.trainingPlansListResult.value!!
 
         var defaultSelection = -1
@@ -1368,19 +1338,17 @@ object DialogAlerts {
 
     @Composable
     fun workoutEndDialogAlert(
-        instance: WorkoutActivity,
-        viewModel: WorkoutViewModel
+        instance: WorkoutActivity
     ): Boolean {
 
         val dialogTitle = "KONIEC TRENINGU"
-        val dialogText = "Jeśli zakończysz aktualny trening progres reszty ćwiczeń zostanie wyzerowany!"
+        val dialogText = "Jeśli zakończysz aktualny trening wyniki zostaną wyzerowane!"
         val confirmButtonText = "ZAKOŃCZ"
         val dismissButtonText = "COFNIJ"
 
         var openDialog by remember {
             mutableStateOf(true)
         }
-
 
 
         if (openDialog) {
@@ -1404,7 +1372,7 @@ object DialogAlerts {
                 confirmButton = {
                     TextButton(
                         onClick = {
-
+                            instance.finish()
                         }
                     ) {
                         Text(

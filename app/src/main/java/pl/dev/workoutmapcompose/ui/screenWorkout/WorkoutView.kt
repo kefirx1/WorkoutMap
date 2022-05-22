@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -16,17 +17,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import pl.dev.workoutmapcompose.Convert
+import pl.dev.workoutmapcompose.DateTimeFunctionalities
+import pl.dev.workoutmapcompose.TextModifier
 import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
-import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.components.WorkoutHeader
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 @Composable
@@ -44,15 +43,14 @@ fun MainWorkout(
     viewModel.getExercisesProgressHistory(trainingPlan = trainingPlan)
     val progressHistory = viewModel.progressHistoryResult.value
 
+    viewModel.getSpecificExerciseProgressHistories(progressHistory.keys)
+
     val timestampInt by remember {
         mutableStateOf((Calendar.getInstance().timeInMillis/1000).toInt())
     }
-
     val exerciseNewProgress: MutableMap<String, HashMap<String, ArrayList<String>>> by remember {
         mutableStateOf(HashMap())
     }
-
-
     var currentExerciseIndex by remember {
         mutableStateOf(0)
     }
@@ -99,21 +97,20 @@ fun MainWorkout(
 
         WorkoutHeader(
             screenName = "TRENING - ${trainingPlan.planName}",
-            instance = instance,
-            viewModel = viewModel
+            instance = instance
         )
 
         Text(
             modifier = Modifier
                 .padding(top = 10.dp),
-            text = "Czas treningu: ${Convert.convertTimeInSecToTimeString(timeInSec = timerTicks)}",
+            text = "Czas treningu: ${DateTimeFunctionalities.convertTimeInSecToTimeString(timeInSec = timerTicks)}",
             style = MaterialTheme.typography.caption,
             fontSize = 20.sp
         )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.7f)
+                .fillMaxHeight(0.9f)
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -130,7 +127,7 @@ fun MainWorkout(
                 Text(
                     modifier = Modifier
                         .padding(top = 10.dp),
-                    text = Convert.convertExerciseNameToBetterView(trainingPlan.exercise[currentExerciseIndex].name),
+                    text = TextModifier.convertExerciseNameToBetterText(trainingPlan.exercise[currentExerciseIndex].name),
                     style = MaterialTheme.typography.caption,
                     fontSize = 20.sp
                 )
@@ -143,6 +140,11 @@ fun MainWorkout(
                 )
             }
 
+            Spacer(
+                modifier = Modifier
+                    .height(10.dp)
+                    .fillMaxWidth()
+            )
 
             Text(
                 modifier = Modifier
@@ -152,13 +154,46 @@ fun MainWorkout(
                 fontSize = 15.sp
             )
 
-            //TODO
 
             Spacer(
                 modifier = Modifier
                     .height(10.dp)
                     .fillMaxWidth()
             )
+            if(viewModel.exercisesProgressListResult.value != null){
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.4f)
+                        .background(color = MaterialTheme.colors.primary)
+                        .padding(5.dp)
+
+
+                ){
+                    items(count = viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size){
+
+                        Text(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].toString())
+
+                        Spacer(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(color = Color.Black)
+
+                        )
+                    }
+                }
+            }else{
+                //TODO
+            }
+
+            Spacer(
+                modifier = Modifier
+                    .height(10.dp)
+                    .fillMaxWidth()
+            )
+
 
             Row(
                 modifier = Modifier
@@ -167,7 +202,7 @@ fun MainWorkout(
             ){
                 OutlinedTextField(
                     modifier = Modifier
-                        .width(120.dp),
+                        .width(110.dp),
                     value = repsTextState,
                     onValueChange = { repsTextState = it },
                     textStyle = TextStyle(
@@ -196,7 +231,7 @@ fun MainWorkout(
 
                 OutlinedTextField(
                     modifier = Modifier
-                        .width(120.dp),
+                        .width(110.dp),
                     value = weightTextState,
                     onValueChange = { weightTextState = it },
                     textStyle = TextStyle(
@@ -229,8 +264,7 @@ fun MainWorkout(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceEvenly
+                .fillMaxHeight()
         ) {
 
             TextButton(
@@ -304,7 +338,7 @@ fun MainWorkout(
 
 }
 
-fun endWorkout(workoutHistory: WorkoutHistory, viewModel: WorkoutViewModel, trainingPlanIndex: Int, exerciseNewProgress: MutableMap<String, HashMap<String, ArrayList<String>>>, timestampInt: Int){
+fun endWorkout(workoutHistory: WorkoutHistory, viewModel: WorkoutViewModel, trainingPlanIndex: Int, exerciseNewProgress: MutableMap<String, HashMap<String, ArrayList<String>>>, timestampInt: Int) {
 
     workoutHistory.dateOfWorkout.add(timestampInt)
 

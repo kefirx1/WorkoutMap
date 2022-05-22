@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
-import pl.dev.workoutmapcompose.Convert
+import pl.dev.workoutmapcompose.TextModifier
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.components.DialogAlerts
@@ -47,7 +47,6 @@ fun MainNewTrainingView(
         it.planName
     }.toList()
 
-
     var planNameTextState by remember {
         mutableStateOf(TextFieldValue())
     }
@@ -68,7 +67,7 @@ fun MainNewTrainingView(
         openAddExerciseDialog = DialogAlerts.addExerciseForTrainingPlanDialogAlert(
             instance = instance,
             viewModel = viewModel,
-            selectedExercisesList
+            selectedExercisesList = selectedExercisesList
         )
     }
 
@@ -194,7 +193,7 @@ fun MainNewTrainingView(
                                 Text(
                                     modifier = Modifier
                                         .fillMaxWidth(0.7f),
-                                    text = "${selectedExercisesList[it].type} - ${Convert.convertExerciseNameToBetterView(selectedExercisesList[it].name)} (${selectedExercisesList[it].numberOfSets} serii)",
+                                    text = "${selectedExercisesList[it].type} - ${TextModifier.convertExerciseNameToBetterText(selectedExercisesList[it].name)} (${selectedExercisesList[it].numberOfSets} serii)",
                                     style = MaterialTheme.typography.caption
                                 )
 
