@@ -41,15 +41,17 @@ constructor(
     fun getExercisesArrayList(
         type: String
     ){
-        when(type){
-            "Klatka piersiowa" -> exercisesListResult.value = exercisesJSONResult.value!!.chest
-            "Plecy" -> exercisesListResult.value = exercisesJSONResult.value!!.back
-            "Barki" -> exercisesListResult.value = exercisesJSONResult.value!!.shoulders
-            "Biceps" -> exercisesListResult.value = exercisesJSONResult.value!!.biceps
-            "Triceps" -> exercisesListResult.value = exercisesJSONResult.value!!.triceps
-            "Nogi" -> exercisesListResult.value = exercisesJSONResult.value!!.legs
-            "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
-            "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
+        viewModelScope.launch {
+            when(type){
+                "Klatka piersiowa" -> exercisesListResult.value = exercisesJSONResult.value!!.chest
+                "Plecy" -> exercisesListResult.value = exercisesJSONResult.value!!.back
+                "Barki" -> exercisesListResult.value = exercisesJSONResult.value!!.shoulders
+                "Biceps" -> exercisesListResult.value = exercisesJSONResult.value!!.biceps
+                "Triceps" -> exercisesListResult.value = exercisesJSONResult.value!!.triceps
+                "Nogi" -> exercisesListResult.value = exercisesJSONResult.value!!.legs
+                "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
+                "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
+            }
         }
     }
 

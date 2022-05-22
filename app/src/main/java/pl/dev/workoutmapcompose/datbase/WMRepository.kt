@@ -20,6 +20,7 @@ import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
+import java.lang.Exception
 import javax.inject.Singleton
 
 
@@ -50,15 +51,23 @@ class WMRepository (application: Application){
         userInfoDao.update(userInfo)
     }
     fun wipeData(): Boolean{
-        wipeFirebase()
-        userInfoDao.deleteUser()
-        weightHistoryDao.deleteWeightHistory()
-        return true
+        return try{
+            wipeFirebase()
+            userInfoDao.deleteUser()
+            weightHistoryDao.deleteWeightHistory()
+            true
+        }catch (e: Exception){
+            false
+        }
     }
     fun wipeTrainingPlans(): Boolean{
-        deleteAllTrainingPlans()
-        deleteAllWorkoutHistories()
-        return true
+        return try{
+            deleteAllTrainingPlans()
+            deleteAllWorkoutHistories()
+            true
+        }catch (e: Exception){
+            false
+        }
     }
     private fun deleteAllTrainingPlans(){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
@@ -87,7 +96,7 @@ class WMRepository (application: Application){
         return gson.fromJson(
             GetJSONString().getJsonStringFromAssets(
                 context = context,
-                "listOfExercises.json"
+                jsonFileName = "listOfExercises.json"
             ), JSONExercisesData::class.java
         )
     }
@@ -96,11 +105,8 @@ class WMRepository (application: Application){
         val trainingPlansList: ArrayList<TrainingPlan> = ArrayList()
 
         firebaseInfoResult.value!!.child("trainingPlans").children.forEach{
-
             val trainingPlanTemp = it.getValue(TrainingPlanTemp::class.java)
-
             val exercisesList: ArrayList<Exercise> = ArrayList()
-
             trainingPlanTemp!!.exercise.forEach{item ->
                 val exercise = Exercise(
                     name = item.name,

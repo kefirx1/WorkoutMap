@@ -167,13 +167,13 @@ fun MainWeightHistoryView(
                                 Text(
                                     text = DateTimeFunctionalities.convertDateInSecToDateString(sortedWeightHistoryList[it].weighingDate),
                                     style = MaterialTheme.typography.caption,
-                                    fontSize = 20.sp
+                                    fontSize = 25.sp
                                 )
 
                                 Text(
                                     text = "${sortedWeightHistoryList[it].weight}kg",
                                     style = MaterialTheme.typography.caption,
-                                    fontSize = 20.sp
+                                    fontSize = 25.sp
                                 )
                             }
 
