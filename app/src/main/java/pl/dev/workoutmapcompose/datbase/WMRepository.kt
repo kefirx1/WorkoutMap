@@ -38,17 +38,14 @@ class WMRepository (application: Application){
         weightHistoryDao = database.weightHistoryDao()
     }
 
-    //WMViewModel
     fun userExist(): Boolean{
         return userInfoDao.userExist()>0
     }
 
-    //RegistrationViewModel
     fun insertUser(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
         userInfoDao.insert(userInfo)
     }
 
-    //SettingsViewModel
     fun updateUserPersonalInfo(userInfo: UserInfo) = CoroutineScope(Dispatchers.IO).launch {
         userInfoDao.update(userInfo)
     }
@@ -76,8 +73,6 @@ class WMRepository (application: Application){
         reference.setValue(null)
     }
 
-
-    //WeightHistory
     fun insertNewWeightHistory(weightHistory: WeightHistory) =  CoroutineScope(Dispatchers.IO).launch {
         weightHistoryDao.insert(weightHistory)
     }
@@ -88,7 +83,6 @@ class WMRepository (application: Application){
         weightHistoryDao.delete(weightHistory)
     }
 
-    //TrainingPlans
     fun getExercisesJSON(context: Context): JSONExercisesData {
         return gson.fromJson(
             GetJSONString().getJsonStringFromAssets(
@@ -199,8 +193,6 @@ class WMRepository (application: Application){
         updateWorkoutHistory(workoutHistoryList)
     }
 
-
-    //WorkoutView
     private fun insertWorkoutHistory(workoutHistory: WorkoutHistory, workoutIndex: Int) {
         val workoutHistoryList = getWorkoutHistoryList()
         workoutHistoryList.removeAt(workoutIndex)
@@ -246,9 +238,6 @@ class WMRepository (application: Application){
         )
 
     }
-
-
-    //DashboardViewModel
 
     fun setFirebaseListener(){
 

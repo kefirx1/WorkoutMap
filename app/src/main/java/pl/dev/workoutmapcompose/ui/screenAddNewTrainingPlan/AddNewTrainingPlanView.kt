@@ -122,46 +122,65 @@ fun MainNewTrainingView(
                     .fillMaxWidth()
             )
 
-            Row(
+            Column(
                 modifier = Modifier
                     .clickable {
                         expanded = !expanded
                     }
-                    .padding(top = 10.dp)
+                    .padding(top = 10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
 
                 Text(
-                    text = "Dzień treningu: $daySelected",
+                    text = "Dzień treningu:",
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.caption
                 )
 
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "Dropdown",
-                    tint = MaterialTheme.typography.caption.color
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .fillMaxWidth()
                 )
 
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = {
-                        expanded = false
-                    }
+                Row(
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    daysList.forEach {
-                        DropdownMenuItem(
-                            onClick = {
-                                daySelected = it
-                                expanded = false
+                    Text(
+                        text = daySelected,
+                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown",
+                        tint = MaterialTheme.typography.caption.color
+                    )
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = {
+                            expanded = false
+                        }
+                    ) {
+                        daysList.forEach {
+                            DropdownMenuItem(
+                                onClick = {
+                                    daySelected = it
+                                    expanded = false
+                                }
+                            ) {
+                                Text(
+                                    text = it
+                                )
                             }
-                        ) {
-                            Text(
-                                text = it
-                            )
                         }
                     }
                 }
+
+
             }
 
             Spacer(

@@ -5,10 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,33 +73,29 @@ fun MainTrainingPlansView(
 
         if(!viewModel.trainingPlansListResult.value.isNullOrEmpty()) {
 
-            Spacer(
-                modifier = Modifier
-                    .padding(top = 6.dp, bottom = 6.dp)
-                    .background(color = Color.Black)
-                    .height(1.dp)
-                    .fillMaxWidth(0.6f)
-            )
-
             val trainingPlansList = viewModel.trainingPlansListResult.value!!
 
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
+                    .fillMaxWidth()
                     .fillMaxHeight(0.8f)
+                    .padding(start = 10.dp, end = 10.dp)
             ){
                 items(count = trainingPlansList.size) {
                     Row (
                         modifier = Modifier
                             .fillMaxWidth()
+                            .shadow(ambientColor = Color.Black, elevation = 4.dp)
                             .background(color = MaterialTheme.colors.primary)
+                            .padding(top = 5.dp, bottom = 5.dp)
                             .clickable {
                                 trainingPlanClicked.planName = trainingPlansList[it].planName
                                 trainingPlanClicked.exercise = trainingPlansList[it].exercise
                                 trainingPlanClicked.assignedDay = trainingPlansList[it].assignedDay
                                 openTrainingPlansInfoDialog = true
                             },
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = trainingPlansList[it].planName,
@@ -107,18 +103,26 @@ fun MainTrainingPlansView(
                             fontSize = 40.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
+                                .fillMaxWidth(0.7f)
                                 .padding(5.dp)
                         )
 
+                        Icon(
+                            Icons.Filled.Info,
+                            contentDescription = "info",
+                            tint = MaterialTheme.typography.caption.color
+                        )
+
                     }
+
                     Spacer(
                         modifier = Modifier
-                            .padding(top = 6.dp, bottom = 6.dp)
-                            .background(color = Color.Black)
-                            .height(1.dp)
                             .fillMaxWidth()
+                            .height(10.dp)
                     )
+
                 }
+
             }
 
             Button(
