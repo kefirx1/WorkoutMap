@@ -6,10 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import pl.dev.workoutmapcompose.data.ExerciseProgress
 import pl.dev.workoutmapcompose.data.MainViewInfo
+import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.datbase.WMRepository
+import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 import javax.inject.Inject
 
 
@@ -23,13 +27,73 @@ constructor(
 
     private val wmRepository = WMRepository(application = application)
 
+    val selectedMuscleGroup: MutableState<String> = mutableStateOf("Klatka piersiowa")
+    private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     val userMainViewInfoResult: MutableState<MainViewInfo?> = mutableStateOf(null)
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
+     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
+    private var fullProgressHistoryResult: MutableState<ProgressHistory?> = mutableStateOf(null)
+    val exercisesProgressListResult: MutableState<ArrayList<ArrayList<ExerciseProgress>>?> = mutableStateOf(null)
 
     init {
         viewModelScope.launch {
             userMainViewInfoResult.value = wmRepository.getUserFirstPageInfo()
         }
+    }
+
+    fun getExercisesJSON(){
+        viewModelScope.launch {
+            exercisesJSONResult.value = wmRepository.getExercisesJSON()
+        }
+    }
+
+    fun getFullExerciseProgressHistory(){
+        viewModelScope.launch {
+            delay(1000)
+            fullProgressHistoryResult.value = wmRepository.getProgressHistory()
+            getSpecificExercisesProgressList(selectedMuscleGroup.value)
+        }
+    }
+
+    fun getSpecificExercisesProgressList(muscleGroup: String) {
+        when (muscleGroup) {
+            "Klatka piersiowa" -> exercisesListResult.value = exercisesJSONResult.value!!.chest
+            "Plecy" -> exercisesListResult.value = exercisesJSONResult.value!!.back
+            "Barki" -> exercisesListResult.value = exercisesJSONResult.value!!.shoulders
+            "Biceps" -> exercisesListResult.value = exercisesJSONResult.value!!.biceps
+            "Triceps" -> exercisesListResult.value = exercisesJSONResult.value!!.triceps
+            "Nogi" -> exercisesListResult.value = exercisesJSONResult.value!!.legs
+            "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
+            "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
+        }
+
+        viewModelScope.launch {
+
+            val result: ArrayList<ArrayList<ExerciseProgress>> = ArrayList()
+            exercisesListResult.value.forEach {
+                val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
+                val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
+                val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
+
+                exerciseProgressTimestampsKeys?.forEach { timestamp ->
+                    val exerciseProgress = ExerciseProgress(
+                        dateOfWorkout = timestamp,
+                        setsList = exerciseProgressMap[timestamp]!!
+                    )
+                    exerciseProgressList.add(exerciseProgress)
+                }
+
+                result.add(exerciseProgressList)
+
+                println(exerciseProgressList)
+
+            }
+
+            exercisesProgressListResult.value = result
+
+        }
+
+
     }
 
     fun getTrainingPlansList(){
