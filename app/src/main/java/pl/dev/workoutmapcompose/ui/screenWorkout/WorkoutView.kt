@@ -17,18 +17,18 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
-import pl.dev.workoutmapcompose.ui.utils.TextModifier
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
-import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
+import pl.dev.workoutmapcompose.ui.utils.TextModifier
+import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
 import java.util.*
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
-
+@Suppress("FunctionName")
 @Composable
 fun MainWorkout(
     instance: WorkoutActivity,
@@ -161,32 +161,59 @@ fun MainWorkout(
                     .height(10.dp)
                     .fillMaxWidth()
             )
+
             if(viewModel.exercisesProgressListResult.value != null){
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.4f)
+                        .fillMaxHeight(0.6f)
                         .background(color = MaterialTheme.colors.primary)
-                        .padding(5.dp)
-
-
+                        .padding(5.dp),
+                    verticalArrangement = Arrangement.Center
                 ){
+
                     items(count = viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size){
 
-                        Text(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].toString())
 
-                        Spacer(
+                        Row(
                             modifier = Modifier
-                                .padding(4.dp)
-                                .height(1.dp)
                                 .fillMaxWidth()
-                                .background(color = Color.Black)
+                                .padding(5.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = DateTimeFunctionalities.convertDateInSecToDateString(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].dateOfWorkout.toInt()),
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 15.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.25f)
+                            )
 
-                        )
+                            Text(
+                                text = TextModifier.convertExerciseProgressListToBetterText(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].setsList),
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 10.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.75f)
+                            )
+
+                        }
+
+                        if(viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size != it+1){
+                            Spacer(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .height(1.dp)
+                                    .fillMaxWidth()
+                                    .background(color = Color.Black)
+
+                            )
+                        }
                     }
                 }
-            }else{
-                //TODO
             }
 
             Spacer(

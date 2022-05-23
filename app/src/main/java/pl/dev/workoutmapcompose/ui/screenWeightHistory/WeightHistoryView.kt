@@ -29,7 +29,7 @@ import pl.dev.workoutmapcompose.ui.theme.*
 import pl.dev.workoutmapcompose.ui.utils.insertNewWeightDialogAlert
 import pl.dev.workoutmapcompose.ui.utils.onWeightHistoryRowClickDialogAlert
 
-
+@Suppress("FunctionName")
 @Composable
 fun MainWeightHistoryView(
     instance: WeightHistoryActivity,
@@ -197,6 +197,7 @@ fun MainWeightHistoryView(
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 fun WeightHistoryLineGraph(lines: ArrayList<ArrayList<DataPoint>>, xAxisLabel: ArrayList<String>) {
     LineGraph(

@@ -23,7 +23,7 @@ import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.utils.trainingPlansInfoDialogAlert
 
-
+@Suppress("FunctionName")
 @Composable
 fun MainTrainingPlansView(
     instance: TrainingPlansActivity,

@@ -19,6 +19,19 @@ object TextModifier {
         return convertedStringBuilder.toString()
     }
 
+    fun convertExerciseProgressListToBetterText(
+        exerciseList: ArrayList<String>
+    ): String {
+
+        val exerciseProgressStringBuilder = StringBuilder("|")
+
+        exerciseList.forEach {
+            exerciseProgressStringBuilder.append("${it}kg|")
+        }
+
+        return exerciseProgressStringBuilder.toString()
+    }
+
 
 
 

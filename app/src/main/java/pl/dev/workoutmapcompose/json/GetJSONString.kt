@@ -1,14 +1,14 @@
 package pl.dev.workoutmapcompose.json
 
-import android.content.Context
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import java.io.IOException
 
 class GetJSONString {
 
-    fun getJsonStringFromAssets(context: Context, jsonFileName: String): String?{
+    fun getJsonStringFromAssets(jsonFileName: String): String?{
 
         return try{
-            context.assets.open(jsonFileName).bufferedReader().use { it.readText() }
+            applicationContext().assets.open(jsonFileName).bufferedReader().use { it.readText() }
         }catch (ioException: IOException){
             ioException.printStackTrace()
             null

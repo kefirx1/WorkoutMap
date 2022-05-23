@@ -26,9 +26,9 @@ constructor(
     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
 
-    fun getExercisesJSON(context: Context){
+    fun getExercisesJSON(){
         viewModelScope.launch {
-            exercisesJSONResult.value = wmRepository.getExercisesJSON(context = context)
+            exercisesJSONResult.value = wmRepository.getExercisesJSON()
         }
     }
 

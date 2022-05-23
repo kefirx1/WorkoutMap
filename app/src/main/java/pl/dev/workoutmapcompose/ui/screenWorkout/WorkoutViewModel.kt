@@ -38,23 +38,28 @@ constructor(
     fun getSpecificExerciseProgressHistories(exerciseNameList: Set<String>){
         viewModelScope.launch {
             val result: ArrayList<ArrayList<ExerciseProgress>> = ArrayList()
-            exerciseNameList.forEach {
-                val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
-                val exerciseProgressMap = progressHistoryResult.value[it]
-                val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
+            if(exerciseNameList.isNotEmpty()){
+                exerciseNameList.forEach {
+                    val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
+                    val exerciseProgressMap = progressHistoryResult.value[it]
+                    val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
 
-                exerciseProgressTimestampsKeys?.forEach { timestamp ->
-                    val exerciseProgress = ExerciseProgress(
-                        dateOfWorkout = timestamp,
-                        setsList = exerciseProgressMap[timestamp]!!
-                    )
-                    exerciseProgressList.add(exerciseProgress)
+                    exerciseProgressTimestampsKeys?.forEach { timestamp ->
+                        val exerciseProgress = ExerciseProgress(
+                            dateOfWorkout = timestamp,
+                            setsList = exerciseProgressMap[timestamp]!!
+                        )
+                        exerciseProgressList.add(exerciseProgress)
+                    }
+
+                    result.add(exerciseProgressList)
                 }
 
-                result.add(exerciseProgressList)
+                exercisesProgressListResult.value = result
+            }else{
+                exercisesProgressListResult.value = null
             }
 
-            exercisesProgressListResult.value = result
         }
 
     }

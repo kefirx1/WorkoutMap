@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.WorkoutActivity
 
-
+@Suppress("FunctionName")
 @Composable
 fun WorkoutHeader(
     screenName: String,
@@ -65,7 +65,7 @@ fun WorkoutHeader(
     )
 }
 
-
+@Suppress("FunctionName")
 @Composable
 fun HeaderComponent(
     screenName: String,

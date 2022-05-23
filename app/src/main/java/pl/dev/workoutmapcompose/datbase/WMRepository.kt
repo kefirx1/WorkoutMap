@@ -1,7 +1,6 @@
 package pl.dev.workoutmapcompose.datbase
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +19,6 @@ import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
-import java.lang.Exception
 import javax.inject.Singleton
 
 
@@ -92,10 +90,9 @@ class WMRepository (application: Application){
         weightHistoryDao.delete(weightHistory)
     }
 
-    fun getExercisesJSON(context: Context): JSONExercisesData {
+    fun getExercisesJSON(): JSONExercisesData {
         return gson.fromJson(
             GetJSONString().getJsonStringFromAssets(
-                context = context,
                 jsonFileName = "listOfExercises.json"
             ), JSONExercisesData::class.java
         )

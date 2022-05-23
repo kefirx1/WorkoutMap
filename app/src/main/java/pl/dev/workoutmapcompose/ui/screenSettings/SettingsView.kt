@@ -16,6 +16,7 @@ import pl.dev.workoutmapcompose.ui.utils.changePersonalDataDialogAlert
 import pl.dev.workoutmapcompose.ui.utils.wipeDataDialogAlert
 import pl.dev.workoutmapcompose.ui.utils.wipeTrainingPlansDataDialogAlert
 
+@Suppress("FunctionName")
 @Composable
 fun MainSettingsView(
     instance: SettingsActivity,

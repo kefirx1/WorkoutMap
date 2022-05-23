@@ -845,6 +845,8 @@ import java.util.*
                             )
 
                             DropdownMenu(
+                                modifier = Modifier
+                                    .fillMaxHeight(0.3f),
                                 expanded = expanded,
                                 onDismissRequest = {
                                     expanded = false
@@ -863,6 +865,7 @@ import java.util.*
                                             text = it
                                         )
                                     }
+                                    Divider()
                                 }
                             }
 
@@ -888,6 +891,8 @@ import java.util.*
                                 )
 
                                 DropdownMenu(
+                                    modifier = Modifier
+                                        .fillMaxHeight(0.3f),
                                     expanded = expanded2,
                                     onDismissRequest = {
                                         expanded2 = false
@@ -904,6 +909,7 @@ import java.util.*
                                                 text = TextModifier.convertExerciseNameToBetterText(it)
                                             )
                                         }
+                                        Divider()
                                     }
                                 }
                             }
@@ -1137,7 +1143,6 @@ import java.util.*
         return openDialog
 
     }
-
 
     @Composable
     fun workoutStartDialogAlert(

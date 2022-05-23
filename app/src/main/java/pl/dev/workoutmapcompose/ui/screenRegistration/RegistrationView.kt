@@ -53,6 +53,7 @@ fun exitRegister(
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 fun MainRegistration(
     instance: RegisterActivity,

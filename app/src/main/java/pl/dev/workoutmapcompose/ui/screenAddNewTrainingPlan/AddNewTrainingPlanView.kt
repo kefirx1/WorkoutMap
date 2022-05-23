@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Text
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,24 +25,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
-import pl.dev.workoutmapcompose.ui.utils.TextModifier
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.addExerciseForTrainingPlanDialogAlert
 import kotlin.streams.toList
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
-
+@Suppress("FunctionName")
 @Composable
 fun MainNewTrainingView(
     instance: AddNewTrainingPlanActivity,
     viewModel: AddNewTrainingPlanViewModel
 ) {
 
-    viewModel.getExercisesJSON(applicationContext())
+    viewModel.getExercisesJSON()
     viewModel.getTrainingPlansList()
 
     val listOfTrainingPlansNames = viewModel.trainingPlansListResult.value!!.stream().map {
@@ -160,11 +161,14 @@ fun MainNewTrainingView(
                     )
 
                     DropdownMenu(
+                        modifier = Modifier
+                            .fillMaxHeight(0.3f),
                         expanded = expanded,
                         onDismissRequest = {
                             expanded = false
                         }
                     ) {
+
                         daysList.forEach {
                             DropdownMenuItem(
                                 onClick = {
@@ -176,6 +180,7 @@ fun MainNewTrainingView(
                                     text = it
                                 )
                             }
+                            Divider()
                         }
                     }
                 }
