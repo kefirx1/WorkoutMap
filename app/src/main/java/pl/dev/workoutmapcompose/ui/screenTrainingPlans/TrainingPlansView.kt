@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.ui.components.DialogAlerts
-import pl.dev.workoutmapcompose.ui.components.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.trainingPlansInfoDialogAlert
 
 
 @Composable
@@ -42,8 +41,7 @@ fun MainTrainingPlansView(
     }
 
     if(openTrainingPlansInfoDialog) {
-        openTrainingPlansInfoDialog = DialogAlerts.trainingPlansInfoDialogAlert(
-            instance = instance,
+        openTrainingPlansInfoDialog = trainingPlansInfoDialogAlert(
             viewModel = viewModel,
             trainingPlan = trainingPlanClicked
         )
@@ -162,8 +160,7 @@ fun MainTrainingPlansView(
                     .padding(start = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-                    val intent = Intent(instance, AddNewTrainingPlanActivity::class.java)
-                    instance.startActivity(intent)
+                    instance.startActivity(Intent(instance, AddNewTrainingPlanActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.secondary
@@ -200,11 +197,6 @@ fun MainTrainingPlansView(
             )
 
         }
-
-
-
-
-
 
     }
 

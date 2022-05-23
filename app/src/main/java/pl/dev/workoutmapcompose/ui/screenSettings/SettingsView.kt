@@ -10,9 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pl.dev.workoutmapcompose.SettingsActivity
-import pl.dev.workoutmapcompose.ui.components.DialogAlerts
-import pl.dev.workoutmapcompose.ui.components.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.buttonsSettings
+import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.changePersonalDataDialogAlert
+import pl.dev.workoutmapcompose.ui.utils.wipeDataDialogAlert
+import pl.dev.workoutmapcompose.ui.utils.wipeTrainingPlansDataDialogAlert
 
 @Composable
 fun MainSettingsView(
@@ -31,22 +33,20 @@ fun MainSettingsView(
     }
 
     if(openWipeDataDialog) {
-        openWipeDataDialog = DialogAlerts.wipeDataDialogAlert(
+        openWipeDataDialog = wipeDataDialogAlert(
             instance = instance,
             viewModel = viewModel
         )
     }
 
     if(openChangePersonalDataDialog) {
-        openChangePersonalDataDialog = DialogAlerts.changePersonalDataDialogAlert(
-            instance = instance,
+        openChangePersonalDataDialog = changePersonalDataDialogAlert(
             viewModel = viewModel
         )
     }
 
     if(openWipeTrainingPlansDataDialog) {
-        openWipeTrainingPlansDataDialog = DialogAlerts.wipeTrainingPlansDataDialogAlert(
-            instance = instance,
+        openWipeTrainingPlansDataDialog = wipeTrainingPlansDataDialogAlert(
             viewModel = viewModel
         )
     }

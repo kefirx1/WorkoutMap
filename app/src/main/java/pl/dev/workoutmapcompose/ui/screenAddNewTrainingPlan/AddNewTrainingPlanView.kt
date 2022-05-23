@@ -24,14 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
-import pl.dev.workoutmapcompose.TextModifier
+import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.ui.components.DialogAlerts
-import pl.dev.workoutmapcompose.ui.components.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.utils.addExerciseForTrainingPlanDialogAlert
 import kotlin.streams.toList
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
 
 @Composable
@@ -40,7 +41,7 @@ fun MainNewTrainingView(
     viewModel: AddNewTrainingPlanViewModel
 ) {
 
-    viewModel.getExercisesJSON(instance.applicationContext)
+    viewModel.getExercisesJSON(applicationContext())
     viewModel.getTrainingPlansList()
 
     val listOfTrainingPlansNames = viewModel.trainingPlansListResult.value!!.stream().map {
@@ -64,8 +65,7 @@ fun MainNewTrainingView(
     }
 
     if(openAddExerciseDialog) {
-        openAddExerciseDialog = DialogAlerts.addExerciseForTrainingPlanDialogAlert(
-            instance = instance,
+        openAddExerciseDialog = addExerciseForTrainingPlanDialogAlert(
             viewModel = viewModel,
             selectedExercisesList = selectedExercisesList
         )
@@ -292,14 +292,14 @@ fun MainNewTrainingView(
                         instance.finish()
                     }else{
                         Toast.makeText(
-                            instance,
+                            applicationContext(),
                             "Wprowadź odpowiednie dane",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }else {
                     Toast.makeText(
-                        instance,
+                        applicationContext(),
                         "Nazwa treningu jest już zajęta",
                         Toast.LENGTH_SHORT
                     ).show()

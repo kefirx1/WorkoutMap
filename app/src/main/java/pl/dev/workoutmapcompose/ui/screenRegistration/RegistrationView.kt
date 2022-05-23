@@ -19,6 +19,7 @@ import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
 
 fun exitRegister(
@@ -31,7 +32,7 @@ fun exitRegister(
     heightString: String
 ){
     if(nameString.isBlank() || surnameString.isBlank()){
-        Toast.makeText(instance, "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
     }else{
 
         val calendar = Calendar.getInstance()

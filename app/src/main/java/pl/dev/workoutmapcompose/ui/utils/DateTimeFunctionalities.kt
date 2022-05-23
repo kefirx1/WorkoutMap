@@ -1,4 +1,4 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.utils
 
 import java.time.Instant
 import java.time.LocalDateTime

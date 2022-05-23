@@ -21,9 +21,9 @@ import pl.dev.workoutmapcompose.MainActivity
 import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.TrainingPlansActivity
 import pl.dev.workoutmapcompose.WeightHistoryActivity
-import pl.dev.workoutmapcompose.ui.components.DialogAlerts
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
+import pl.dev.workoutmapcompose.ui.utils.workoutStartDialogAlert
 
 @ExperimentalPagerApi
 @Composable
@@ -41,7 +41,7 @@ fun MainDashboard(
     val pagerState = rememberPagerState()
 
     if(openWorkoutDashboardDialog) {
-        openWorkoutDashboardDialog = DialogAlerts.workoutStartDialogAlert(
+        openWorkoutDashboardDialog = workoutStartDialogAlert(
             instance = instance,
             viewModel = viewModel
         )
@@ -122,8 +122,8 @@ fun DashboardHorizontalPager(
             .fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> DashboardFirstPage(instance = instance, viewModel = viewModel)
-            1 -> DashboardSecondPage(instance = instance, viewModel = viewModel)
+            0 -> DashboardFirstPage(viewModel = viewModel)
+            1 -> DashboardSecondPage(instance = instance)
         }
 
     }
@@ -131,7 +131,6 @@ fun DashboardHorizontalPager(
 
 @Composable
 fun DashboardFirstPage(
-    instance: MainActivity,
     viewModel: DashboardViewModel
 ) {
 
@@ -177,8 +176,7 @@ fun DashboardFirstPage(
 
 @Composable
 fun DashboardSecondPage(
-    instance: MainActivity,
-    viewModel: DashboardViewModel
+    instance: MainActivity
 ) {
 
     Column(
@@ -212,8 +210,7 @@ fun DashboardSecondPage(
                     .padding(end = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-                    val intent = Intent(instance, WeightHistoryActivity::class.java)
-                    instance.startActivity(intent)
+                    instance.startActivity(Intent(instance, WeightHistoryActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.secondary
@@ -238,8 +235,7 @@ fun DashboardSecondPage(
                     .padding(end = 4.dp)
                     .shadow(ambientColor = Color.Black, shape = RectangleShape, elevation = 10.dp),
                 onClick = {
-                    val intent = Intent(instance, TrainingPlansActivity::class.java)
-                    instance.startActivity(intent)
+                    instance.startActivity(Intent(instance, TrainingPlansActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.secondary

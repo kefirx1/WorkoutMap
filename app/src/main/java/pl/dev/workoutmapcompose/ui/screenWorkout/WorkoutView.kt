@@ -17,15 +17,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import pl.dev.workoutmapcompose.DateTimeFunctionalities
-import pl.dev.workoutmapcompose.TextModifier
+import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
+import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
-import pl.dev.workoutmapcompose.ui.components.WorkoutHeader
+import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
 
 @Composable
@@ -314,7 +315,7 @@ fun MainWorkout(
 
                     }else{
                         Toast.makeText(
-                            instance,
+                            applicationContext(),
                             "Podaj właściwe wartości",
                             Toast.LENGTH_SHORT
                         ).show()

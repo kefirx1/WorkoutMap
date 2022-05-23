@@ -1,4 +1,4 @@
-package pl.dev.workoutmapcompose.ui.components
+package pl.dev.workoutmapcompose.ui.utils
 
 import android.app.Activity
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ fun WorkoutHeader(
     }
 
     if(openWorkoutEndDialog) {
-        openWorkoutEndDialog = DialogAlerts.workoutEndDialogAlert(
+        openWorkoutEndDialog = workoutEndDialogAlert(
             instance = instance
         )
     }

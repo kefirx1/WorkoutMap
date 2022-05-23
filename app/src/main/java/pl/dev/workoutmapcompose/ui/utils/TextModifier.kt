@@ -1,4 +1,4 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.utils
 
 object TextModifier {
 

@@ -20,6 +20,7 @@ constructor(
     application: Application
 ): ViewModel(){
 
+
     private val wmRepository = WMRepository(application = application)
 
     val userMainViewInfoResult: MutableState<MainViewInfo?> = mutableStateOf(null)

@@ -1,6 +1,5 @@
-package pl.dev.workoutmapcompose.ui.components
+package pl.dev.workoutmapcompose.ui.utils
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.widget.DatePicker
@@ -33,7 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.chargemap.compose.numberpicker.NumberPicker
-import pl.dev.workoutmapcompose.*
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
+import pl.dev.workoutmapcompose.MainActivity
+import pl.dev.workoutmapcompose.RegisterActivity
+import pl.dev.workoutmapcompose.SettingsActivity
+import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.UserInfo
@@ -49,9 +52,8 @@ import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import java.util.*
 
-object DialogAlerts {
 
-    @Composable
+@Composable
     fun wipeDataDialogAlert(
         instance: SettingsActivity,
         viewModel: SettingsViewModel
@@ -92,14 +94,12 @@ object DialogAlerts {
                             openDialog = false
                             if (viewModel.wipeData()) {
                                 showShortToastError(
-                                    textError = toastCorrectText,
-                                    instance = instance
+                                    textError = toastCorrectText
                                 )
                                 instance.startActivity(Intent(instance, RegisterActivity::class.java))
                             } else {
                                 showShortToastError(
-                                    textError = toastFailureText,
-                                    instance = instance
+                                    textError = toastFailureText
                                 )
                             }
                         }
@@ -136,7 +136,6 @@ object DialogAlerts {
 
     @Composable
     fun wipeTrainingPlansDataDialogAlert(
-        instance: SettingsActivity,
         viewModel: SettingsViewModel
     ): Boolean {
 
@@ -176,13 +175,11 @@ object DialogAlerts {
                             openDialog = false
                             if (viewModel.wipeTrainingPlans()) {
                                 showShortToastError(
-                                    textError = toastCorrectText,
-                                    instance = instance
+                                    textError = toastCorrectText
                                 )
                             } else {
                                 showShortToastError(
-                                    textError = toastFailureText,
-                                    instance = instance
+                                    textError = toastFailureText
                                 )
                             }
                         }
@@ -219,7 +216,6 @@ object DialogAlerts {
 
     @Composable
     fun changePersonalDataDialogAlert(
-        instance: SettingsActivity,
         viewModel: SettingsViewModel
     ): Boolean {
 
@@ -453,15 +449,13 @@ object DialogAlerts {
                                 }
                                 viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
                                 showShortToastError(
-                                    textError = toastCorrectText,
-                                    instance = instance
+                                    textError = toastCorrectText
                                 )
                                 openDialog = false
 
                             } catch (e: Exception) {
                                 showShortToastError(
-                                    textError = toastFailureText,
-                                    instance = instance
+                                    textError = toastFailureText
                                 )
                             }
                         }
@@ -499,7 +493,6 @@ object DialogAlerts {
 
     @Composable
     fun insertNewWeightDialogAlert(
-        instance: WeightHistoryActivity,
         viewModel: WeightHistoryViewModel
     ): Boolean {
 
@@ -630,20 +623,17 @@ object DialogAlerts {
                         onClick = {
                             if(weightTextState.text.isBlank()){
                                 showShortToastError(
-                                    textError = nonWeightError,
-                                    instance = instance
+                                    textError = nonWeightError
                                 )
                             }else{
                                 if(cYear>mYear || cMonth>mMonth || cDay>mDay){
                                     showShortToastError(
-                                        textError = futureDateError,
-                                        instance = instance
+                                        textError = futureDateError
                                     )
                                 }else{
                                     if(weightTextState.text.toFloat()>300){
                                         showShortToastError(
-                                            textError = tooMuchWeightError,
-                                            instance = instance
+                                            textError = tooMuchWeightError
                                         )
                                     }else{
                                         openDialog = false
@@ -655,13 +645,11 @@ object DialogAlerts {
                                         try{
                                             viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
                                             showShortToastError(
-                                                textError = toastCorrectText,
-                                                instance = instance
+                                                textError = toastCorrectText
                                             )
                                         }catch (e: Exception){
                                             showShortToastError(
-                                                textError = toastFailureText,
-                                                instance = instance
+                                                textError = toastFailureText
                                             )
                                         }
                                     }
@@ -702,7 +690,6 @@ object DialogAlerts {
 
     @Composable
     fun onWeightHistoryRowClickDialogAlert(
-        instance: WeightHistoryActivity,
         viewModel: WeightHistoryViewModel,
         weightHistory: WeightHistory
     ): Boolean {
@@ -747,13 +734,11 @@ object DialogAlerts {
                             try {
                                 viewModel.deleteWeightHistory(weightHistory = weightHistory)
                                 showShortToastError(
-                                    textError = toastCorrectText,
-                                    instance = instance
+                                    textError = toastCorrectText
                                 )
                             } catch (e: Exception) {
                                 showShortToastError(
-                                    textError = toastFailureText,
-                                    instance = instance
+                                    textError = toastFailureText
                                 )
                             }
 
@@ -792,7 +777,6 @@ object DialogAlerts {
 
     @Composable
     fun addExerciseForTrainingPlanDialogAlert(
-        instance: AddNewTrainingPlanActivity,
         viewModel: AddNewTrainingPlanViewModel,
         selectedExercisesList: SnapshotStateList<Exercise>
     ): Boolean {
@@ -948,8 +932,7 @@ object DialogAlerts {
                                 }else{
                                     setsTextState = TextFieldValue("")
                                     showShortToastError(
-                                        textError = incorrectSetsNumberError,
-                                        instance = instance
+                                        textError = incorrectSetsNumberError
                                     )
                                 }
                             },
@@ -985,14 +968,12 @@ object DialogAlerts {
                                 newExercise.numberOfSets = setsTextState.text.toFloat().toInt()
                             }catch (e: Exception){
                                 showShortToastError(
-                                    textError = incorrectDataError,
-                                    instance = instance
+                                    textError = incorrectDataError
                                 )
                             }
                             if (newExercise.name == "Wybierz ćwiczenie" || newExercise.name.isBlank() || newExercise.type.isBlank()) {
                                 showShortToastError(
-                                    textError = incorrectDataError,
-                                    instance = instance
+                                    textError = incorrectDataError
                                 )
                             } else {
                                 if (newExercise.numberOfSets in 1..20) {
@@ -1000,19 +981,16 @@ object DialogAlerts {
                                     try {
                                         selectedExercisesList.add(newExercise)
                                         showShortToastError(
-                                            textError = toastCorrectText,
-                                            instance = instance
+                                            textError = toastCorrectText
                                         )
                                     } catch (e: Exception) {
                                         showShortToastError(
-                                            textError = toastFailureText,
-                                            instance = instance
+                                            textError = toastFailureText
                                         )
                                     }
                                 } else {
                                     showShortToastError(
-                                        textError = incorrectSetsNumberError,
-                                        instance = instance
+                                        textError = incorrectSetsNumberError
                                     )
                                 }
 
@@ -1052,7 +1030,6 @@ object DialogAlerts {
 
     @Composable
     fun trainingPlansInfoDialogAlert(
-        instance: TrainingPlansActivity,
         viewModel: TrainingPlansViewModel,
         trainingPlan: TrainingPlan
     ): Boolean {
@@ -1122,13 +1099,11 @@ object DialogAlerts {
                             try {
                                 viewModel.deleteTrainingPlan(trainingPlan = trainingPlan)
                                 showShortToastError(
-                                    textError = toastCorrectText,
-                                    instance = instance
+                                    textError = toastCorrectText
                                 )
                             } catch (e: Exception) {
                                 showShortToastError(
-                                    textError = toastFailureText,
-                                    instance = instance
+                                    textError = toastFailureText
                                 )
                             }
                         }
@@ -1272,8 +1247,7 @@ object DialogAlerts {
                                 instance.startActivity(intent)
                             }else{
                                 showShortToastError(
-                                    textError = chooseTrainingPlanError,
-                                    instance = instance
+                                    textError = chooseTrainingPlanError
                                 )
                             }
                         }
@@ -1378,14 +1352,12 @@ object DialogAlerts {
     }
 
 
-    private fun showShortToastError(textError: String, instance: Activity){
+    private fun showShortToastError(textError: String) {
         Toast.makeText(
-            instance,
+            applicationContext(),
             textError,
             Toast.LENGTH_SHORT
         ).show()
     }
 
-
-}
 

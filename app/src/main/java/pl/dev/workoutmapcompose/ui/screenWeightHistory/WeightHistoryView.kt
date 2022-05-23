@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.sp
 import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
-import pl.dev.workoutmapcompose.DateTimeFunctionalities
-import pl.dev.workoutmapcompose.TextModifier
+import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
 import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.data.WeightHistory
-import pl.dev.workoutmapcompose.ui.components.DialogAlerts
-import pl.dev.workoutmapcompose.ui.components.HeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.*
+import pl.dev.workoutmapcompose.ui.utils.insertNewWeightDialogAlert
+import pl.dev.workoutmapcompose.ui.utils.onWeightHistoryRowClickDialogAlert
 
 
 @Composable
@@ -50,15 +50,13 @@ fun MainWeightHistoryView(
     }
 
     if(openInsertWeightDialog) {
-        openInsertWeightDialog = DialogAlerts.insertNewWeightDialogAlert(
-            instance = instance,
+        openInsertWeightDialog = insertNewWeightDialogAlert(
             viewModel = viewModel
         )
     }
 
     if(openRowWeightDialog) {
-        openRowWeightDialog = DialogAlerts.onWeightHistoryRowClickDialogAlert(
-            instance = instance,
+        openRowWeightDialog = onWeightHistoryRowClickDialogAlert(
             viewModel = viewModel,
             weightHistory = clickedRowWeightHistory
         )
