@@ -25,6 +25,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
 import pl.dev.workoutmapcompose.ui.utils.workoutStartDialogAlert
 
+@Suppress("FunctionName")
 @ExperimentalPagerApi
 @Composable
 fun MainDashboard(
@@ -108,6 +109,7 @@ fun MainDashboard(
     }
 }
 
+@Suppress("FunctionName")
 @ExperimentalPagerApi
 @Composable
 fun DashboardHorizontalPager(
@@ -129,6 +131,7 @@ fun DashboardHorizontalPager(
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 fun DashboardFirstPage(
     viewModel: DashboardViewModel
@@ -174,6 +177,7 @@ fun DashboardFirstPage(
     }
 }
 
+@Suppress("FunctionName")
 @Composable
 fun DashboardSecondPage(
     instance: MainActivity
