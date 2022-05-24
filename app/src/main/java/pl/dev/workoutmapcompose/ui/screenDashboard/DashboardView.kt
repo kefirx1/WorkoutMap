@@ -199,6 +199,7 @@ fun DashboardSecondPage(
 
     viewModel.getExercisesJSON()
     viewModel.getFullExerciseProgressHistory()
+
     Column(
         modifier = Modifier
             .fillMaxSize()

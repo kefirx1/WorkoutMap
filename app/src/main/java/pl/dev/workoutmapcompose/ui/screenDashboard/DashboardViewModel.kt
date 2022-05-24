@@ -51,7 +51,9 @@ constructor(
         viewModelScope.launch {
             delay(1000)
             fullProgressHistoryResult.value = wmRepository.getProgressHistory()
+
             getSpecificExercisesProgressList(selectedMuscleGroup.value)
+
         }
     }
 
@@ -70,29 +72,31 @@ constructor(
         viewModelScope.launch {
 
             val result: ArrayList<List<ExerciseProgress>> = ArrayList()
-            exercisesListResult.value.forEach {
-                val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
-                val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
-                val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
 
-                exerciseProgressTimestampsKeys?.forEach { timestamp ->
-                    val exerciseProgress = ExerciseProgress(
-                        dateOfWorkout = timestamp,
-                        setsList = exerciseProgressMap[timestamp]!!
-                    )
-                    exerciseProgressList.add(exerciseProgress)
-                }
+            if(fullProgressHistoryResult.value!=null){
+                exercisesListResult.value.forEach {
+                    val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
+                    val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
+                    val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
 
-                if(exerciseProgressList.isNotEmpty()){
-                    val sortedExerciseProgressList = exerciseProgressList.sortedByDescending { item ->
+                    exerciseProgressTimestampsKeys?.forEach { timestamp ->
+                        val exerciseProgress = ExerciseProgress(
+                            dateOfWorkout = timestamp,
+                            setsList = exerciseProgressMap[timestamp]!!
+                        )
+                        exerciseProgressList.add(exerciseProgress)
+                    }
+
+                    if(exerciseProgressList.isNotEmpty()){
+                        val sortedExerciseProgressList = exerciseProgressList.sortedByDescending { item ->
                             item.dateOfWorkout
                         }
 
-                    result.add(sortedExerciseProgressList)
-                }else{
-                    result.add(exerciseProgressList)
+                        result.add(sortedExerciseProgressList)
+                    }else{
+                        result.add(exerciseProgressList)
+                    }
                 }
-
             }
 
             exercisesProgressListResult.value = result
