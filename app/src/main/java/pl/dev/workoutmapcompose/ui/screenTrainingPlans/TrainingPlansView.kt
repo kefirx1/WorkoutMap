@@ -163,7 +163,7 @@ fun MainTrainingPlansView(
                     instance.startActivity(Intent(instance, AddNewTrainingPlanActivity::class.java))
                 },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.secondary
+                    backgroundColor = MaterialTheme.colors.primary
                 ),
             ) {
                 Text(

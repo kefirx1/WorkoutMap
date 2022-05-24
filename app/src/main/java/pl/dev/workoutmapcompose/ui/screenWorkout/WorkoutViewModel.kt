@@ -25,7 +25,7 @@ constructor(
     private val wmRepository = WMRepository(application = application)
 
     val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
-    val exercisesProgressListResult: MutableState<ArrayList<ArrayList<ExerciseProgress>>?> = mutableStateOf(null)
+    val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
     val progressHistoryResult: MutableState<MutableMap<String, HashMap<String, ArrayList<String>>>> = mutableStateOf(HashMap())
 
@@ -37,7 +37,7 @@ constructor(
 
     fun getSpecificExerciseProgressHistories(exerciseNameList: Set<String>){
         viewModelScope.launch {
-            val result: ArrayList<ArrayList<ExerciseProgress>> = ArrayList()
+            val result: ArrayList<List<ExerciseProgress>> = ArrayList()
             if(exerciseNameList.isNotEmpty()){
                 exerciseNameList.forEach {
                     val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
@@ -52,7 +52,15 @@ constructor(
                         exerciseProgressList.add(exerciseProgress)
                     }
 
-                    result.add(exerciseProgressList)
+                    if(exerciseProgressList.isNotEmpty()){
+                        val sortedExerciseProgressList = exerciseProgressList.sortedByDescending { item ->
+                            item.dateOfWorkout
+                        }
+
+                        result.add(sortedExerciseProgressList)
+                    }else{
+                        result.add(exerciseProgressList)
+                    }
                 }
 
                 exercisesProgressListResult.value = result

@@ -28,6 +28,7 @@ import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
 import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("FunctionName")
 @Composable
@@ -70,6 +71,9 @@ fun MainWorkout(
     }
     var repsTextState by remember {
         mutableStateOf(TextFieldValue("0"))
+    }
+    var currentWorkoutProgress by remember {
+        mutableStateOf(ArrayList<String>())
     }
     LaunchedEffect(Unit) {
         while (true) {
@@ -163,7 +167,7 @@ fun MainWorkout(
                     .fillMaxWidth()
             )
 
-            if(viewModel.exercisesProgressListResult.value != null){
+            if(viewModel.exercisesProgressListResult.value != null) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -171,9 +175,54 @@ fun MainWorkout(
                         .background(color = MaterialTheme.colors.primary)
                         .padding(5.dp),
                     verticalArrangement = Arrangement.Center
-                ){
+                ) {
 
-                    items(count = viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size){
+                    if (currentWorkoutProgress.isNotEmpty()) {
+                        item {
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(5.dp),
+                                horizontalArrangement = Arrangement.SpaceAround,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+
+                                Text(
+                                    text = DateTimeFunctionalities.convertDateInSecToDateString(
+                                        dateInSec = timestampInt
+                                    ),
+                                    color = MaterialTheme.typography.caption.color,
+                                    fontFamily = mainFamily,
+                                    fontSize = 15.sp,
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.25f)
+                                )
+
+                                Text(
+                                    text = TextModifier.convertExerciseProgressListToBetterText(
+                                        exerciseList = currentWorkoutProgress
+                                    ),
+                                    color = MaterialTheme.typography.caption.color,
+                                    fontFamily = mainFamily,
+                                    fontSize = 10.sp,
+                                    modifier = Modifier
+                                        .padding(start = 4.dp)
+                                        .fillMaxWidth()
+                                )
+                            }
+                            Spacer(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .height(1.dp)
+                                    .fillMaxWidth()
+                                    .background(color = Color.Black)
+
+                            )
+                        }
+                    }
+
+                    items(count = viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size) {
 
 
                         Row(
@@ -184,7 +233,9 @@ fun MainWorkout(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = DateTimeFunctionalities.convertDateInSecToDateString(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].dateOfWorkout.toInt()),
+                                text = DateTimeFunctionalities.convertDateInSecToDateString(
+                                    dateInSec = viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].dateOfWorkout.toInt()
+                                ),
                                 color = MaterialTheme.typography.caption.color,
                                 fontFamily = mainFamily,
                                 fontSize = 15.sp,
@@ -193,7 +244,9 @@ fun MainWorkout(
                             )
 
                             Text(
-                                text = TextModifier.convertExerciseProgressListToBetterText(viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].setsList),
+                                text = TextModifier.convertExerciseProgressListToBetterText(
+                                    exerciseList = viewModel.exercisesProgressListResult.value!![currentExerciseIndex][it].setsList
+                                ),
                                 color = MaterialTheme.typography.caption.color,
                                 fontFamily = mainFamily,
                                 fontSize = 10.sp,
@@ -204,16 +257,15 @@ fun MainWorkout(
 
                         }
 
-                        if(viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size != it+1){
-                            Spacer(
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .height(1.dp)
-                                    .fillMaxWidth()
-                                    .background(color = Color.Black)
+                        Spacer(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(color = Color.Black)
 
-                            )
-                        }
+                        )
+
                     }
                 }
             }
@@ -336,6 +388,7 @@ fun MainWorkout(
                             }
                         }else{
                             //Next set
+                            currentWorkoutProgress.add("${repsTextState.text}x${weightTextState.text}")
                             currentExerciseSet++
                         }
 

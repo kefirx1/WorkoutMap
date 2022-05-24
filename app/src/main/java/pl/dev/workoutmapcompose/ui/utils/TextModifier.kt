@@ -23,6 +23,10 @@ object TextModifier {
         exerciseList: ArrayList<String>
     ): String {
 
+        if(exerciseList.isEmpty()){
+            return ""
+        }
+
         val exerciseProgressStringBuilder = StringBuilder("|")
 
         exerciseList.forEach {
