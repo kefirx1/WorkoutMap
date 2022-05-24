@@ -2,6 +2,8 @@ package pl.dev.workoutmapcompose.datbase
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -14,13 +16,13 @@ import pl.dev.workoutmapcompose.data.*
 import pl.dev.workoutmapcompose.data.tempData.ProgressHistoryTemp
 import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
 import pl.dev.workoutmapcompose.data.tempData.WorkoutHistoryTemp
-import pl.dev.workoutmapcompose.datbase.FirebaseListenerResult.firebaseInfoResult
 import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 import javax.inject.Singleton
 
+var firebaseInfoResult: MutableState<DataSnapshot?> = mutableStateOf(null)
 
 @Singleton
 class WMRepository (application: Application){

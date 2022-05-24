@@ -97,6 +97,10 @@ constructor(
                         result.add(exerciseProgressList)
                     }
                 }
+            }else{
+                for(i in 0 until exercisesListResult.value.size){
+                    result.add(emptyList())
+                }
             }
 
             exercisesProgressListResult.value = result

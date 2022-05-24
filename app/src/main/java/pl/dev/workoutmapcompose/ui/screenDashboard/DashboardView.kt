@@ -30,6 +30,7 @@ import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.utils.DashboardProgressList
 import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
 import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.workoutStartDialogAlert
@@ -268,94 +269,9 @@ fun DashboardSecondPage(
             )
 
             if(viewModel.exercisesProgressListResult.value != null) {
-                LazyColumn(
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colors.primary)
-                        .fillMaxHeight()
-                ) {
-                    items(count = viewModel.exercisesProgressListResult.value!!.size) { exerciseIndex ->
-
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp, start = 5.dp, end = 5.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-
-                            Text(
-                                text = TextModifier.convertExerciseNameToBetterText(viewModel.exercisesListResult.value[exerciseIndex]),
-                                fontFamily = mainFamily,
-                                fontSize = 15.sp,
-                                color = MaterialTheme.typography.caption.color,
-                                textAlign = TextAlign.Center
-                            )
-
-                            Spacer(
-                                modifier = Modifier
-                                    .height(10.dp)
-                                    .fillMaxWidth()
-                            )
-
-                            if (viewModel.exercisesProgressListResult.value!![exerciseIndex].isNotEmpty()) {
-
-                                viewModel.exercisesProgressListResult.value!![exerciseIndex].forEach {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = DateTimeFunctionalities.convertDateInSecToDateString(
-                                                it.dateOfWorkout.toInt()
-                                            ),
-                                            color = MaterialTheme.typography.caption.color,
-                                            fontFamily = mainFamily,
-                                            fontSize = 12.sp,
-                                            modifier = Modifier
-                                                .fillMaxWidth(0.4f),
-                                            textAlign = TextAlign.Center
-                                        )
-
-                                        Text(
-                                            text = TextModifier.convertExerciseProgressListToBetterText(
-                                                it.setsList
-                                            ),
-                                            color = MaterialTheme.typography.caption.color,
-                                            fontFamily = mainFamily,
-                                            fontSize = 10.sp,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                        )
-                                    }
-
-                                    Spacer(
-                                        modifier = Modifier
-                                            .height(10.dp)
-                                            .fillMaxWidth()
-                                    )
-
-                                }
-
-                            }else{
-                                Text(
-                                    text = "-",
-                                    fontFamily = mainFamily,
-                                    fontSize = 15.sp,
-                                    color = MaterialTheme.typography.caption.color
-                                )
-                                Spacer(
-                                    modifier = Modifier
-                                        .height(10.dp)
-                                        .fillMaxWidth()
-                                )
-                            }
-
-                            Divider(color = Color.Black)
-
-                        }
-                    }
-                }
+                DashboardProgressList(
+                    viewModel = viewModel
+                )
             }
 
         }
