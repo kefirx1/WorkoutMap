@@ -286,7 +286,8 @@ fun DashboardSecondPage(
                                 text = TextModifier.convertExerciseNameToBetterText(viewModel.exercisesListResult.value[exerciseIndex]),
                                 fontFamily = mainFamily,
                                 fontSize = 15.sp,
-                                color = MaterialTheme.typography.caption.color
+                                color = MaterialTheme.typography.caption.color,
+                                textAlign = TextAlign.Center
                             )
 
                             Spacer(

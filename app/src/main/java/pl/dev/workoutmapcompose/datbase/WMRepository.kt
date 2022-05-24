@@ -141,9 +141,14 @@ class WMRepository (application: Application){
     }
     fun getProgressHistory(): ProgressHistory? {
 
-        val progressHistoryTemp = firebaseInfoResult.value!!.child("progressHistory")
-            .getValue(ProgressHistoryTemp::class.java)
+        var progressHistoryTemp: ProgressHistoryTemp? = null
 
+        try{
+            progressHistoryTemp = firebaseInfoResult.value!!.child("progressHistory")
+                .getValue(ProgressHistoryTemp::class.java)
+        }catch (e: Exception){
+
+        }
         return if(progressHistoryTemp == null){
             null
         }else{
@@ -151,8 +156,6 @@ class WMRepository (application: Application){
                 exercisesProgress = progressHistoryTemp.exercisesProgress
             )
         }
-
-
 
     }
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){

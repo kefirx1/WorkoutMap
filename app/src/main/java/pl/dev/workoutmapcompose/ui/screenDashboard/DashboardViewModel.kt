@@ -33,7 +33,7 @@ constructor(
     val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
      var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
     private var fullProgressHistoryResult: MutableState<ProgressHistory?> = mutableStateOf(null)
-    val exercisesProgressListResult: MutableState<ArrayList<ArrayList<ExerciseProgress>>?> = mutableStateOf(null)
+    val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)
 
     init {
         viewModelScope.launch {
@@ -69,7 +69,7 @@ constructor(
 
         viewModelScope.launch {
 
-            val result: ArrayList<ArrayList<ExerciseProgress>> = ArrayList()
+            val result: ArrayList<List<ExerciseProgress>> = ArrayList()
             exercisesListResult.value.forEach {
                 val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
                 val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
@@ -83,9 +83,15 @@ constructor(
                     exerciseProgressList.add(exerciseProgress)
                 }
 
-                result.add(exerciseProgressList)
+                if(exerciseProgressList.isNotEmpty()){
+                    val sortedExerciseProgressList = exerciseProgressList.sortedByDescending { item ->
+                            item.dateOfWorkout
+                        }
 
-                println(exerciseProgressList)
+                    result.add(sortedExerciseProgressList)
+                }else{
+                    result.add(exerciseProgressList)
+                }
 
             }
 
