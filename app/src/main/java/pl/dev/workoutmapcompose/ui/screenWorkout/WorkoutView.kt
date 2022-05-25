@@ -7,6 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,6 +77,9 @@ fun MainWorkout(
     var repsTextState by remember {
         mutableStateOf(TextFieldValue("0"))
     }
+    var numberOfSets by remember {
+        mutableStateOf(trainingPlan.exercise[currentExerciseIndex].numberOfSets)
+    }
     var currentWorkoutProgress by remember {
         mutableStateOf(ArrayList<String>())
     }
@@ -82,7 +90,7 @@ fun MainWorkout(
         }
     }
 
-    stepButtonText = if(currentExerciseSet==trainingPlan.exercise[currentExerciseIndex].numberOfSets){
+    stepButtonText = if(currentExerciseSet==numberOfSets){
         if(currentExerciseIndex==trainingPlan.exercise.size-1){
             "Zapisz ostatnią serie"
         }else{
@@ -152,13 +160,42 @@ fun MainWorkout(
                     .fillMaxWidth()
             )
 
-            Text(
-                modifier = Modifier
-                    .padding(top = 5.dp),
-                text = "$currentExerciseSet seria z ${trainingPlan.exercise[currentExerciseIndex].numberOfSets}",
-                style = MaterialTheme.typography.caption,
-                fontSize = 15.sp
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+
+            ) {
+                IconButton(
+                    onClick = {
+                        if(numberOfSets>1){
+                            numberOfSets--
+                        }
+                    }) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = "minus button",
+                        tint = MaterialTheme.typography.caption.color
+                    )
+                }
+                Text(
+                    modifier = Modifier
+                        .padding(top = 5.dp),
+                    text = "$currentExerciseSet seria z $numberOfSets",
+                    style = MaterialTheme.typography.caption,
+                    fontSize = 15.sp
+                )
+                IconButton(
+                    onClick = {
+                        if(numberOfSets<20){
+                            numberOfSets++
+                        }
+                    }) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "plus button",
+                        tint = MaterialTheme.typography.caption.color
+                    )
+                }
+            }
 
 
             Spacer(
@@ -223,7 +260,6 @@ fun MainWorkout(
                     }
 
                     items(count = viewModel.exercisesProgressListResult.value!![currentExerciseIndex].size) {
-
 
                         Row(
                             modifier = Modifier
@@ -366,11 +402,12 @@ fun MainWorkout(
                             exerciseNewProgress[trainingPlan.exercise[currentExerciseIndex].name] = oldMap
                         }
 
-                        if(currentExerciseSet==trainingPlan.exercise[currentExerciseIndex].numberOfSets){
+                        if(currentExerciseSet==numberOfSets){
                             if (currentExerciseIndex<trainingPlan.exercise.size-1){
                                 //Next exercise
                                 currentExerciseIndex++
                                 currentExerciseSet = 1
+                                numberOfSets = trainingPlan.exercise[currentExerciseIndex].numberOfSets
                             }else {
                                 //Sum
 
