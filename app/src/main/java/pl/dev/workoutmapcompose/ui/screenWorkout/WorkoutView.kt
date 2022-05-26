@@ -447,13 +447,11 @@ fun MainWorkout(
 
                         if(currentExerciseSet==numberOfSets){
                             if (currentExerciseIndex<trainingPlan.exercise.size-1){
-                                //Next exercise
                                 currentExerciseIndex++
                                 currentExerciseSet = 1
                                 numberOfSets = trainingPlan.exercise[currentExerciseIndex].numberOfSets
                                 currentWorkoutProgress.clear()
                             }else {
-                                //Sum
 
                                 endWorkout(
                                     workoutHistory = workoutHistory,
@@ -468,7 +466,6 @@ fun MainWorkout(
 
                             }
                         }else{
-                            //Next set
                             currentWorkoutProgress.add("${repsTextState.text}x${weightTextState.text}")
                             currentExerciseSet++
                         }
