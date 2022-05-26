@@ -9,21 +9,22 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import pl.dev.workoutmapcompose.App.Companion.applicationContext
+import pl.dev.workoutmapcompose.R
 import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
@@ -33,7 +34,6 @@ import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
 import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Suppress("FunctionName")
 @Composable
@@ -80,7 +80,7 @@ fun MainWorkout(
     var numberOfSets by remember {
         mutableStateOf(trainingPlan.exercise[currentExerciseIndex].numberOfSets)
     }
-    var currentWorkoutProgress by remember {
+    val currentWorkoutProgress by remember {
         mutableStateOf(ArrayList<String>())
     }
     LaunchedEffect(Unit) {
@@ -171,7 +171,7 @@ fun MainWorkout(
                         }
                     }) {
                     Icon(
-                        Icons.Filled.Close,
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_remove_24),
                         contentDescription = "minus button",
                         tint = MaterialTheme.typography.caption.color
                     )
@@ -181,7 +181,7 @@ fun MainWorkout(
                         .padding(top = 5.dp),
                     text = "$currentExerciseSet seria z $numberOfSets",
                     style = MaterialTheme.typography.caption,
-                    fontSize = 15.sp
+                    fontSize = 20.sp
                 )
                 IconButton(
                     onClick = {
@@ -190,7 +190,7 @@ fun MainWorkout(
                         }
                     }) {
                     Icon(
-                        Icons.Filled.Add,
+                        imageVector = Icons.Filled.Add,
                         contentDescription = "plus button",
                         tint = MaterialTheme.typography.caption.color
                     )
@@ -304,6 +304,49 @@ fun MainWorkout(
 
                     }
                 }
+            }else {
+                if (currentWorkoutProgress.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.3f)
+                            .background(color = MaterialTheme.colors.primary)
+                            .padding(5.dp),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Text(
+                                text = DateTimeFunctionalities.convertDateInSecToDateString(
+                                    dateInSec = timestampInt
+                                ),
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 15.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth(0.25f)
+                            )
+
+                            Text(
+                                text = TextModifier.convertExerciseProgressListToBetterText(
+                                    exerciseList = currentWorkoutProgress
+                                ),
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 10.sp,
+                                modifier = Modifier
+                                    .padding(start = 4.dp)
+                                    .fillMaxWidth()
+                            )
+                        }
+                    }
+                }
             }
 
             Spacer(
@@ -408,6 +451,7 @@ fun MainWorkout(
                                 currentExerciseIndex++
                                 currentExerciseSet = 1
                                 numberOfSets = trainingPlan.exercise[currentExerciseIndex].numberOfSets
+                                currentWorkoutProgress.clear()
                             }else {
                                 //Sum
 
