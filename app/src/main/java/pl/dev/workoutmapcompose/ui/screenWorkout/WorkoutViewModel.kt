@@ -12,7 +12,6 @@ import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.WorkoutHistory
 import pl.dev.workoutmapcompose.datbase.WMRepository
-import java.sql.Timestamp
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,12 +41,11 @@ constructor(
                 exerciseNameList.forEach {
                     val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
                     val exerciseProgressMap = progressHistoryResult.value[it]
-                    val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
 
-                    exerciseProgressTimestampsKeys?.forEach { timestamp ->
+                    exerciseProgressMap?.forEach { key, _ ->
                         val exerciseProgress = ExerciseProgress(
-                            dateOfWorkout = timestamp,
-                            setsList = exerciseProgressMap[timestamp]!!
+                            dateOfWorkout = key,
+                            setsList = exerciseProgressMap[key]!!
                         )
                         exerciseProgressList.add(exerciseProgress)
                     }

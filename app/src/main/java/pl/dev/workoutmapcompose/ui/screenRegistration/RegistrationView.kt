@@ -3,23 +3,28 @@ package pl.dev.workoutmapcompose.ui.screenRegistration
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chargemap.compose.numberpicker.ListItemPicker
 import com.chargemap.compose.numberpicker.NumberPicker
+import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.RegisterActivity
 import pl.dev.workoutmapcompose.data.UserInfo
-import pl.dev.workoutmapcompose.ui.theme.Purple500
-import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.theme.*
 import java.util.*
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 
 
 fun exitRegister(
@@ -31,8 +36,11 @@ fun exitRegister(
     genderString: String,
     heightString: String
 ){
-    if(nameString.isBlank() || surnameString.isBlank()){
-        Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane", Toast.LENGTH_SHORT).show()
+
+    println(ageString)
+
+    if(nameString.isBlank() || surnameString.isBlank() || ageString.isBlank()){
+        Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane poprawnie", Toast.LENGTH_SHORT).show()
     }else{
 
         val calendar = Calendar.getInstance()
@@ -59,191 +67,286 @@ fun MainRegistration(
     instance: RegisterActivity,
     viewModel: RegistrationViewModel
 ) {
-    var nameTextState by remember { mutableStateOf(TextFieldValue()) }
-    var surnameTextState by remember { mutableStateOf(TextFieldValue()) }
-    var agePickerState by remember { mutableStateOf(18) }
     val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna")
-    var genderPickerState by remember { mutableStateOf(possibleGenderValues[1]) }
-    var heightPickerState by remember { mutableStateOf(160) }
+    var nameTextState by remember {
+        mutableStateOf(TextFieldValue())
+    }
+    var surnameTextState by remember {
+        mutableStateOf(TextFieldValue())
+    }
+    var heightPickerState by remember {
+        mutableStateOf(160)
+    }
+    var ageTextState by remember {
+        mutableStateOf(TextFieldValue())
+    }
+    var genderSelected by remember {
+        mutableStateOf("Mężczyzna")
+    }
+    var genderExpanded by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+            .padding(40.dp)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-        ){
-            Column(
+                .fillMaxHeight(0.9f)
+        ) {
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-            ) {
-
-                Spacer(
+                    .fillMaxWidth()
+            ){
+                Column(
                     modifier = Modifier
-                        .height(10.dp)
-                )
-                OutlinedTextField(
-                    value = nameTextState,
-                    onValueChange = { nameTextState = it },
-                    textStyle = TextStyle(
-                        color = MaterialTheme.typography.caption.color,
-                        fontFamily = mainFamily,
-                        fontSize = 20.sp
-                    ),
-                    singleLine = true,
-                    label = {
-                        Text(
-                            text = "Imię",
+                        .fillMaxWidth(),
+                ) {
+
+                    Spacer(
+                        modifier = Modifier
+                            .height(10.dp)
+                    )
+                    OutlinedTextField(
+                        value = nameTextState,
+                        onValueChange = { nameTextState = it },
+                        textStyle = TextStyle(
                             color = MaterialTheme.typography.caption.color,
                             fontFamily = mainFamily,
-                            fontSize = 15.sp
+                            fontSize = 20.sp
+                        ),
+                        singleLine = true,
+                        label = {
+                            Text(
+                                text = "Imię",
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 15.sp
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = MaterialTheme.colors.secondary,
+                            focusedIndicatorColor = Purple500,
+                            cursorColor = Purple500
                         )
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.secondary,
-                        focusedIndicatorColor = Purple500,
-                        cursorColor = Purple500
                     )
-                )
+                }
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
+
+            Spacer(
+                modifier = Modifier
+                    .height(10.dp)
+            )
+
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
 
-                OutlinedTextField(
-                    value = surnameTextState,
-                    onValueChange = { surnameTextState = it },
-                    textStyle = TextStyle(
-                        color = MaterialTheme.typography.caption.color,
-                        fontFamily = mainFamily,
-                        fontSize = 20.sp
-                    ),
-                    singleLine = true,
-                    label = {
-                        Text(
-                            text = "Nazwisko",
+                    OutlinedTextField(
+                        value = surnameTextState,
+                        onValueChange = { surnameTextState = it },
+                        textStyle = TextStyle(
                             color = MaterialTheme.typography.caption.color,
                             fontFamily = mainFamily,
-                            fontSize = 15.sp
+                            fontSize = 20.sp
+                        ),
+                        singleLine = true,
+                        label = {
+                            Text(
+                                text = "Nazwisko",
+                                color = MaterialTheme.typography.caption.color,
+                                fontFamily = mainFamily,
+                                fontSize = 15.sp
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = MaterialTheme.colors.secondary,
+                            focusedIndicatorColor = Purple500,
+                            cursorColor = Purple500
                         )
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.secondary,
-                        focusedIndicatorColor = Purple500,
-                        cursorColor = Purple500
                     )
-                )
+
+                }
 
             }
 
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Column(
+            Spacer(
                 modifier = Modifier
-                    .width(150.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+                    .height(25.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Column(
+                    modifier = Modifier
+                        .width(150.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = "Wiek:",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 25.sp
+                    )
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth(0.6f),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Decimal
+                        ),
+                        value = ageTextState,
+                        onValueChange = {
+                            if(ageTextState.text.length<2){
+                                ageTextState = it
+                            }else{
+                                ageTextState = TextFieldValue()
+                                Toast.makeText(applicationContext(),
+                                    "Podany wiek powinien się mieścić w 1 - 100",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                                        },
+                        textStyle = TextStyle(
+                            color = MaterialTheme.typography.caption.color,
+                            fontFamily = mainFamily,
+                            fontSize = 25.sp
+                        ),
+                        maxLines = 1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = MaterialTheme.colors.primary
+                        )
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .width(150.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = "Płeć:",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 25.sp
+                    )
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                                genderExpanded = !genderExpanded
+                            }
+                            .padding(top = 10.dp)
+                    ) {
+
+                        Text(
+                            text = genderSelected,
+                            fontFamily = mainFamily,
+                            fontSize = 20.sp,
+                            color = MaterialTheme.typography.caption.color
+                        )
+
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "Dropdown",
+                            tint = MaterialTheme.typography.caption.color
+                        )
+
+                        DropdownMenu(
+                            modifier = Modifier
+                                .fillMaxHeight(0.3f),
+                            expanded = genderExpanded,
+                            onDismissRequest = {
+                                genderExpanded = false
+                            }
+                        ) {
+                            possibleGenderValues.forEach {
+                                DropdownMenuItem(
+                                    onClick = {
+                                        genderSelected = it
+                                        genderExpanded = false
+                                    }
+                                ) {
+                                    Text(
+                                        text = it
+                                    )
+                                }
+                                Divider()
+                            }
+                        }
+
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
                 Text(
-                    text = "Wiek:",
+
+                    text = "Wzrost: (cm)",
                     style = MaterialTheme.typography.caption,
-                    fontSize = 20.sp
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .padding(end = 20.dp)
                 )
                 NumberPicker(
-                    value = agePickerState,
-                    range = 1..99,
+                    value = heightPickerState,
+                    range = 100..250,
                     onValueChange = {
-                        agePickerState = it
+                        heightPickerState = it
                     },
                     textStyle = MaterialTheme.typography.caption
                 )
             }
-            Column(
-                modifier = Modifier
-                    .width(150.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                onClick = {
+                    val nameString = nameTextState.text
+                    val surnameString = surnameTextState.text
+                    val ageString = ageTextState.toString()
+                    val genderString = genderSelected
+                    val heightString = heightPickerState.toString()
+
+                    exitRegister(
+                        instance,
+                        viewModel,
+                        nameString,
+                        surnameString,
+                        ageString,
+                        genderString,
+                        heightString
+                    )
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colors.surface
+                ),
             ) {
                 Text(
-                    text = "Płeć:",
+                    text = "ZATWIERDŹ",
                     style = MaterialTheme.typography.caption,
-                    fontSize = 20.sp
-                )
-                ListItemPicker(
-                    label = { it },
-                    value = genderPickerState,
-                    onValueChange = { genderPickerState = it },
-                    list = possibleGenderValues,
-                    textStyle = MaterialTheme.typography.caption
+                    fontSize = 30.sp
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Text(
-
-                text = "Wzrost: (cm)",
-                style = MaterialTheme.typography.caption,
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(end = 20.dp)
-            )
-            NumberPicker(
-                value = heightPickerState,
-                range = 100..250,
-                onValueChange = {
-                    heightPickerState = it
-                },
-                textStyle = MaterialTheme.typography.caption
-            )
-        }
-        Button(
-            onClick = {
-                val nameString = nameTextState.text
-                val surnameString = surnameTextState.text
-                val ageString = agePickerState.toString()
-                val genderString = genderPickerState
-                val heightString = heightPickerState.toString()
-
-                exitRegister(
-                    instance,
-                    viewModel,
-                    nameString,
-                    surnameString,
-                    ageString,
-                    genderString,
-                    heightString
-                )
-
-            },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface
-            ),
-        ) {
-            Text(
-                text = "ZATWIERDŹ",
-                style = MaterialTheme.typography.caption,
-                fontSize = 30.sp
-            )
-        }
-
-
     }
 }

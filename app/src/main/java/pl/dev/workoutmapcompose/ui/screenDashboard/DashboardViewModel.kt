@@ -77,14 +77,12 @@ constructor(
                 exercisesListResult.value.forEach {
                     val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
                     val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
-                    val exerciseProgressTimestampsKeys = exerciseProgressMap?.keys
 
-                    exerciseProgressTimestampsKeys?.forEach { timestamp ->
-                        val exerciseProgress = ExerciseProgress(
-                            dateOfWorkout = timestamp,
-                            setsList = exerciseProgressMap[timestamp]!!
-                        )
-                        exerciseProgressList.add(exerciseProgress)
+                    exerciseProgressMap?.forEach{ key, _ ->
+                        exerciseProgressList.add(ExerciseProgress(
+                            dateOfWorkout = key,
+                            setsList = exerciseProgressMap[key]!!
+                        ))
                     }
 
                     if(exerciseProgressList.isNotEmpty()){
