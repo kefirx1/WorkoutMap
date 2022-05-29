@@ -7,23 +7,26 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.RegisterActivity
 import pl.dev.workoutmapcompose.data.UserInfo
-import pl.dev.workoutmapcompose.ui.theme.*
+import pl.dev.workoutmapcompose.ui.theme.Purple500
+import pl.dev.workoutmapcompose.ui.theme.mainFamily
+import pl.dev.workoutmapcompose.ui.utils.RegistrationHeaderComponent
 import java.util.*
 
 
@@ -37,9 +40,7 @@ fun exitRegister(
     heightString: String
 ){
 
-    println(ageString)
-
-    if(nameString.isBlank() || surnameString.isBlank() || ageString.isBlank()){
+    if(nameString.isBlank() || surnameString.isBlank() || ageString.isBlank() || ageString == "0"){
         Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane poprawnie", Toast.LENGTH_SHORT).show()
     }else{
 
@@ -87,27 +88,35 @@ fun MainRegistration(
         mutableStateOf(false)
     }
 
+
+
+
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(40.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+            .padding(10.dp)
+    ){
+
+        RegistrationHeaderComponent(
+            screenName = "REJESTRACJA"
+        )
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f)
+                .fillMaxHeight(0.8f)
         ) {
-            Row(
+
+            Spacer(
                 modifier = Modifier
-                    .fillMaxWidth()
-            ){
+                    .height(20.dp)
+            )
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     Spacer(
@@ -138,20 +147,17 @@ fun MainRegistration(
                         )
                     )
                 }
-            }
 
             Spacer(
                 modifier = Modifier
                     .height(10.dp)
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     OutlinedTextField(
@@ -180,22 +186,19 @@ fun MainRegistration(
 
                 }
 
-            }
-
             Spacer(
                 modifier = Modifier
-                    .height(25.dp)
+                    .height(40.dp)
             )
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxWidth()
             ){
                 Column(
                     modifier = Modifier
-                        .width(150.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                        .fillMaxWidth(0.5f),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Wiek:",
@@ -204,7 +207,7 @@ fun MainRegistration(
                     )
                     TextField(
                         modifier = Modifier
-                            .fillMaxWidth(0.6f),
+                            .width(100.dp),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Decimal
                         ),
@@ -232,8 +235,8 @@ fun MainRegistration(
                 }
                 Column(
                     modifier = Modifier
-                        .width(150.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                        .fillMaxWidth(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Płeć:",
@@ -287,6 +290,12 @@ fun MainRegistration(
                     }
                 }
             }
+
+            Spacer(
+                modifier = Modifier
+                    .height(35.dp)
+            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -322,7 +331,7 @@ fun MainRegistration(
                 onClick = {
                     val nameString = nameTextState.text
                     val surnameString = surnameTextState.text
-                    val ageString = ageTextState.toString()
+                    val ageString = ageTextState.text
                     val genderString = genderSelected
                     val heightString = heightPickerState.toString()
 

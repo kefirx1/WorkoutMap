@@ -111,6 +111,35 @@ fun HeaderComponent(
 
 @Suppress("FunctionName")
 @Composable
+fun RegistrationHeaderComponent(
+    screenName: String
+){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 30.dp, bottom = 5.dp),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Text(
+            text = screenName,
+            style = MaterialTheme.typography.caption,
+            fontSize = 30.sp
+        )
+    }
+
+    Spacer(
+        modifier = Modifier
+            .background(color = Color.Black)
+            .height(2.dp)
+            .fillMaxWidth()
+    )
+
+}
+
+@Suppress("FunctionName")
+@Composable
 fun DashboardProgressList(
     viewModel: DashboardViewModel
 ){
