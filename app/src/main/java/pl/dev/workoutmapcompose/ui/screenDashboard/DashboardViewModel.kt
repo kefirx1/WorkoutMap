@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenDashboard
 
-import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,11 +20,8 @@ import javax.inject.Inject
 class DashboardViewModel
 @Inject
 constructor(
-    application: Application
+    private val wmRepository: WMRepository
 ): ViewModel(){
-
-
-    private val wmRepository = WMRepository(application = application)
 
     val selectedMuscleGroup: MutableState<String> = mutableStateOf("Klatka piersiowa")
     private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
@@ -35,11 +31,7 @@ constructor(
     private var fullProgressHistoryResult: MutableState<ProgressHistory?> = mutableStateOf(null)
     val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)
 
-    init {
-        viewModelScope.launch {
-            userMainViewInfoResult.value = wmRepository.getUserFirstPageInfo()
-        }
-    }
+    fun userExist() = wmRepository.userExist()
 
     fun getExercisesJSON(){
         viewModelScope.launch {

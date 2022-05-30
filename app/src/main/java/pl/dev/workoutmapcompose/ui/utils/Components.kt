@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pl.dev.workoutmapcompose.WorkoutActivity
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutActivity
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 

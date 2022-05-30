@@ -1,7 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan
 
-import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,10 +15,8 @@ import javax.inject.Inject
 class AddNewTrainingPlanViewModel
 @Inject
 constructor(
-    application: Application
+    private val wmRepository: WMRepository
 ): ViewModel(){
-
-    private val wmRepository = WMRepository(application = application)
 
     private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())

@@ -17,8 +17,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pl.dev.workoutmapcompose.AddNewTrainingPlanActivity
-import pl.dev.workoutmapcompose.TrainingPlansActivity
+import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanActivity
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.utils.trainingPlansInfoDialogAlert

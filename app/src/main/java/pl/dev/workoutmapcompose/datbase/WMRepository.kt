@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.datbase
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -20,26 +19,17 @@ import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
-import javax.inject.Singleton
 
 var firebaseInfoResult: MutableState<DataSnapshot?> = mutableStateOf(null)
 
-@Singleton
-class WMRepository (application: Application){
-
-    private var userInfoDao: UserInfoDao
-    private var weightHistoryDao: WeightHistoryDao
+class WMRepository (
+    private val userInfoDao: UserInfoDao,
+    private val weightHistoryDao: WeightHistoryDao
+){
     private val gson = Gson()
     private val firebase = FirebaseDatabase.getInstance()
 
-    init{
-        val database = WMDatabase
-            .getInstance(application.applicationContext)
-        userInfoDao = database!!.userInfoDao()
-        weightHistoryDao = database.weightHistoryDao()
-    }
-
-    fun userExist(): Boolean{
+    fun userExist(): Boolean  {
         return userInfoDao.userExist()>0
     }
 

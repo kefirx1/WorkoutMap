@@ -1,24 +1,21 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.screenSettings
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pl.dev.workoutmapcompose.factories.SettingsViewModelFactory
-import pl.dev.workoutmapcompose.ui.screenSettings.MainSettingsView
-import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
-
+@AndroidEntryPoint
 class SettingsActivity : ComponentActivity() {
 
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
 
         setContent {
             WorkoutMapComposeTheme {
-                viewModel = viewModel(factory = SettingsViewModelFactory(application))
                 MainSettingsView(
                     instance = this,
                     viewModel = viewModel

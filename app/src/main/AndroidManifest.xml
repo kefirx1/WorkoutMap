@@ -16,34 +16,34 @@
         android:screenOrientation="portrait"
         tools:targetApi="31">
         <activity
-            android:name=".WorkoutActivity"
+            android:name=".ui.screenWorkout.WorkoutActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
             android:exported="false" />
         <activity
-            android:name=".AddNewTrainingPlanActivity"
+            android:name=".ui.screenAddNewTrainingPlan.AddNewTrainingPlanActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".TrainingPlansActivity"
+            android:name=".ui.screenTrainingPlans.TrainingPlansActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".WeightHistoryActivity"
+            android:name=".ui.screenWeightHistory.WeightHistoryActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.screenSettings.SettingsActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.screenRegistration.RegisterActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.screenDashboard.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.WorkoutMapCompose">

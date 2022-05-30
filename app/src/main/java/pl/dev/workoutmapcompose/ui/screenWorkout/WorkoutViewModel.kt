@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenWorkout
 
-import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -18,10 +17,8 @@ import javax.inject.Inject
 class WorkoutViewModel
 @Inject
 constructor(
-    application: Application
+    private val wmRepository: WMRepository
 ): ViewModel(){
-
-    private val wmRepository = WMRepository(application = application)
 
     val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
     val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)

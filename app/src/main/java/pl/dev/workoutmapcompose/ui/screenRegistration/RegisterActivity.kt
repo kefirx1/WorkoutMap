@@ -1,23 +1,20 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.screenRegistration
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pl.dev.workoutmapcompose.factories.RegistrationViewModelFactory
-import pl.dev.workoutmapcompose.ui.screenRegistration.MainRegistration
-import pl.dev.workoutmapcompose.ui.screenRegistration.RegistrationViewModel
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
-
+@AndroidEntryPoint
 class RegisterActivity : ComponentActivity() {
 
-    private lateinit var viewModel: RegistrationViewModel
+    private val viewModel: RegistrationViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
 
         setContent{
             WorkoutMapComposeTheme {
-                viewModel = viewModel(factory = RegistrationViewModelFactory(application))
                 MainRegistration(
                     instance = this,
                     viewModel = viewModel

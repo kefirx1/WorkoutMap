@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -19,20 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
-import pl.dev.workoutmapcompose.MainActivity
-import pl.dev.workoutmapcompose.SettingsActivity
-import pl.dev.workoutmapcompose.TrainingPlansActivity
-import pl.dev.workoutmapcompose.WeightHistoryActivity
+import pl.dev.workoutmapcompose.ui.screenSettings.SettingsActivity
+import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansActivity
+import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryActivity
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import pl.dev.workoutmapcompose.ui.utils.DashboardProgressList
-import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
-import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.workoutStartDialogAlert
 
 @Suppress("FunctionName")

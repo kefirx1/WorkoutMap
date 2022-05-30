@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.R
-import pl.dev.workoutmapcompose.WorkoutActivity
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
 import pl.dev.workoutmapcompose.ui.theme.Purple500

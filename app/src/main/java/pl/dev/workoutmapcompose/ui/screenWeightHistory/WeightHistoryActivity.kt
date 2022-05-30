@@ -1,24 +1,21 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.screenWeightHistory
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pl.dev.workoutmapcompose.factories.WeightHistoryViewModelFactory
-import pl.dev.workoutmapcompose.ui.screenWeightHistory.MainWeightHistoryView
-import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
-
+@AndroidEntryPoint
 class WeightHistoryActivity : ComponentActivity() {
 
-    private lateinit var viewModel: WeightHistoryViewModel
+    private val viewModel: WeightHistoryViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
 
         setContent {
             WorkoutMapComposeTheme {
-                viewModel = viewModel(factory = WeightHistoryViewModelFactory(application))
                 MainWeightHistoryView(
                     instance = this,
                     viewModel = viewModel

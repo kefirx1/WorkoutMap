@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.App.Companion.applicationContext
-import pl.dev.workoutmapcompose.MainActivity
-import pl.dev.workoutmapcompose.RegisterActivity
-import pl.dev.workoutmapcompose.SettingsActivity
-import pl.dev.workoutmapcompose.WorkoutActivity
+import pl.dev.workoutmapcompose.ui.screenDashboard.MainActivity
+import pl.dev.workoutmapcompose.ui.screenRegistration.RegisterActivity
+import pl.dev.workoutmapcompose.ui.screenSettings.SettingsActivity
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutActivity
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.data.UserInfo
@@ -54,8 +54,8 @@ import java.util.*
 
 @Composable
     fun wipeDataDialogAlert(
-        instance: SettingsActivity,
-        viewModel: SettingsViewModel
+    instance: SettingsActivity,
+    viewModel: SettingsViewModel
     ): Boolean {
 
         val dialogTitle = "Usuń dane"

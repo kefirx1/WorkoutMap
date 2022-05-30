@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenWeightHistory
 
-import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,10 +14,8 @@ import javax.inject.Inject
 class WeightHistoryViewModel
 @Inject
 constructor(
-    application: Application
+    private val wmRepository: WMRepository
 ): ViewModel(){
-
-    private val wmRepository = WMRepository(application = application)
 
     val weightHistoryResult: MutableState<ArrayList<WeightHistory>?> = mutableStateOf(null)
 

@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenSettings
 
-import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,10 +14,8 @@ import javax.inject.Inject
 class SettingsViewModel
 @Inject
 constructor(
-    application: Application
+    private val wmRepository: WMRepository
 ): ViewModel(){
-
-    private val wmRepository = WMRepository(application = application)
 
     val userInfoResult: MutableState<UserInfo?> = mutableStateOf(null)
 

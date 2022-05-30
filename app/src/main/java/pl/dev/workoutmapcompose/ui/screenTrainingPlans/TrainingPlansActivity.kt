@@ -1,24 +1,21 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.screenTrainingPlans
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pl.dev.workoutmapcompose.factories.TrainingPlansViewModelFactory
-import pl.dev.workoutmapcompose.ui.screenTrainingPlans.MainTrainingPlansView
-import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
 
-
+@AndroidEntryPoint
 class TrainingPlansActivity : ComponentActivity() {
 
-    private lateinit var viewModel: TrainingPlansViewModel
+    private val viewModel: TrainingPlansViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
 
         setContent {
             WorkoutMapComposeTheme {
-                viewModel = viewModel(factory = TrainingPlansViewModelFactory(application))
                 MainTrainingPlansView(
                     instance = this,
                     viewModel = viewModel

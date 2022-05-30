@@ -9,7 +9,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import pl.dev.workoutmapcompose.SettingsActivity
 import pl.dev.workoutmapcompose.ui.theme.buttonsSettings
 import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.utils.changePersonalDataDialogAlert

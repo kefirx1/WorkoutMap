@@ -22,7 +22,6 @@ import com.madrapps.plot.line.DataPoint
 import com.madrapps.plot.line.LineGraph
 import com.madrapps.plot.line.LinePlot
 import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
-import pl.dev.workoutmapcompose.WeightHistoryActivity
 import pl.dev.workoutmapcompose.data.WeightHistory
 import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.theme.*

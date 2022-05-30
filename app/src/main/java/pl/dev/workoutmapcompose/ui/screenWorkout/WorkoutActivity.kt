@@ -1,19 +1,17 @@
-package pl.dev.workoutmapcompose
+package pl.dev.workoutmapcompose.ui.screenWorkout
 
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pl.dev.workoutmapcompose.factories.WorkoutViewModelFactory
-import pl.dev.workoutmapcompose.ui.screenWorkout.MainWorkout
-import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutViewModel
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import pl.dev.workoutmapcompose.ui.theme.WorkoutMapComposeTheme
-
+@AndroidEntryPoint
 class WorkoutActivity : ComponentActivity() {
 
-    private lateinit var viewModel: WorkoutViewModel
+    private val viewModel: WorkoutViewModel by viewModels()
     private var doubleBackToExitPressedOnce = false
     private var trainingPlanIndex = 0
 
@@ -24,8 +22,6 @@ class WorkoutActivity : ComponentActivity() {
 
         setContent {
             WorkoutMapComposeTheme {
-                viewModel = viewModel(factory = WorkoutViewModelFactory(application))
-
                 MainWorkout(
                     instance = this,
                     viewModel = viewModel,
