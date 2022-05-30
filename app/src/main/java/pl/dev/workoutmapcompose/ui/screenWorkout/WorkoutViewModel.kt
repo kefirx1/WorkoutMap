@@ -20,10 +20,10 @@ constructor(
     private val wmRepository: WMRepository
 ): ViewModel(){
 
-    val workoutHistoryResult: MutableState<ArrayList<WorkoutHistory>?> = mutableStateOf(null)
-    val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)
-    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
-    val progressHistoryResult: MutableState<MutableMap<String, HashMap<String, ArrayList<String>>>> = mutableStateOf(HashMap())
+    val workoutHistoryResult: MutableState<List<WorkoutHistory>?> = mutableStateOf(null)
+    val exercisesProgressListResult: MutableState<List<List<ExerciseProgress>>?> = mutableStateOf(null)
+    val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(listOf())
+    val progressHistoryResult: MutableState<Map<String, HashMap<String, ArrayList<String>>>> = mutableStateOf(mapOf())
 
     fun getWorkoutHistory(){
         viewModelScope.launch {
@@ -39,7 +39,7 @@ constructor(
                     val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
                     val exerciseProgressMap = progressHistoryResult.value[it]
 
-                    exerciseProgressMap?.forEach { key, _ ->
+                    exerciseProgressMap?.forEach { (key, _) ->
                         val exerciseProgress = ExerciseProgress(
                             dateOfWorkout = key,
                             setsList = exerciseProgressMap[key]!!

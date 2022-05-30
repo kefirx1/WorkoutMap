@@ -14,7 +14,7 @@ abstract class WMDatabase: RoomDatabase() {
     abstract fun weightHistoryDao(): WeightHistoryDao
 
     companion object{
-        val DATABASE_NAME: String = "workoutMapDB.db"
+        const val DATABASE_NAME: String = "workoutMapDB.db"
     }
 
 }

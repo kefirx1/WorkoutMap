@@ -83,7 +83,7 @@ fun MainWeightHistoryView(
             viewModel.weightHistoryResult.value?.let {
                 if (it.isNotEmpty()) {
 
-                    val listOfDataPoint = transformToListOfDataPoint(it)
+                    val listOfDataPoint = transformToListOfDataPoint(it as ArrayList<WeightHistory>)
                     val listOfXAxisLabels = getLabelForXAxis(it)
 
                     WeightHistoryLineGraph(arrayListOf(listOfDataPoint), listOfXAxisLabels)

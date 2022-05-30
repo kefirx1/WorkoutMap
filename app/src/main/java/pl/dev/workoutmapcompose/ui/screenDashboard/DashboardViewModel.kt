@@ -26,10 +26,10 @@ constructor(
     val selectedMuscleGroup: MutableState<String> = mutableStateOf("Klatka piersiowa")
     private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
     val userMainViewInfoResult: MutableState<MainViewInfo?> = mutableStateOf(null)
-    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
-     var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
+    val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(listOf())
+    var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
     private var fullProgressHistoryResult: MutableState<ProgressHistory?> = mutableStateOf(null)
-    val exercisesProgressListResult: MutableState<ArrayList<List<ExerciseProgress>>?> = mutableStateOf(null)
+    val exercisesProgressListResult: MutableState<List<List<ExerciseProgress>>?> = mutableStateOf(listOf())
 
     fun userExist() = wmRepository.userExist()
 
@@ -50,18 +50,18 @@ constructor(
     }
 
     fun getSpecificExercisesProgressList(muscleGroup: String) {
-        when (muscleGroup) {
-            "Klatka piersiowa" -> exercisesListResult.value = exercisesJSONResult.value!!.chest
-            "Plecy" -> exercisesListResult.value = exercisesJSONResult.value!!.back
-            "Barki" -> exercisesListResult.value = exercisesJSONResult.value!!.shoulders
-            "Biceps" -> exercisesListResult.value = exercisesJSONResult.value!!.biceps
-            "Triceps" -> exercisesListResult.value = exercisesJSONResult.value!!.triceps
-            "Nogi" -> exercisesListResult.value = exercisesJSONResult.value!!.legs
-            "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
-            "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
-        }
-
         viewModelScope.launch {
+
+            when (muscleGroup) {
+                "Klatka piersiowa" -> exercisesListResult.value = exercisesJSONResult.value!!.chest
+                "Plecy" -> exercisesListResult.value = exercisesJSONResult.value!!.back
+                "Barki" -> exercisesListResult.value = exercisesJSONResult.value!!.shoulders
+                "Biceps" -> exercisesListResult.value = exercisesJSONResult.value!!.biceps
+                "Triceps" -> exercisesListResult.value = exercisesJSONResult.value!!.triceps
+                "Nogi" -> exercisesListResult.value = exercisesJSONResult.value!!.legs
+                "Przedramiona" -> exercisesListResult.value = exercisesJSONResult.value!!.forearms
+                "Brzuch" -> exercisesListResult.value = exercisesJSONResult.value!!.belly
+            }
 
             val result: ArrayList<List<ExerciseProgress>> = ArrayList()
 
@@ -70,7 +70,7 @@ constructor(
                     val exerciseProgressList: ArrayList<ExerciseProgress> = ArrayList()
                     val exerciseProgressMap = fullProgressHistoryResult.value!!.exercisesProgress[it]
 
-                    exerciseProgressMap?.forEach{ key, _ ->
+                    exerciseProgressMap?.forEach{ (key, _) ->
                         exerciseProgressList.add(ExerciseProgress(
                             dateOfWorkout = key,
                             setsList = exerciseProgressMap[key]!!

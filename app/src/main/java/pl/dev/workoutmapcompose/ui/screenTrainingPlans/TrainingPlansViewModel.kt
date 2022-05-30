@@ -17,7 +17,7 @@ constructor(
     private val wmRepository: WMRepository
 ): ViewModel() {
 
-    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
+    val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(listOf())
 
     fun getTrainingPlansList(){
         viewModelScope.launch {

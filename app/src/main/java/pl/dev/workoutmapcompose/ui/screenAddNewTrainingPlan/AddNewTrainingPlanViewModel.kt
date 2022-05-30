@@ -19,8 +19,9 @@ constructor(
 ): ViewModel(){
 
     private val exercisesJSONResult: MutableState<JSONExercisesData?> = mutableStateOf(null)
-    var exercisesListResult: MutableState<List<String>> = mutableStateOf(ArrayList())
-    val trainingPlansListResult: MutableState<ArrayList<TrainingPlan>?> = mutableStateOf(ArrayList())
+    var exercisesListResult: MutableState<List<String>> = mutableStateOf(listOf())
+    val trainingPlansListResult: MutableState<List<TrainingPlan>?> = mutableStateOf(listOf())
+
 
     fun getExercisesJSON(){
         viewModelScope.launch {

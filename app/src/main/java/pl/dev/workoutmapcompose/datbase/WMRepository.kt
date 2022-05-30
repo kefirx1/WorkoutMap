@@ -20,7 +20,6 @@ import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
 import pl.dev.workoutmapcompose.json.data.JSONExercisesData
 
-var firebaseInfoResult: MutableState<DataSnapshot?> = mutableStateOf(null)
 
 class WMRepository (
     private val userInfoDao: UserInfoDao,
@@ -28,6 +27,8 @@ class WMRepository (
 ){
     private val gson = Gson()
     private val firebase = FirebaseDatabase.getInstance()
+
+    var firebaseInfoResult: MutableState<DataSnapshot?> = mutableStateOf(null)
 
     fun userExist(): Boolean  {
         return userInfoDao.userExist()>0

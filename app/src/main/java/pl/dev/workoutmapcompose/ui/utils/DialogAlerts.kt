@@ -1223,7 +1223,7 @@ import java.util.*
 
         var defaultSelection = -1
 
-        for(i in 0 until trainingPlans.size){
+        for(i in trainingPlans.indices){
             if(trainingPlans[i].assignedDay == currentDayInt){
                 defaultSelection = i
             }
