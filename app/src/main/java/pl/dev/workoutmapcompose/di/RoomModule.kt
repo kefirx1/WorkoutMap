@@ -22,8 +22,8 @@ object RoomModule {
         return Room.databaseBuilder(
             context,
             WMDatabase::class.java,
-            WMDatabase.DATABASE_NAME
-        ).allowMainThreadQueries()
+            WMDatabase.DATABASE_NAME)
+            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
     }

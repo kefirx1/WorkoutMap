@@ -32,7 +32,7 @@ fun MainTrainingPlansView(
     viewModel.getTrainingPlansList()
 
     val trainingPlanClicked by remember {
-        mutableStateOf(TrainingPlan("", listOf(), 0))
+        mutableStateOf(TrainingPlan("", mutableListOf(), 0))
     }
 
     var openTrainingPlansInfoDialog by remember {

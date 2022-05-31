@@ -20,7 +20,7 @@ object TextModifier {
     }
 
     fun convertExerciseProgressListToBetterText(
-        exerciseList: ArrayList<String>
+        exerciseList: MutableList<String>
     ): String {
 
         if(exerciseList.isEmpty()){

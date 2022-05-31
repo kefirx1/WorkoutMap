@@ -55,7 +55,7 @@ fun MainWorkout(
     val timestampInt by remember {
         mutableStateOf((Calendar.getInstance().timeInMillis/1000).toInt())
     }
-    val exerciseNewProgress: MutableMap<String, HashMap<String, ArrayList<String>>> by remember {
+    val exerciseNewProgress: MutableMap<String, MutableMap<String, MutableList<String>>> by remember {
         mutableStateOf(HashMap())
     }
     var currentExerciseIndex by remember {
@@ -498,7 +498,7 @@ fun MainWorkout(
 
 }
 
-fun endWorkout(workoutHistory: WorkoutHistory, viewModel: WorkoutViewModel, trainingPlanIndex: Int, exerciseNewProgress: MutableMap<String, HashMap<String, ArrayList<String>>>, timestampInt: Int) {
+fun endWorkout(workoutHistory: WorkoutHistory, viewModel: WorkoutViewModel, trainingPlanIndex: Int, exerciseNewProgress: MutableMap<String, MutableMap<String, MutableList<String>>>, timestampInt: Int) {
 
     workoutHistory.dateOfWorkout.add(timestampInt)
 

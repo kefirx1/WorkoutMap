@@ -12,9 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.dev.workoutmapcompose.data.*
-import pl.dev.workoutmapcompose.data.tempData.ProgressHistoryTemp
-import pl.dev.workoutmapcompose.data.tempData.TrainingPlanTemp
-import pl.dev.workoutmapcompose.data.tempData.WorkoutHistoryTemp
 import pl.dev.workoutmapcompose.datbase.dao.UserInfoDao
 import pl.dev.workoutmapcompose.datbase.dao.WeightHistoryDao
 import pl.dev.workoutmapcompose.json.GetJSONString
@@ -95,7 +92,8 @@ class WMRepository (
         val trainingPlansList: ArrayList<TrainingPlan> = ArrayList()
 
         firebaseInfoResult.value!!.child("trainingPlans").children.forEach{
-            val trainingPlanTemp = it.getValue(TrainingPlanTemp::class.java)
+
+            val trainingPlanTemp = it.getValue(TrainingPlan::class.java)
             val exercisesList: ArrayList<Exercise> = ArrayList()
             trainingPlanTemp!!.exercise.forEach{item ->
                 val exercise = Exercise(
@@ -107,7 +105,7 @@ class WMRepository (
             }
             val trainingPlan = TrainingPlan(
                 planName = trainingPlanTemp.planName,
-                exercise = exercisesList as List<Exercise>,
+                exercise = exercisesList,
                 assignedDay = trainingPlanTemp.assignedDay
             )
             trainingPlansList.add(trainingPlan)
@@ -115,40 +113,30 @@ class WMRepository (
 
         return trainingPlansList
     }
-    fun getWorkoutHistoryList(): ArrayList<WorkoutHistory>{
-        val workoutHistoryList: ArrayList<WorkoutHistory> = ArrayList()
+    fun getWorkoutHistoryList(): MutableList<WorkoutHistory>{
+        val workoutHistoryList: MutableList<WorkoutHistory> = ArrayList()
 
         firebaseInfoResult.value!!.child("workoutHistory").children.forEach {
 
-            val workoutHistoryTemp = it.getValue(WorkoutHistoryTemp::class.java)
+            val workoutHistory = it.getValue(WorkoutHistory::class.java)
 
-            val workoutHistory = WorkoutHistory(
-                dateOfWorkout = workoutHistoryTemp!!.dateOfWorkout,
-                planName = workoutHistoryTemp.planName
-            )
-
-            workoutHistoryList.add(workoutHistory)
+            if (workoutHistory != null) {
+                workoutHistoryList.add(workoutHistory)
+            }
         }
 
         return workoutHistoryList
     }
     fun getProgressHistory(): ProgressHistory? {
 
-        var progressHistoryTemp: ProgressHistoryTemp? = null
+        var progressHistory: ProgressHistory? = null
 
         try{
-            progressHistoryTemp = firebaseInfoResult.value!!.child("progressHistory")
-                .getValue(ProgressHistoryTemp::class.java)
-        }catch (e: Exception){
+            progressHistory = firebaseInfoResult.value!!.child("progressHistory")
+                .getValue(ProgressHistory::class.java)
+        }catch (e: Exception){ }
 
-        }
-        return if(progressHistoryTemp == null){
-            null
-        }else{
-            ProgressHistory(
-                exercisesProgress = progressHistoryTemp.exercisesProgress
-            )
-        }
+        return progressHistory
 
     }
     fun addNewTrainingPlan(trainingPlan: TrainingPlan){
@@ -172,7 +160,7 @@ class WMRepository (
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("trainingPlans").setValue(trainingPlansList)
     }
-    private fun updateWorkoutHistory(workoutHistoryList: ArrayList<WorkoutHistory>){
+    private fun updateWorkoutHistory(workoutHistoryList: MutableList<WorkoutHistory>){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("workoutHistory").setValue(workoutHistoryList)
     }
@@ -207,7 +195,7 @@ class WMRepository (
         if(progressHistory != null){
             val newProgressHistoryKeys = newProgressHistory.exercisesProgress.keys
             newProgressHistoryKeys.forEach{
-                val newProgressHistoryMap: HashMap<String, ArrayList<String>> = HashMap()
+                val newProgressHistoryMap: MutableMap<String, MutableList<String>> = HashMap()
                 val oldProgressHistoryMap = progressHistory.exercisesProgress[it]
 
                 if(oldProgressHistoryMap!=null){
