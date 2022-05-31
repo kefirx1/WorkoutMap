@@ -56,7 +56,7 @@ fun MainWorkout(
         mutableStateOf((Calendar.getInstance().timeInMillis/1000).toInt())
     }
     val exerciseNewProgress: MutableMap<String, MutableMap<String, MutableList<String>>> by remember {
-        mutableStateOf(HashMap())
+        mutableStateOf(mutableMapOf())
     }
     var currentExerciseIndex by remember {
         mutableStateOf(0)
@@ -80,7 +80,7 @@ fun MainWorkout(
         mutableStateOf(trainingPlan.exercise[currentExerciseIndex].numberOfSets)
     }
     val currentWorkoutProgress by remember {
-        mutableStateOf(ArrayList<String>())
+        mutableStateOf(mutableListOf<String>())
     }
     LaunchedEffect(Unit) {
         while (true) {
@@ -165,7 +165,7 @@ fun MainWorkout(
             ) {
                 IconButton(
                     onClick = {
-                        if(numberOfSets>1){
+                        if(numberOfSets>1 && currentExerciseSet<numberOfSets){
                             numberOfSets--
                         }
                     }) {
@@ -460,7 +460,7 @@ fun MainWorkout(
                                     timestampInt = timestampInt
                                 )
 
-                                //TODO
+
                                 instance.finish()
 
                             }
