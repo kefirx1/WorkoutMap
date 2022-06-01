@@ -1448,6 +1448,7 @@ import java.util.*
         val dialogTitle = DateTimeFunctionalities.convertDateInSecToDateString(
             exerciseProgress.dateOfWorkout.toInt()
         )
+        val textInfo = "Zmień wybrane wartości serii, a następnie kliknij 'ZAPISZ'"
         val confirmButtonText = "ZAPISZ"
         val dismissButtonText = "COFNIJ"
 
@@ -1491,6 +1492,16 @@ import java.util.*
                         horizontalAlignment = Alignment.CenterHorizontally
 
                     ) {
+                        Text(
+                            text = textInfo,
+                            fontFamily = mainFamily,
+                            fontSize = 15.sp
+                        )
+                        Spacer(
+                                modifier = Modifier
+                                    .height(20.dp)
+                                    .fillMaxWidth()
+                                )
 
                         Row(
                             modifier = Modifier
