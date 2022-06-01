@@ -2,11 +2,13 @@ package pl.dev.workoutmapcompose.ui.utils
 
 import android.app.Activity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pl.dev.workoutmapcompose.data.ExerciseProgress
 import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutActivity
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
@@ -143,6 +147,24 @@ fun RegistrationHeaderComponent(
 fun DashboardProgressList(
     viewModel: DashboardViewModel
 ){
+
+    var openWorkoutProgressInfoDialog by remember {
+        mutableStateOf(false)
+    }
+    var exerciseProgressState by remember {
+        mutableStateOf(ExerciseProgress(
+            dateOfWorkout = "",
+            setsList = mutableListOf()
+        ))
+    }
+
+    if(openWorkoutProgressInfoDialog) {
+        openWorkoutProgressInfoDialog = workoutProgressInfoDialogAlert(
+            viewModel = viewModel,
+            exerciseProgress = exerciseProgressState
+        )
+    }
+
     LazyColumn(
         modifier = Modifier
             .background(color = MaterialTheme.colors.primary)
@@ -176,7 +198,11 @@ fun DashboardProgressList(
                     viewModel.exercisesProgressListResult.value!![exerciseIndex].forEach {
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .clickable {
+                                    exerciseProgressState = it
+                                    openWorkoutProgressInfoDialog = true
+                                },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -185,9 +211,9 @@ fun DashboardProgressList(
                                 ),
                                 color = MaterialTheme.typography.caption.color,
                                 fontFamily = mainFamily,
-                                fontSize = 12.sp,
+                                fontSize = 18.sp,
                                 modifier = Modifier
-                                    .fillMaxWidth(0.4f),
+                                    .fillMaxWidth(0.35f),
                                 textAlign = TextAlign.Center
                             )
 
@@ -197,15 +223,24 @@ fun DashboardProgressList(
                                 ),
                                 color = MaterialTheme.typography.caption.color,
                                 fontFamily = mainFamily,
-                                fontSize = 10.sp,
+                                fontSize = 14.sp,
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(0.85f)
                             )
+
+                            Icon(
+                                Icons.Filled.Info,
+                                contentDescription = "info",
+                                tint = MaterialTheme.typography.caption.color,
+                                modifier = Modifier
+                                    .scale(0.7f)
+                            )
+
                         }
 
                         Spacer(
                             modifier = Modifier
-                                .height(10.dp)
+                                .height(15.dp)
                                 .fillMaxWidth()
                         )
 

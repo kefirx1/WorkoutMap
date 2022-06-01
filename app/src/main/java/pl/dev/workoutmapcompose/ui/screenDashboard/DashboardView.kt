@@ -190,8 +190,12 @@ fun DashboardSecondPage(
 ) {
 
     val exerciseTypes = listOf("Klatka piersiowa", "Plecy", "Barki", "Biceps", "Triceps", "Nogi", "Przedramiona", "Brzuch")
-    var exerciseTypesSelected by remember { mutableStateOf("Klatka piersiowa") }
-    var expanded by remember { mutableStateOf(false) }
+    var exerciseTypesSelected by remember{
+        mutableStateOf("Klatka piersiowa")
+    }
+    var expanded by remember {
+        mutableStateOf(false)
+    }
 
     viewModel.getExercisesJSON()
     viewModel.getFullExerciseProgressHistory()

@@ -132,7 +132,7 @@ fun MainWorkout(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.4f)
                     .padding(top = 10.dp)
                     .border(width = 1.dp, color = Color.Black)
                 ) {
@@ -353,7 +353,6 @@ fun MainWorkout(
                     .height(10.dp)
                     .fillMaxWidth()
             )
-
 
             Row(
                 modifier = Modifier

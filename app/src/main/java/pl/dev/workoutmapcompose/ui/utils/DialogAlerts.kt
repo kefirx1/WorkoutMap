@@ -32,19 +32,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
 import pl.dev.workoutmapcompose.App.Companion.applicationContext
+import pl.dev.workoutmapcompose.data.*
+import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
+import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.MainActivity
 import pl.dev.workoutmapcompose.ui.screenRegistration.RegisterActivity
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsActivity
-import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutActivity
-import pl.dev.workoutmapcompose.data.Exercise
-import pl.dev.workoutmapcompose.data.TrainingPlan
-import pl.dev.workoutmapcompose.data.UserInfo
-import pl.dev.workoutmapcompose.data.WeightHistory
-import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
-import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
 import pl.dev.workoutmapcompose.ui.screenSettings.SettingsViewModel
 import pl.dev.workoutmapcompose.ui.screenTrainingPlans.TrainingPlansViewModel
 import pl.dev.workoutmapcompose.ui.screenWeightHistory.WeightHistoryViewModel
+import pl.dev.workoutmapcompose.ui.screenWorkout.WorkoutActivity
 import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.BlueGray900
 import pl.dev.workoutmapcompose.ui.theme.Purple500
@@ -1228,7 +1225,6 @@ import java.util.*
                 defaultSelection = i
             }
         }
-
         var openDialog by remember {
             mutableStateOf(true)
         }
@@ -1385,6 +1381,225 @@ import java.util.*
                     TextButton(
                         onClick = {
                             instance.finish()
+                        }
+                    ) {
+                        Text(
+                            text = confirmButtonText,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            openDialog = false
+                        }
+                    ) {
+                        Text(
+                            text = dismissButtonText,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                textContentColor = MaterialTheme.typography.caption.color,
+                titleContentColor = MaterialTheme.typography.caption.color,
+                containerColor = MaterialTheme.colors.surface
+            )
+        }
+
+        return openDialog
+
+    }
+
+
+    @Composable
+    fun workoutProgressInfoDialogAlert(
+        viewModel: DashboardViewModel,
+        exerciseProgress: ExerciseProgress
+    ): Boolean {
+
+        var setIndexSelected by remember{
+            mutableStateOf(0)
+        }
+        var expanded by remember {
+            mutableStateOf(false)
+        }
+        val newExerciseProgress by remember {
+            mutableStateOf(
+                exerciseProgress.copy()
+            )
+        }
+        var newRepsTextState by remember {
+            mutableStateOf(TextFieldValue("0"))
+        }
+        var newWeightTextState by remember {
+            mutableStateOf(TextFieldValue("0"))
+        }
+        val dialogTitle = DateTimeFunctionalities.convertDateInSecToDateString(
+            exerciseProgress.dateOfWorkout.toInt())
+        val confirmButtonText = "ZAPISZ"
+        val dismissButtonText = "COFNIJ"
+
+
+                                   var openDialog by remember {
+                                   mutableStateOf(true)
+                               }
+
+                               if (openDialog) {
+                                   AlertDialog(
+                                       onDismissRequest = {
+                                           openDialog = false
+                                       },
+                                       title = {
+                                           Text(
+                                               text = dialogTitle,
+                                               fontFamily = mainFamily,
+                                               fontSize = 20.sp
+                                           )
+                                       },
+                                       text = {
+
+                                           Column(
+
+                                               modifier = Modifier
+                                                   .fillMaxWidth(),
+                                               horizontalAlignment = Alignment.CenterHorizontally
+
+                                           ) {
+
+                                               Row(
+                                                   modifier = Modifier
+                                                       .clickable {
+                                                           expanded = !expanded
+                                                       }
+                                                       .padding(top = 10.dp),
+                                                   horizontalArrangement = Arrangement.Center
+                                               ) {
+
+                                                   Text(
+                                                       text = "${setIndexSelected+1} seria | ${exerciseProgress.setsList[setIndexSelected]}",
+                                                       fontFamily = mainFamily,
+                                                       fontSize = 20.sp,
+                                                       color = MaterialTheme.typography.caption.color
+                               )
+
+                               Icon(
+                                   imageVector = Icons.Default.ArrowDropDown,
+                                   contentDescription = "Dropdown",
+                                   tint = MaterialTheme.typography.caption.color
+                               )
+
+                               DropdownMenu(
+                                   modifier = Modifier
+                                       .fillMaxHeight(0.3f),
+                                   expanded = expanded,
+                                   onDismissRequest = {
+                                       expanded = false
+                                   }
+                               ) {
+                                   exerciseProgress.setsList.forEachIndexed {index, it ->
+                                       DropdownMenuItem(
+                                           onClick = {
+                                               setIndexSelected = index
+                                               expanded = false
+                                           }
+                                       ) {
+                                           Text(
+                                               text = "${index+1} seria | $it"
+                                           )
+                                       }
+                                       Divider()
+                                   }
+                               }
+                           }
+
+                           Spacer(
+                               modifier = Modifier
+                                   .height(20.dp)
+                                   .fillMaxWidth()
+                           )
+
+                           Row(
+                               modifier = Modifier
+                                   .fillMaxWidth(),
+                               horizontalArrangement = Arrangement.SpaceAround
+                           ) {
+
+                               OutlinedTextField(
+                                   modifier = Modifier
+                                       .width(110.dp),
+                                   value = newRepsTextState,
+                                   onValueChange = { newRepsTextState = it },
+                                   textStyle = TextStyle(
+                                       color = MaterialTheme.typography.caption.color,
+                                       fontFamily = mainFamily,
+                                       fontSize = 20.sp
+                                   ),
+                                   singleLine = true,
+                                   label = {
+                                       Text(
+                                           text = "Powtorzenia",
+                                           color = MaterialTheme.typography.caption.color,
+                                           fontFamily = mainFamily,
+                                           fontSize = 15.sp
+                                       )
+                                   },
+                                   colors = TextFieldDefaults.textFieldColors(
+                                       containerColor = MaterialTheme.colors.secondary,
+                                       focusedIndicatorColor = Purple500,
+                                       cursorColor = Purple500
+                                   ),
+                                   keyboardOptions = KeyboardOptions(
+                                       keyboardType = KeyboardType.Decimal
+                                   )
+                               )
+
+                               OutlinedTextField(
+                                   modifier = Modifier
+                                       .width(110.dp),
+                                   value = newWeightTextState,
+                                   onValueChange = { newWeightTextState = it },
+                                   textStyle = TextStyle(
+                                       color = MaterialTheme.typography.caption.color,
+                                       fontFamily = mainFamily,
+                                       fontSize = 20.sp
+                                   ),
+                                   singleLine = true,
+                                   label = {
+                                       Text(
+                                           text = "Obciazenie",
+                                           color = MaterialTheme.typography.caption.color,
+                                           fontFamily = mainFamily,
+                                           fontSize = 15.sp
+                                       )
+                                   },
+                                   colors = TextFieldDefaults.textFieldColors(
+                                       containerColor = MaterialTheme.colors.secondary,
+                                       focusedIndicatorColor = Purple500,
+                                       cursorColor = Purple500
+                                   ),
+                                   keyboardOptions = KeyboardOptions(
+                                       keyboardType = KeyboardType.Decimal
+                                   )
+                               )
+
+                           }
+
+
+                       }
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+
+                            if(newExerciseProgress.dateOfWorkout.isNotBlank()){
+                                openDialog = false
+                            }else{
+
+                            }
+
                         }
                     ) {
                         Text(
