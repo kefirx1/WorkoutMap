@@ -151,6 +151,9 @@ fun DashboardProgressList(
     var openWorkoutProgressInfoDialog by remember {
         mutableStateOf(false)
     }
+    var exerciseSelectedName by remember {
+        mutableStateOf("")
+    }
     var exerciseProgressState by remember {
         mutableStateOf(ExerciseProgress(
             dateOfWorkout = "",
@@ -161,7 +164,8 @@ fun DashboardProgressList(
     if(openWorkoutProgressInfoDialog) {
         openWorkoutProgressInfoDialog = workoutProgressInfoDialogAlert(
             viewModel = viewModel,
-            exerciseProgress = exerciseProgressState
+            exerciseProgress = exerciseProgressState,
+            exerciseSelectedName = exerciseSelectedName
         )
     }
 
@@ -195,12 +199,13 @@ fun DashboardProgressList(
 
                 if (viewModel.exercisesProgressListResult.value!![exerciseIndex].isNotEmpty()) {
 
-                    viewModel.exercisesProgressListResult.value!![exerciseIndex].forEach {
+                    viewModel.exercisesProgressListResult.value!![exerciseIndex].forEachIndexed { index, it ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
                                     exerciseProgressState = it
+                                    exerciseSelectedName = viewModel.exercisesListResult.value[exerciseIndex]
                                     openWorkoutProgressInfoDialog = true
                                 },
                             verticalAlignment = Alignment.CenterVertically

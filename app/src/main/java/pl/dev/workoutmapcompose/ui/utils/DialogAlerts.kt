@@ -28,6 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
@@ -1417,10 +1418,11 @@ import java.util.*
     @Composable
     fun workoutProgressInfoDialogAlert(
         viewModel: DashboardViewModel,
-        exerciseProgress: ExerciseProgress
+        exerciseProgress: ExerciseProgress,
+        exerciseSelectedName: String
     ): Boolean {
 
-        var setIndexSelected by remember{
+        var setIndexSelected by remember {
             mutableStateOf(0)
         }
         var expanded by remember {
@@ -1428,7 +1430,10 @@ import java.util.*
         }
         val newExerciseProgress by remember {
             mutableStateOf(
-                exerciseProgress.copy()
+                ExerciseProgress(
+                    dateOfWorkout = exerciseProgress.dateOfWorkout,
+                    setsList =  exerciseProgress.setsList
+                )
             )
         }
         var newRepsTextState by remember {
@@ -1437,167 +1442,199 @@ import java.util.*
         var newWeightTextState by remember {
             mutableStateOf(TextFieldValue("0"))
         }
+        var openDialog by remember {
+            mutableStateOf(true)
+        }
         val dialogTitle = DateTimeFunctionalities.convertDateInSecToDateString(
-            exerciseProgress.dateOfWorkout.toInt())
+            exerciseProgress.dateOfWorkout.toInt()
+        )
         val confirmButtonText = "ZAPISZ"
         val dismissButtonText = "COFNIJ"
 
+        fun setOutlinedTextFieldStates(exerciseProgressString: String): Boolean {
 
-                                   var openDialog by remember {
-                                   mutableStateOf(true)
-                               }
+            val middleIndex = exerciseProgressString.indexOf("x")
+            val repsValueString = exerciseProgressString.substring(0, middleIndex)
+            val weightValueString = exerciseProgressString.substring(middleIndex + 1)
 
-                               if (openDialog) {
-                                   AlertDialog(
-                                       onDismissRequest = {
-                                           openDialog = false
-                                       },
-                                       title = {
-                                           Text(
-                                               text = dialogTitle,
-                                               fontFamily = mainFamily,
-                                               fontSize = 20.sp
-                                           )
-                                       },
-                                       text = {
+            newRepsTextState = TextFieldValue(repsValueString)
+            newWeightTextState = TextFieldValue(weightValueString)
 
-                                           Column(
+            return true
+        }
 
-                                               modifier = Modifier
-                                                   .fillMaxWidth(),
-                                               horizontalAlignment = Alignment.CenterHorizontally
-
-                                           ) {
-
-                                               Row(
-                                                   modifier = Modifier
-                                                       .clickable {
-                                                           expanded = !expanded
-                                                       }
-                                                       .padding(top = 10.dp),
-                                                   horizontalArrangement = Arrangement.Center
-                                               ) {
-
-                                                   Text(
-                                                       text = "${setIndexSelected+1} seria | ${exerciseProgress.setsList[setIndexSelected]}",
-                                                       fontFamily = mainFamily,
-                                                       fontSize = 20.sp,
-                                                       color = MaterialTheme.typography.caption.color
-                               )
-
-                               Icon(
-                                   imageVector = Icons.Default.ArrowDropDown,
-                                   contentDescription = "Dropdown",
-                                   tint = MaterialTheme.typography.caption.color
-                               )
-
-                               DropdownMenu(
-                                   modifier = Modifier
-                                       .fillMaxHeight(0.3f),
-                                   expanded = expanded,
-                                   onDismissRequest = {
-                                       expanded = false
-                                   }
-                               ) {
-                                   exerciseProgress.setsList.forEachIndexed {index, it ->
-                                       DropdownMenuItem(
-                                           onClick = {
-                                               setIndexSelected = index
-                                               expanded = false
-                                           }
-                                       ) {
-                                           Text(
-                                               text = "${index+1} seria | $it"
-                                           )
-                                       }
-                                       Divider()
-                                   }
-                               }
-                           }
-
-                           Spacer(
-                               modifier = Modifier
-                                   .height(20.dp)
-                                   .fillMaxWidth()
-                           )
-
-                           Row(
-                               modifier = Modifier
-                                   .fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround
-                           ) {
-
-                               OutlinedTextField(
-                                   modifier = Modifier
-                                       .width(110.dp),
-                                   value = newRepsTextState,
-                                   onValueChange = { newRepsTextState = it },
-                                   textStyle = TextStyle(
-                                       color = MaterialTheme.typography.caption.color,
-                                       fontFamily = mainFamily,
-                                       fontSize = 20.sp
-                                   ),
-                                   singleLine = true,
-                                   label = {
-                                       Text(
-                                           text = "Powtorzenia",
-                                           color = MaterialTheme.typography.caption.color,
-                                           fontFamily = mainFamily,
-                                           fontSize = 15.sp
-                                       )
-                                   },
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       containerColor = MaterialTheme.colors.secondary,
-                                       focusedIndicatorColor = Purple500,
-                                       cursorColor = Purple500
-                                   ),
-                                   keyboardOptions = KeyboardOptions(
-                                       keyboardType = KeyboardType.Decimal
-                                   )
-                               )
-
-                               OutlinedTextField(
-                                   modifier = Modifier
-                                       .width(110.dp),
-                                   value = newWeightTextState,
-                                   onValueChange = { newWeightTextState = it },
-                                   textStyle = TextStyle(
-                                       color = MaterialTheme.typography.caption.color,
-                                       fontFamily = mainFamily,
-                                       fontSize = 20.sp
-                                   ),
-                                   singleLine = true,
-                                   label = {
-                                       Text(
-                                           text = "Obciazenie",
-                                           color = MaterialTheme.typography.caption.color,
-                                           fontFamily = mainFamily,
-                                           fontSize = 15.sp
-                                       )
-                                   },
-                                   colors = TextFieldDefaults.textFieldColors(
-                                       containerColor = MaterialTheme.colors.secondary,
-                                       focusedIndicatorColor = Purple500,
-                                       cursorColor = Purple500
-                                   ),
-                                   keyboardOptions = KeyboardOptions(
-                                       keyboardType = KeyboardType.Decimal
-                                   )
-                               )
-
-                           }
+        remember {
+            setOutlinedTextFieldStates(
+                exerciseProgressString = exerciseProgress.setsList[setIndexSelected]
+            )
+        }
 
 
-                       }
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                title = {
+                    Text(
+                        text = dialogTitle,
+                        fontFamily = mainFamily,
+                        fontSize = 20.sp
+                    )
+                },
+                text = {
+
+                    Column(
+
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+
+                        Row(
+                            modifier = Modifier
+                                .clickable {
+                                    expanded = !expanded
+                                }
+                                .padding(top = 10.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+
+                            Text(
+                                text = "${setIndexSelected + 1} seria | ${exerciseProgress.setsList[setIndexSelected]}",
+                                fontFamily = mainFamily,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.typography.caption.color
+                            )
+
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Dropdown",
+                                tint = MaterialTheme.typography.caption.color
+                            )
+
+                            DropdownMenu(
+                                modifier = Modifier
+                                    .fillMaxHeight(0.3f),
+                                expanded = expanded,
+                                onDismissRequest = {
+                                    expanded = false
+                                }
+                            ) {
+                                exerciseProgress.setsList.forEachIndexed { index, it ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            setIndexSelected = index
+                                            setOutlinedTextFieldStates(exerciseProgressString = it)
+                                            expanded = false
+                                        }
+                                    ) {
+                                        Text(
+                                            text = "${index + 1} seria | $it"
+                                        )
+                                    }
+                                    Divider()
+                                }
+                            }
+                        }
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(20.dp)
+                                .fillMaxWidth()
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround
+                        ) {
+
+                            OutlinedTextField(
+                                modifier = Modifier
+                                    .width(110.dp),
+                                value = newRepsTextState,
+                                onValueChange = { newRepsTextState = it },
+                                textStyle = TextStyle(
+                                    color = MaterialTheme.typography.caption.color,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                ),
+                                singleLine = true,
+                                label = {
+                                    Text(
+                                        text = "Powtorzenia",
+                                        color = MaterialTheme.typography.caption.color,
+                                        fontFamily = mainFamily,
+                                        fontSize = 15.sp
+                                    )
+                                },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = MaterialTheme.colors.secondary,
+                                    focusedIndicatorColor = Purple500,
+                                    cursorColor = Purple500
+                                ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Decimal
+                                )
+                            )
+
+                            OutlinedTextField(
+                                modifier = Modifier
+                                    .width(110.dp),
+                                value = newWeightTextState,
+                                onValueChange = { newWeightTextState = it },
+                                textStyle = TextStyle(
+                                    color = MaterialTheme.typography.caption.color,
+                                    fontFamily = mainFamily,
+                                    fontSize = 20.sp
+                                ),
+                                singleLine = true,
+                                label = {
+                                    Text(
+                                        text = "Obciazenie",
+                                        color = MaterialTheme.typography.caption.color,
+                                        fontFamily = mainFamily,
+                                        fontSize = 15.sp
+                                    )
+                                },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = MaterialTheme.colors.secondary,
+                                    focusedIndicatorColor = Purple500,
+                                    cursorColor = Purple500
+                                ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Decimal
+                                )
+                            )
+
+                        }
+
+
+                    }
                 },
                 confirmButton = {
                     TextButton(
                         onClick = {
 
-                            if(newExerciseProgress.dateOfWorkout.isNotBlank()){
-                                openDialog = false
-                            }else{
+                            if (newRepsTextState.text.isNotBlank() && newWeightTextState.text.isNotBlank()) {
+                                newExerciseProgress.setsList.removeAt(setIndexSelected)
+                                newExerciseProgress.setsList.add(setIndexSelected, "${newRepsTextState.text}x${newWeightTextState.text}")
 
+
+                                updateProgressInfo(
+                                    viewModel = viewModel,
+                                    newExerciseProgress = newExerciseProgress,
+                                    exerciseSelectedName = exerciseSelectedName,
+                                )
+
+
+                                openDialog = false
+                            } else {
+                                showShortToastError(
+                                    textError = "Nie możesz zapisać pustych wartości"
+                                )
                             }
 
                         }
@@ -1630,8 +1667,21 @@ import java.util.*
 
         return openDialog
 
+
     }
 
+    private fun updateProgressInfo(
+        viewModel: DashboardViewModel,
+        newExerciseProgress: ExerciseProgress,
+        exerciseSelectedName: String
+    ){
+
+        viewModel.updateProgressHistory(
+            newExerciseProgress = newExerciseProgress,
+            exerciseSelectedName = exerciseSelectedName,
+        )
+
+    }
 
     private fun showShortToastError(textError: String) {
         Toast.makeText(

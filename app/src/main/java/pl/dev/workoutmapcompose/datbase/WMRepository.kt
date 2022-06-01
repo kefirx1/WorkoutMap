@@ -164,7 +164,7 @@ class WMRepository (
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("workoutHistory").setValue(workoutHistoryList)
     }
-    private fun updateProgressHistory(progressHistory: ProgressHistory){
+    fun updateProgressHistory(progressHistory: ProgressHistory){
         val reference = firebase.getReference(getUserInfo().userFirebaseID)
         reference.child("progressHistory").setValue(progressHistory)
     }

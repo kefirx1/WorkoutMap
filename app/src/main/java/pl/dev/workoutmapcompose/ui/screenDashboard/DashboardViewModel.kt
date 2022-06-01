@@ -116,6 +116,14 @@ constructor(
         wmRepository.setFirebaseListener()
     }
 
+    fun updateProgressHistory(
+        newExerciseProgress: ExerciseProgress,
+        exerciseSelectedName: String
+    ){
+        val fullProgressHistoryResultTemp = fullProgressHistoryResult.value
+        fullProgressHistoryResultTemp!!.exercisesProgress[exerciseSelectedName]!![newExerciseProgress.dateOfWorkout] = newExerciseProgress.setsList
 
+        wmRepository.updateProgressHistory(progressHistory = fullProgressHistoryResultTemp)
+    }
 
 }
