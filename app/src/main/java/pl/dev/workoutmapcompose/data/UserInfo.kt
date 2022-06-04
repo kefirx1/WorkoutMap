@@ -22,8 +22,8 @@ data class UserInfo (
     @ColumnInfo(name = "gender")
     var gender: String,
 
-    @ColumnInfo(name = "age")
-    var age: String,
+    @ColumnInfo(name = "dateOfBirth")
+    var dateOfBirth: String,
 
     @ColumnInfo(name = "lastTrainingDate")
     var lastTrainingDate: String){

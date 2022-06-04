@@ -1,11 +1,13 @@
 package pl.dev.workoutmapcompose.ui.screenRegistration
 
+import android.app.DatePickerDialog
 import android.util.Log
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -14,8 +16,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,12 +37,12 @@ fun exitRegister(
     viewModel: RegistrationViewModel,
     nameString: String,
     surnameString: String,
-    ageString: String,
+    dateOfBirth: String,
     genderString: String,
     heightString: String
 ){
 
-    if(nameString.isBlank() || surnameString.isBlank() || ageString.isBlank() || ageString == "0"){
+    if(nameString.isBlank() || surnameString.isBlank() || dateOfBirth.isBlank()){
         Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane poprawnie", Toast.LENGTH_SHORT).show()
     }else{
 
@@ -49,7 +53,7 @@ fun exitRegister(
                 userFirebaseID = calendar.timeInMillis.toString(),
                 name = nameString,
                 surName = surnameString,
-                age = ageString,
+                dateOfBirth = dateOfBirth,
                 height = heightString,
                 gender = genderString,
                 lastTrainingDate = ""
@@ -76,9 +80,6 @@ fun MainRegistration(
     var heightPickerState by remember {
         mutableStateOf(160)
     }
-    var ageTextState by remember {
-        mutableStateOf(TextFieldValue())
-    }
     var genderSelected by remember {
         mutableStateOf("Mężczyzna")
     }
@@ -86,8 +87,23 @@ fun MainRegistration(
         mutableStateOf(false)
     }
 
+    val mCalendar = Calendar.getInstance()
 
+    val mYear = mCalendar.get(Calendar.YEAR)
+    val mMonth = mCalendar.get(Calendar.MONTH)
+    val mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+    var cYear = mCalendar.get(Calendar.YEAR)
+    var cMonth = mCalendar.get(Calendar.MONTH)
+    var cDay = mCalendar.get(Calendar.DAY_OF_MONTH)
 
+    mCalendar.time = Date()
+
+    var mDate by remember {
+        mutableStateOf("$mDay/${mMonth+1}/$mYear")
+    }
+    var dateOfBirth by remember {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -151,7 +167,6 @@ fun MainRegistration(
                     .height(10.dp)
             )
 
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -195,41 +210,48 @@ fun MainRegistration(
             ){
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(0.5f),
+                        .fillMaxWidth(0.6f),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Wiek:",
-                        style = MaterialTheme.typography.caption,
-                        fontSize = 25.sp
-                    )
-                    TextField(
-                        modifier = Modifier
-                            .width(100.dp),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal
-                        ),
-                        value = ageTextState,
-                        onValueChange = {
-                            if(ageTextState.text.length<2){
-                                ageTextState = it
-                            }else{
-                                ageTextState = TextFieldValue()
-                                Toast.makeText(applicationContext(),
-                                    "Podany wiek powinien się mieścić w 1 - 100",
-                                    Toast.LENGTH_SHORT).show()
+
+                    val mDatePickerDialog = DatePickerDialog(
+                        LocalContext.current,
+                        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+                            if(cYear<mYear || cMonth<mMonth || cDay<mDayOfMonth){
+                                Toast.makeText(
+                                    applicationContext(),
+                                    "Nie możesz ustawiać przyszłej daty",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }else {
+                                mDate = "$mDayOfMonth/${mMonth+1}/$mYear"
+                                val calendar = Calendar.getInstance()
+                                calendar.set(mYear, mMonth, mDayOfMonth)
+                                dateOfBirth = (calendar.timeInMillis / 1000).toString()
+                                cYear = mYear
+                                cMonth = mMonth
+                                cDay = mDayOfMonth
                             }
-                                        },
-                        textStyle = TextStyle(
-                            color = MaterialTheme.typography.caption.color,
-                            fontFamily = mainFamily,
-                            fontSize = 25.sp
-                        ),
-                        maxLines = 1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = MaterialTheme.colors.primary
-                        )
+                        }, mYear, mMonth, mDay,
                     )
+
+                    Button(
+                        modifier = Modifier
+
+                            .shadow(ambientColor = Color.Black, shape = CircleShape, elevation = 10.dp),
+                        onClick = {
+                            mDatePickerDialog.show()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colors.primary ,
+                            contentColor = MaterialTheme.typography.caption.color,
+                        ),
+                    ) {
+                        Text(
+                            text = "Data urodzenia:\n$mDate",
+                            color = MaterialTheme.typography.caption.color,
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -329,18 +351,17 @@ fun MainRegistration(
                 onClick = {
                     val nameString = nameTextState.text
                     val surnameString = surnameTextState.text
-                    val ageString = ageTextState.text
                     val genderString = genderSelected
                     val heightString = heightPickerState.toString()
 
                     exitRegister(
-                        instance,
-                        viewModel,
-                        nameString,
-                        surnameString,
-                        ageString,
-                        genderString,
-                        heightString
+                        instance = instance,
+                        viewModel = viewModel,
+                        nameString = nameString,
+                        surnameString = surnameString,
+                        dateOfBirth = dateOfBirth,
+                        genderString = genderString,
+                        heightString = heightString
                     )
 
                 },
