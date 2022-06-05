@@ -3,6 +3,7 @@ package pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -64,6 +66,8 @@ fun MainNewTrainingView(
         mutableStateOf("-")
     }
 
+    val focusManager = LocalFocusManager.current
+
     if(openAddExerciseDialog) {
         openAddExerciseDialog = addExerciseForTrainingPlanDialogAlert(
             viewModel = viewModel,
@@ -75,6 +79,12 @@ fun MainNewTrainingView(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() } // This is mandatory
+            ) {
+                focusManager.clearFocus()
+            }
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
