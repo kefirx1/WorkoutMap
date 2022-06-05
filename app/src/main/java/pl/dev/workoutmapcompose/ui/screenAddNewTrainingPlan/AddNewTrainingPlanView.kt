@@ -205,10 +205,10 @@ fun MainNewTrainingView(
                                     .background(
                                         color = MaterialTheme.colors.surface
                                     )
-                                    .padding(10.dp)
                                     .clickable {
                                         selectedExercisesList.removeAt(it)
-                                    },
+                                    }
+                                    .padding(10.dp),
                                 horizontalArrangement = Arrangement.SpaceAround,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -314,7 +314,7 @@ fun MainNewTrainingView(
             ),
         ) {
             Text(
-                text = "DODAJ NOWY PLAN",
+                text = "Dodaj nowy plan",
                 style = MaterialTheme.typography.caption,
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center

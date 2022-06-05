@@ -84,13 +84,13 @@ fun MainTrainingPlansView(
                             .fillMaxWidth()
                             .shadow(ambientColor = Color.Black, elevation = 4.dp)
                             .background(color = MaterialTheme.colors.primary)
-                            .padding(top = 5.dp, bottom = 5.dp)
                             .clickable {
                                 trainingPlanClicked.planName = trainingPlansList[it].planName
                                 trainingPlanClicked.exercise = trainingPlansList[it].exercise
                                 trainingPlanClicked.assignedDay = trainingPlansList[it].assignedDay
                                 openTrainingPlansInfoDialog = true
-                            },
+                            }
+                            .padding(top = 5.dp, bottom = 5.dp),
                         horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -136,7 +136,7 @@ fun MainTrainingPlansView(
                 ),
             ) {
                 Text(
-                    text = "DODAJ NOWY PLAN TRENINGOWY",
+                    text = "Dodaj nowy plan treningowy",
                     style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
@@ -166,7 +166,7 @@ fun MainTrainingPlansView(
                 ),
             ) {
                 Text(
-                    text = "DODAJ PIERWSZY PLAN TRENINGOWY",
+                    text = "Dodaj pierwszy plan treningowy",
                     style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center

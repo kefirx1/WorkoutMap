@@ -151,7 +151,10 @@ fun DashboardFirstPage(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(45.dp),
+                .height(45.dp)
+                .clickable {
+                    instance.startActivity(Intent(instance, WeightHistoryActivity::class.java))
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -167,10 +170,7 @@ fun DashboardFirstPage(
             }
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .clickable {
-                        instance.startActivity(Intent(instance, WeightHistoryActivity::class.java))
-                    },
+                    .fillMaxWidth(0.5f),
                 style = MaterialTheme.typography.caption,
                 fontSize = 25.sp,
                 text = "${viewModel.userMainViewInfoResult.value?.userWeight}kg"

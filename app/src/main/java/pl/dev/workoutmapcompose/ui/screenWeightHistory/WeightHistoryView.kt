@@ -122,7 +122,7 @@ fun MainWeightHistoryView(
                 ),
             ) {
                 Text(
-                    text = "DODAJ",
+                    text = "Dodaj",
                     style = MaterialTheme.typography.caption,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
@@ -155,6 +155,7 @@ fun MainWeightHistoryView(
                                     openRowWeightDialog = true
                                     clickedRowWeightHistory = sortedWeightHistoryList[it]
                                 }
+                                .padding(4.dp)
                         ) {
                             Row(
                                 modifier = Modifier
