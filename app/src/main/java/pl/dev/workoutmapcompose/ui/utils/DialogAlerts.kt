@@ -687,6 +687,11 @@ import java.util.*
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Decimal
                                 ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = {
+                                        focusManager.clearFocus()
+                                    }
+                                ),
                                 value = weightTextState,
                                 onValueChange = { weightTextState = it },
                                 textStyle = TextStyle(
@@ -694,6 +699,7 @@ import java.util.*
                                     fontFamily = mainFamily,
                                     fontSize = 25.sp
                                 ),
+                                singleLine = true,
                                 maxLines = 1,
                                 colors = TextFieldDefaults.textFieldColors(
                                     containerColor = BlueGray900
