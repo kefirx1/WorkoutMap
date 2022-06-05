@@ -43,7 +43,6 @@ fun MainDashboard(
     var openWorkoutDashboardDialog by remember {
         mutableStateOf(false)
     }
-
     val pagerState = rememberPagerState()
 
     if(openWorkoutDashboardDialog) {
@@ -129,7 +128,7 @@ fun DashboardHorizontalPager(
             .fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> DashboardFirstPage(viewModel = viewModel)
+            0 -> DashboardFirstPage(instance = instance, viewModel = viewModel)
             1 -> DashboardSecondPage(instance = instance, viewModel = viewModel)
         }
 
@@ -139,7 +138,8 @@ fun DashboardHorizontalPager(
 @Suppress("FunctionName")
 @Composable
 fun DashboardFirstPage(
-    viewModel: DashboardViewModel
+    viewModel: DashboardViewModel,
+    instance: MainActivity
 ) {
 
     Column(
@@ -167,7 +167,10 @@ fun DashboardFirstPage(
             }
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f),
+                    .fillMaxWidth(0.5f)
+                    .clickable {
+                        instance.startActivity(Intent(instance, WeightHistoryActivity::class.java))
+                    },
                 style = MaterialTheme.typography.caption,
                 fontSize = 25.sp,
                 text = "${viewModel.userMainViewInfoResult.value?.userWeight}kg"
