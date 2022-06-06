@@ -904,6 +904,8 @@ import java.util.*
 
         if (openDialog) {
             AlertDialog(
+                modifier = Modifier
+                    .height(350.dp),
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -925,8 +927,7 @@ import java.util.*
                             ) {
                                 focusManager.clearFocus()
                             },
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
                         Row(
