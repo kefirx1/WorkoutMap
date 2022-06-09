@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,9 +10,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Text
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +25,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.data.Exercise
 import pl.dev.workoutmapcompose.data.TrainingPlan
 import pl.dev.workoutmapcompose.ui.theme.Purple500
@@ -34,6 +32,7 @@ import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import pl.dev.workoutmapcompose.ui.utils.HeaderComponent
 import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.addExerciseForTrainingPlanDialogAlert
+import pl.dev.workoutmapcompose.ui.utils.showShortToast
 import kotlin.streams.toList
 
 @Suppress("FunctionName")
@@ -305,18 +304,14 @@ fun MainNewTrainingView(
                         viewModel.addNewTrainingPlan(trainingPlan = newTrainingPlan)
                         instance.finish()
                     }else{
-                        Toast.makeText(
-                            applicationContext(),
-                            "Wprowadź odpowiednie dane",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showShortToast(
+                            text = "Wprowadź odpowiednie dane"
+                        )
                     }
                 }else {
-                    Toast.makeText(
-                        applicationContext(),
-                        "Nazwa treningu jest już zajęta",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showShortToast(
+                        text = "Nazwa treningu jest już zajęta"
+                    )
                 }
             },
             colors = ButtonDefaults.buttonColors(

@@ -35,6 +35,7 @@ import pl.dev.workoutmapcompose.data.UserInfo
 import pl.dev.workoutmapcompose.ui.theme.Purple500
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import pl.dev.workoutmapcompose.ui.utils.RegistrationHeaderComponent
+import pl.dev.workoutmapcompose.ui.utils.showShortToast
 import java.util.*
 
 
@@ -49,7 +50,9 @@ fun exitRegister(
 ){
 
     if(nameString.isBlank() || surnameString.isBlank() || dateOfBirth.isBlank()){
-        Toast.makeText(applicationContext(), "Musisz uzupelnic wszystkie dane poprawnie", Toast.LENGTH_SHORT).show()
+        showShortToast(
+            text = "Musisz uzupelnic wszystkie dane poprawnie"
+        )
     }else{
 
         val calendar = Calendar.getInstance()
@@ -248,11 +251,9 @@ fun MainRegistration(
                         LocalContext.current,
                         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
                             if(cYear<mYear || cMonth<mMonth || cDay<mDayOfMonth){
-                                Toast.makeText(
-                                    applicationContext(),
-                                    "Nie możesz ustawiać przyszłej daty",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showShortToast(
+                                    text = "Nie możesz ustawiać przyszłej daty"
+                                )
                             }else {
                                 mDate = "$mDayOfMonth/${mMonth+1}/$mYear"
                                 val calendar = Calendar.getInstance()

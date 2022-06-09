@@ -28,6 +28,7 @@ import pl.dev.workoutmapcompose.ui.theme.BlueGray50
 import pl.dev.workoutmapcompose.ui.theme.buttonsDashboard
 import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import pl.dev.workoutmapcompose.ui.utils.DashboardProgressList
+import pl.dev.workoutmapcompose.ui.utils.showShortToast
 import pl.dev.workoutmapcompose.ui.utils.workoutStartDialogAlert
 
 @Suppress("FunctionName")
@@ -90,11 +91,9 @@ fun MainDashboard(
                 onClick = {
                     viewModel.getTrainingPlansList()
                     if(viewModel.trainingPlansListResult.value.isNullOrEmpty()){
-                        Toast.makeText(
-                            instance,
-                            "Musisz wpierw dodać trening",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showShortToast(
+                            text = "Musisz wpierw dodać trening"
+                        )
                     }else{
                         openWorkoutDashboardDialog = true
                     }

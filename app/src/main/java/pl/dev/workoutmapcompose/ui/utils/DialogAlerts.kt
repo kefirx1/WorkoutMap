@@ -3,7 +3,6 @@ package pl.dev.workoutmapcompose.ui.utils
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.data.*
 import pl.dev.workoutmapcompose.ui.screenAddNewTrainingPlan.AddNewTrainingPlanViewModel
 import pl.dev.workoutmapcompose.ui.screenDashboard.DashboardViewModel
@@ -93,13 +91,13 @@ import java.util.*
                         onClick = {
                             openDialog = false
                             if (viewModel.wipeData()) {
-                                showShortToastError(
-                                    textError = toastCorrectText
+                                showShortToast(
+                                    text = toastCorrectText
                                 )
                                 instance.startActivity(Intent(instance, RegisterActivity::class.java))
                             } else {
-                                showShortToastError(
-                                    textError = toastFailureText
+                                showShortToast(
+                                    text = toastFailureText
                                 )
                             }
                         }
@@ -174,12 +172,12 @@ import java.util.*
                         onClick = {
                             openDialog = false
                             if (viewModel.wipeTrainingPlans()) {
-                                showShortToastError(
-                                    textError = toastCorrectText
+                                showShortToast(
+                                    text = toastCorrectText
                                 )
                             } else {
-                                showShortToastError(
-                                    textError = toastFailureText
+                                showShortToast(
+                                    text = toastFailureText
                                 )
                             }
                         }
@@ -386,8 +384,8 @@ import java.util.*
                                     LocalContext.current,
                                     { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
                                         if(cYear<mYear || cMonth<mMonth || cDay<mDayOfMonth){
-                                            showShortToastError(
-                                                textError = "Nie możesz ustawiać przyszłej daty",
+                                            showShortToast(
+                                                text = "Nie możesz ustawiać przyszłej daty",
                                             )
                                         }else {
                                             mDate = "$mDayOfMonth/${mMonth+1}/$mYear"
@@ -409,7 +407,7 @@ import java.util.*
                                         mDatePickerDialog.show()
                                     },
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colors.primary ,
+                                        containerColor = MaterialTheme.colors.secondary ,
                                         contentColor = MaterialTheme.typography.caption.color,
                                     ),
                                 ) {
@@ -531,14 +529,14 @@ import java.util.*
                                     updatedUserInfo.surName = surnameTextState.text
                                 }
                                 viewModel.updateUserPersonalInfo(userInfo = updatedUserInfo)
-                                showShortToastError(
-                                    textError = toastCorrectText
+                                showShortToast(
+                                    text = toastCorrectText
                                 )
                                 openDialog = false
 
                             } catch (e: Exception) {
-                                showShortToastError(
-                                    textError = toastFailureText
+                                showShortToast(
+                                    text = toastFailureText
                                 )
                             }
                         }
@@ -719,18 +717,18 @@ import java.util.*
                     TextButton(
                         onClick = {
                             if(weightTextState.text.isBlank()){
-                                showShortToastError(
-                                    textError = nonWeightError
+                                showShortToast(
+                                    text = nonWeightError
                                 )
                             }else{
                                 if(cYear>mYear || cMonth>mMonth || cDay>mDay){
-                                    showShortToastError(
-                                        textError = futureDateError
+                                    showShortToast(
+                                        text = futureDateError
                                     )
                                 }else{
                                     if(weightTextState.text.toFloat()>300){
-                                        showShortToastError(
-                                            textError = tooMuchWeightError
+                                        showShortToast(
+                                            text = tooMuchWeightError
                                         )
                                     }else{
                                         openDialog = false
@@ -741,12 +739,12 @@ import java.util.*
 
                                         try{
                                             viewModel.insertNewWeightHistory(weightHistory = newWeightHistory)
-                                            showShortToastError(
-                                                textError = toastCorrectText
+                                            showShortToast(
+                                                text = toastCorrectText
                                             )
                                         }catch (e: Exception){
-                                            showShortToastError(
-                                                textError = toastFailureText
+                                            showShortToast(
+                                                text = toastFailureText
                                             )
                                         }
                                     }
@@ -830,12 +828,12 @@ import java.util.*
 
                             try {
                                 viewModel.deleteWeightHistory(weightHistory = weightHistory)
-                                showShortToastError(
-                                    textError = toastCorrectText
+                                showShortToast(
+                                    text = toastCorrectText
                                 )
                             } catch (e: Exception) {
-                                showShortToastError(
-                                    textError = toastFailureText
+                                showShortToast(
+                                    text = toastFailureText
                                 )
                             }
 
@@ -1041,8 +1039,8 @@ import java.util.*
                                     setsTextState = it
                                 }else{
                                     setsTextState = TextFieldValue("")
-                                    showShortToastError(
-                                        textError = incorrectSetsNumberError
+                                    showShortToast(
+                                        text = incorrectSetsNumberError
                                     )
                                 }
                             },
@@ -1077,30 +1075,30 @@ import java.util.*
                             try{
                                 newExercise.numberOfSets = setsTextState.text.toFloat().toInt()
                             }catch (e: Exception){
-                                showShortToastError(
-                                    textError = incorrectDataError
+                                showShortToast(
+                                    text = incorrectDataError
                                 )
                             }
                             if (newExercise.name == "Wybierz ćwiczenie" || newExercise.name.isBlank() || newExercise.type.isBlank()) {
-                                showShortToastError(
-                                    textError = incorrectDataError
+                                showShortToast(
+                                    text = incorrectDataError
                                 )
                             } else {
                                 if (newExercise.numberOfSets in 1..20) {
                                     openDialog = false
                                     try {
                                         selectedExercisesList.add(newExercise)
-                                        showShortToastError(
-                                            textError = toastCorrectText
+                                        showShortToast(
+                                            text = toastCorrectText
                                         )
                                     } catch (e: Exception) {
-                                        showShortToastError(
-                                            textError = toastFailureText
+                                        showShortToast(
+                                            text = toastFailureText
                                         )
                                     }
                                 } else {
-                                    showShortToastError(
-                                        textError = incorrectSetsNumberError
+                                    showShortToast(
+                                        text = incorrectSetsNumberError
                                     )
                                 }
 
@@ -1208,12 +1206,12 @@ import java.util.*
                             openDialog = false
                             try {
                                 viewModel.deleteTrainingPlan(trainingPlan = trainingPlan)
-                                showShortToastError(
-                                    textError = toastCorrectText
+                                showShortToast(
+                                    text = toastCorrectText
                                 )
                             } catch (e: Exception) {
-                                showShortToastError(
-                                    textError = toastFailureText
+                                showShortToast(
+                                    text = toastFailureText
                                 )
                             }
                         }
@@ -1354,8 +1352,8 @@ import java.util.*
                                 }
                                 instance.startActivity(intent)
                             }else{
-                                showShortToastError(
-                                    textError = chooseTrainingPlanError
+                                showShortToast(
+                                    text = chooseTrainingPlanError
                                 )
                             }
                         }
@@ -1706,8 +1704,8 @@ import java.util.*
 
                                 openDialog = false
                             } else {
-                                showShortToastError(
-                                    textError = "Nie możesz zapisać pustych wartości"
+                                showShortToast(
+                                    text = "Nie możesz zapisać pustych wartości"
                                 )
                             }
 
@@ -1756,13 +1754,3 @@ import java.util.*
         )
 
     }
-
-    private fun showShortToastError(textError: String) {
-        Toast.makeText(
-            applicationContext(),
-            textError,
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-

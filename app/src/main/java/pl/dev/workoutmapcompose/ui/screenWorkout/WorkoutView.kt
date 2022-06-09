@@ -1,6 +1,5 @@
 package pl.dev.workoutmapcompose.ui.screenWorkout
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -29,7 +28,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import pl.dev.workoutmapcompose.App.Companion.applicationContext
 import pl.dev.workoutmapcompose.R
 import pl.dev.workoutmapcompose.data.ProgressHistory
 import pl.dev.workoutmapcompose.data.WorkoutHistory
@@ -38,6 +36,7 @@ import pl.dev.workoutmapcompose.ui.theme.mainFamily
 import pl.dev.workoutmapcompose.ui.utils.DateTimeFunctionalities
 import pl.dev.workoutmapcompose.ui.utils.TextModifier
 import pl.dev.workoutmapcompose.ui.utils.WorkoutHeader
+import pl.dev.workoutmapcompose.ui.utils.showShortToast
 import java.util.*
 
 @Suppress("FunctionName")
@@ -499,11 +498,9 @@ fun MainWorkout(
                         repsTextState = TextFieldValue("0")
 
                     }else{
-                        Toast.makeText(
-                            applicationContext(),
-                            "Podaj właściwe wartości",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showShortToast(
+                            text = "Podaj właściwe wartości"
+                        )
                     }
 
                           },
