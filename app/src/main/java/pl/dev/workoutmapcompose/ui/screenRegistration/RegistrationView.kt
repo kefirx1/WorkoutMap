@@ -79,7 +79,7 @@ fun MainRegistration(
     instance: RegisterActivity,
     viewModel: RegistrationViewModel
 ) {
-    val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna")
+    val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna", "Nie chcę podawać")
     var nameTextState by remember {
         mutableStateOf(TextFieldValue())
     }

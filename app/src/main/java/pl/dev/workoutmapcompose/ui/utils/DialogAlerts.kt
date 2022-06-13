@@ -224,7 +224,7 @@ import java.util.*
         val dismissButtonText = "ANULUJ"
         val toastCorrectText = "Dane zostały zmienione"
         val toastFailureText = "Błąd - dane nie zostały zmienione"
-        val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna")
+        val possibleGenderValues = listOf("Mężczyzna", "Kobieta", "Inna", "Nie chcę podawać")
 
         var nameTextState by remember {
             mutableStateOf(TextFieldValue())
@@ -1167,6 +1167,12 @@ import java.util.*
                     )
                 },
                 text = {
+
+                    Text(
+                        text = "Dzień treningu: ${DateTimeFunctionalities.getDayNameFromIntValue(trainingPlan.assignedDay)}",
+                        fontFamily = mainFamily,
+                        fontSize = 20.sp
+                    )
 
                     LazyColumn(
                         modifier = Modifier
